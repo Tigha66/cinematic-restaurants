@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "skills": {
+    "agent-browser-clawdbot": {
+      "version": "0.1.0",
+      "installedAt": 1775433279245
+    },
+    "github": {
+      "version": "1.0.0",
+      "installedAt": 1775433793156
+    },
+    "gog": {
+      "version": "1.0.0",
+      "installedAt": 1775433793511
+    },
+    "notion": {
+      "version": "1.0.0",
+      "installedAt": 1775433793623
+    },
+    "git-essentials": {
+      "version": "1.0.0",
+      "installedAt": 1775433830609
+    },
+    "automation-workflows": {
+      "version": "0.1.0",
+      "installedAt": 1775433831028
+    },
+    "auto-updater": {
+      "version": "1.0.0",
+      "installedAt": 1775433831313
+    },
+    "exa-web-search-free": {
+      "version": "1.0.1",
+      "installedAt": 1775433831738
+    },
+    "csv-pipeline": {
+      "version": "1.0.0",
+      "installedAt": 1775433831824
+    },
+    "yahoo-data-fetcher": {
+      "version": "1.0.2",
+      "installedAt": 1775433832430
+    },
+    "api-gateway": {
+      "version": "1.0.76",
+      "installedAt": 1775433840399
+    },
+    "browser-use": {
+      "version": "2.0.0",
+      "installedAt": 1775433950564
+    },
+    "playwright-scraper-skill": {
+      "version": "1.2.0",
+      "installedAt": 1775433951141
+    },
+    "Notion": {
+      "version": "1.0.0",
+      "installedAt": 1775434115349
+    },
+    "clawddocs": {
+      "version": "1.2.2",
+      "installedAt": 1775434115685
+    },
+    "enhanced-memory": {
+      "version": "1.0.0",
+      "installedAt": 1775434116119
+    },
+    "self-improving-agent": {
+      "version": "3.0.13",
+      "installedAt": 1775434116321
+    },
+    "daily-news": {
+      "version": "1.0.0",
+      "installedAt": 1775434116687
+    }
+  }
+}
