@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fresh Baked Café — Artisan Bakery | Oconomowoc, Wisconsin</title>
+<meta name="description" content="Flour, butter, time — and the warmth of a Midwest morning. Artisan bakery and café in Wisconsin.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+:root {
+  --bg: #0C0906;
+  --surface: #18120C;
+  --text: #FEF9E7;
+  --muted: #D4A373;
+  --accent: #F4A261;
+  --accent2: #E76F51;
+  --border: #2d2419;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'Nunito', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+
+/* Navigation */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 24px 40px; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(to bottom, rgba(12,9,6,0.95), transparent); backdrop-filter: blur(8px); }
+.nav-logo { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 500; color: var(--text); text-decoration: none; }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a { font-size: 13px; font-weight: 400; letter-spacing: 0.05em; color: var(--muted); text-decoration: none; transition: color 0.3s; }
+.nav-links a:hover { color: var(--accent); }
+.nav-cta { font-size: 12px; font-weight: 600; letter-spacing: 0.05em; padding: 12px 24px; background: var(--accent); color: var(--bg); text-decoration: none; border-radius: 100px; transition: all 0.3s; }
+.nav-cta:hover { background: var(--accent2); transform: translateY(-2px); }
+
+/* Hero */
+.hero { min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 80px; position: relative; overflow: hidden; }
+.hero-glow { position: absolute; top: 20%; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(244,162,97,0.2), transparent 60%); pointer-events: none; }
+.hero-label { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; opacity: 0; }
+.hero-title { font-family: 'Playfair Display', serif; font-size: clamp(48px, 10vw, 100px); font-weight: 400; line-height: 1.1; margin-bottom: 24px; opacity: 0; transform: translateY(20px); }
+.hero-title em { font-style: italic; color: var(--accent); }
+.hero-tagline { font-size: clamp(16px, 2vw, 20px); font-weight: 300; color: var(--muted); max-width: 450px; line-height: 1.7; opacity: 0; }
+.hero-location { margin-top: 32px; font-size: 13px; letter-spacing: 0.1em; color: rgba(254,249,231,0.5); opacity: 0; }
+.hero-scroll { position: absolute; bottom: 48px; font-size: 12px; letter-spacing: 0.1em; color: var(--muted); animation: bounce 2s ease-in-out infinite; }
+@keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+
+/* Story Section */
+.story { padding: 160px 24px; max-width: 900px; margin: 0 auto; text-align: center; }
+.section-label { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 28px; }
+.story h2 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 48px); font-weight: 400; line-height: 1.3; margin-bottom: 28px; }
+.story p { font-size: 17px; line-height: 1.9; color: var(--muted); max-width: 600px; margin: 0 auto; }
+.fade-up { opacity: 0; transform: translateY(40px); }
+
+/* Timeline */
+.timeline { padding: 80px 24px 160px; max-width: 800px; margin: 0 auto; }
+.timeline-header { text-align: center; margin-bottom: 80px; }
+.timeline-items { position: relative; }
+.timeline-items::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--border); transform: translateX(-50%); }
+.timeline-item { display: flex; align-items: center; margin-bottom: 60px; position: relative; }
+.timeline-item:nth-child(odd) { flex-direction: row-reverse; text-align: right; }
+.timeline-content { flex: 1; padding: 0 40px; }
+.timeline-time { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+.timeline-content h3 { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 500; margin-bottom: 10px; }
+.timeline-content p { font-size: 15px; color: var(--muted); line-height: 1.7; }
+.timeline-dot { width: 16px; height: 16px; background: var(--accent); border-radius: 50%; position: absolute; left: 50%; transform: translateX(-50%); z-index: 2; box-shadow: 0 0 0 6px var(--bg); }
+
+/* Menu Grid */
+.menu-section { padding: 120px 24px; background: var(--surface); }
+.menu-header { text-align: center; margin-bottom: 80px; }
+.menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; max-width: 1100px; margin: 0 auto; }
+.menu-card { background: var(--bg); border-radius: 20px; overflow: hidden; transition: all 0.4s; border: 1px solid transparent; }
+.menu-card:hover { transform: translateY(-8px); border-color: var(--accent); }
+.menu-card-img { height: 220px; background-size: cover; background-position: center; }
+.menu-card-content { padding: 28px; }
+.menu-card h3 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 500; margin-bottom: 8px; }
+.menu-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+/* CTA */
+.cta-section { padding: 160px 24px; text-align: center; }
+.cta-section h2 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 48px); font-weight: 400; margin-bottom: 24px; }
+.cta-section p { font-size: 17px; color: var(--muted); margin-bottom: 40px; }
+.cta-btn { display: inline-block; font-size: 14px; font-weight: 600; letter-spacing: 0.05em; padding: 16px 40px; background: var(--accent); color: var(--bg); text-decoration: none; border-radius: 100px; transition: all 0.3s; }
+.cta-btn:hover { background: var(--accent2); transform: translateY(-3px); box-shadow: 0 15px 30px rgba(244,162,97,0.25); }
+
+/* Footer */
+footer { padding: 60px 24px; border-top: 1px solid var(--border); text-align: center; }
+.footer-logo { font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 20px; }
+.footer-address { font-size: 14px; color: var(--muted); line-height: 1.8; margin-bottom: 24px; }
+.footer-links { display: flex; justify-content: center; gap: 32px; margin-bottom: 32px; }
+.footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.3s; }
+.footer-links a:hover { color: var(--accent); }
+.footer-copy { font-size: 12px; color: rgba(254,249,231,0.4); }
+.footer-copy a { color: var(--accent); text-decoration: none; }
+
+@media (max-width: 768px) {
+  nav { padding: 16px 20px; }
+  .nav-links { display: none; }
+  .timeline-items::before { left: 20px; }
+  .timeline-item, .timeline-item:nth-child(odd) { flex-direction: column; text-align: left; }
+  .timeline-content { padding: 0 0 0 50px; }
+  .timeline-dot { left: 20px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Fresh Baked</a>
+  <ul class="nav-links">
+    <li><a href="#story">Our Story</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#visit">Visit</a></li>
+  </ul>
+  <a href="https://www.freshbakedcafe.com/" target="_blank" class="nav-cta">Original Site</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-label" id="heroLabel">Oconomowoc, Wisconsin</div>
+  <h1 class="hero-title" id="heroTitle">Fresh <em>Baked</em> Café</h1>
+  <p class="hero-tagline" id="heroTagline">Flour, butter, time — and the warmth of a Midwest morning</p>
+  <p class="hero-location" id="heroLocation">114 West Wisconsin Avenue</p>
+  <div class="hero-scroll">Scroll down</div>
+</section>
+
+<section class="story" id="story">
+  <div class="fade-up">
+    <div class="section-label">Our Story</div>
+    <h2>Where every morning begins with warmth</h2>
+    <p>At Fresh Baked Café, we believe in the simple magic of scratch-made baking. Every croissant is laminated by hand. Every loaf proves overnight. Every pastry emerges golden from our ovens before dawn. This is the Midwest way — honest, comforting, made with care.</p>
+  </div>
+</section>
+
+<section class="timeline">
+  <div class="timeline-header fade-up">
+    <div class="section-label">A Day at the Bakery</div>
+    <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(32px, 4vw, 44px); font-weight: 400;">From Dawn to Noon</h2>
+  </div>
+  <div class="timeline-items">
+    <div class="timeline-item fade-up">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-time">4:00 AM — Dawn</div>
+        <h3>The Oven</h3>
+        <p>Proof boxes humming, the first golden loaves emerge. The bakery fills with the scent of fresh bread.</p>
+      </div>
+    </div>
+    <div class="timeline-item fade-up">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-time">7:00 AM — Morning</div>
+        <h3>The Counter</h3>
+        <p>Glass cases filled with possibility. Croissants, scones, and pastries that catch the morning light.</p>
+      </div>
+    </div>
+    <div class="timeline-item fade-up">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-time">12:00 PM — Noon</div>
+        <h3>The Gathering</h3>
+        <p>Lunch crowds, sandwich boards, and the hum of community. Tables filled with neighbors and friends.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="menu-section" id="menu">
+  <div class="menu-header fade-up">
+    <div class="section-label">Fresh Daily</div>
+    <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(32px, 4vw, 44px); font-weight: 400;">From Our Kitchen</h2>
+  </div>
+  <div class="menu-grid">
+    <div class="menu-card fade-up">
+      <div class="menu-card-img" style="background-image: url('https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&h=400&fit=crop');"></div>
+      <div class="menu-card-content">
+        <h3>Artisan Sourdough</h3>
+        <p>Three-day ferment, crackling crust, tangy crumb. Our signature loaf.</p>
+      </div>
+    </div>
+    <div class="menu-card fade-up">
+      <div class="menu-card-img" style="background-image: url('https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&h=400&fit=crop');"></div>
+      <div class="menu-card-content">
+        <h3>Morning Bun</h3>
+        <p>Orange zest, cinnamon swirl, sugar crystals. Best served warm.</p>
+      </div>
+    </div>
+    <div class="menu-card fade-up">
+      <div class="menu-card-img" style="background-image: url('https://images.unsplash.com/photo-1525351484163-7529414344d8?w=600&h=400&fit=crop');"></div>
+      <div class="menu-card-content">
+        <h3>Farm Egg Sandwich</h3>
+        <p>Local eggs, house bread, Wisconsin cheddar. Simple joy on a plate.</p>
+      </div>
+    </div>
+    <div class="menu-card fade-up">
+      <div class="menu-card-img" style="background-image: url('https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=600&h=400&fit=crop');"></div>
+      <div class="menu-card-content">
+        <h3>Butter Croissant</h3>
+        <p>81 layers of laminated dough. Flaky, golden, perfect.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" id="visit">
+  <div class="fade-up">
+    <h2>Visit Fresh Baked Café</h2>
+    <p>Join us in Oconomowoc for a taste of Midwest warmth.</p>
+    <a href="https://www.freshbakedcafe.com/" target="_blank" class="cta-btn">Visit Original Site</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Fresh Baked Café</div>
+  <div class="footer-address">
+    114 West Wisconsin Avenue<br>
+    Oconomowoc, WI 53066<br>
+    (262) 490-0224
+  </div>
+  <div class="footer-links">
+    <a href="https://www.freshbakedcafe.com/" target="_blank">Original Site</a>
+    <a href="#menu">Menu</a>
+    <a href="#story">About</a>
+  </div>
+  <p class="footer-copy">Cinematic concept. <a href="https://www.freshbakedcafe.com/" target="_blank">View original</a></p>
+</footer>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.to('#heroLabel', { opacity: 1, duration: 1, delay: 0.3, ease: 'power2.out' });
+gsap.to('#heroTitle', { opacity: 1, y: 0, duration: 1.2, delay: 0.5, ease: 'power2.out' });
+gsap.to('#heroTagline', { opacity: 1, duration: 1, delay: 0.8, ease: 'power2.out' });
+gsap.to('#heroLocation', { opacity: 1, duration: 1, delay: 1, ease: 'power2.out' });
+
+gsap.utils.toArray('.fade-up').forEach(function(el) {
+  gsap.to(el, {
+    opacity: 1, y: 0, duration: 1, ease: 'power2.out',
+    scrollTrigger: { trigger: el, start: 'top 85%' }
+  });
+});
+</script>
+</body>
+</html>

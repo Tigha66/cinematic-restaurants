@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bhuna — Contemporary Indian | Portland, Oregon</title>
+<meta name="description" content="Contemporary Indian cuisine in Portland, Oregon. Where tradition meets Pacific Northwest innovation.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+:root {
+  --bg: #0A0607;
+  --surface: #140D10;
+  --text: #FDF6E3;
+  --muted: #D4A574;
+  --accent: #FF6B35;
+  --accent2: #9B4DCA;
+  --border: #2a2320;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+
+/* Navigation */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 24px 40px; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(to bottom, rgba(10,6,7,0.95), transparent); backdrop-filter: blur(10px); }
+.nav-logo { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 500; color: var(--text); text-decoration: none; letter-spacing: 0.05em; }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a { font-size: 12px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.3s; }
+.nav-links a:hover { color: var(--accent); }
+.nav-cta { font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 12px 24px; background: var(--accent); color: var(--bg); text-decoration: none; border-radius: 2px; transition: all 0.3s; }
+.nav-cta:hover { background: #ff8555; transform: translateY(-2px); }
+
+/* Hero */
+.hero { min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 80px; position: relative; overflow: hidden; }
+.hero-bg { position: absolute; inset: 0; z-index: -1; }
+.hero-bg::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 20%, rgba(255,107,53,0.15), transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(155,77,202,0.12), transparent 50%); }
+.hero-label { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 32px; opacity: 0; transform: translateY(20px); }
+.hero-title { font-family: 'Playfair Display', serif; font-size: clamp(64px, 14vw, 180px); font-weight: 400; letter-spacing: 0.02em; line-height: 0.9; margin-bottom: 32px; background: linear-gradient(135deg, var(--text) 0%, var(--muted) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; opacity: 0; transform: translateY(30px); }
+.hero-tagline { font-family: 'Playfair Display', serif; font-size: clamp(18px, 2.5vw, 28px); font-weight: 400; font-style: italic; color: var(--muted); max-width: 550px; line-height: 1.5; opacity: 0; transform: translateY(20px); }
+.hero-location { margin-top: 40px; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(253,246,227,0.5); opacity: 0; }
+.hero-scroll { position: absolute; bottom: 48px; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+/* Spice Marquee */
+.marquee-section { padding: 60px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); overflow: hidden; }
+.marquee-track { display: flex; gap: 80px; animation: marquee 30s linear infinite; }
+.marquee-item { font-family: 'Playfair Display', serif; font-size: 24px; font-style: italic; color: var(--muted); white-space: nowrap; opacity: 0.6; }
+.marquee-item span { color: var(--accent); }
+@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* Philosophy */
+.philosophy { padding: 160px 24px; max-width: 900px; margin: 0 auto; text-align: center; }
+.section-label { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 32px; }
+.philosophy h2 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 52px); font-weight: 400; line-height: 1.3; margin-bottom: 32px; }
+.philosophy p { font-size: 17px; line-height: 1.9; color: var(--muted); max-width: 600px; margin: 0 auto; }
+.fade-up { opacity: 0; transform: translateY(40px); }
+
+/* Menu Cards */
+.menu-section { padding: 80px 24px 160px; }
+.menu-header { text-align: center; margin-bottom: 80px; }
+.menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; max-width: 1200px; margin: 0 auto; }
+.menu-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 40px; position: relative; overflow: hidden; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.menu-card:hover { transform: translateY(-8px); border-color: var(--accent); }
+.menu-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); transform: scaleX(0); transition: transform 0.4s; }
+.menu-card:hover::before { transform: scaleX(1); }
+.menu-card-num { font-size: 11px; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 16px; }
+.menu-card h3 { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 500; margin-bottom: 12px; }
+.menu-card p { font-size: 15px; color: var(--muted); line-height: 1.7; }
+.menu-card-price { margin-top: 24px; font-size: 14px; color: var(--accent); font-weight: 500; }
+
+/* CTA Section */
+.cta-section { padding: 120px 24px; text-align: center; background: linear-gradient(to bottom, var(--bg), var(--surface)); }
+.cta-section h2 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 48px); font-weight: 400; margin-bottom: 24px; }
+.cta-section p { font-size: 17px; color: var(--muted); margin-bottom: 40px; max-width: 500px; margin-left: auto; margin-right: auto; }
+.cta-btn { display: inline-block; font-size: 13px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 16px 40px; background: var(--accent); color: var(--bg); text-decoration: none; border-radius: 4px; transition: all 0.3s; }
+.cta-btn:hover { background: #ff8555; transform: translateY(-2px); box-shadow: 0 20px 40px rgba(255,107,53,0.3); }
+
+/* Footer */
+footer { padding: 80px 24px; border-top: 1px solid var(--border); text-align: center; }
+.footer-logo { font-family: 'Playfair Display', serif; font-size: 32px; margin-bottom: 24px; }
+.footer-links { display: flex; justify-content: center; gap: 40px; margin-bottom: 40px; flex-wrap: wrap; }
+.footer-links a { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.3s; }
+.footer-links a:hover { color: var(--accent); }
+.footer-copy { font-size: 12px; color: rgba(253,246,227,0.4); }
+.footer-copy a { color: var(--accent); text-decoration: none; }
+
+@media (max-width: 768px) {
+  nav { padding: 16px 20px; }
+  .nav-links { display: none; }
+  .menu-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Bhuna</a>
+  <ul class="nav-links">
+    <li><a href="#philosophy">Philosophy</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#visit">Visit</a></li>
+  </ul>
+  <a href="https://www.touchbistro.com/blog/best-restaurant-websites/" target="_blank" class="nav-cta">Original Site</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-label" id="heroLabel">Portland, Oregon</div>
+  <h1 class="hero-title" id="heroTitle">Bhuna</h1>
+  <p class="hero-tagline" id="heroTagline">Where tradition meets Pacific Northwest soul — contemporary Indian cuisine crafted with local ingredients</p>
+  <p class="hero-location" id="heroLocation">Contemporary Indian Restaurant</p>
+  <div class="hero-scroll">Scroll to explore</div>
+</section>
+
+<section class="marquee-section">
+  <div class="marquee-track">
+    <span class="marquee-item">Turmeric <span>·</span></span>
+    <span class="marquee-item">Cardamom <span>·</span></span>
+    <span class="marquee-item">Saffron <span>·</span></span>
+    <span class="marquee-item">Cumin <span>·</span></span>
+    <span class="marquee-item">Garam Masala <span>·</span></span>
+    <span class="marquee-item">Coriander <span>·</span></span>
+    <span class="marquee-item">Fenugreek <span>·</span></span>
+    <span class="marquee-item">Mustard Seed <span>·</span></span>
+    <span class="marquee-item">Turmeric <span>·</span></span>
+    <span class="marquee-item">Cardamom <span>·</span></span>
+    <span class="marquee-item">Saffron <span>·</span></span>
+    <span class="marquee-item">Cumin <span>·</span></span>
+    <span class="marquee-item">Garam Masala <span>·</span></span>
+    <span class="marquee-item">Coriander <span>·</span></span>
+    <span class="marquee-item">Fenugreek <span>·</span></span>
+    <span class="marquee-item">Mustard Seed <span>·</span></span>
+  </div>
+</section>
+
+<section class="philosophy" id="philosophy">
+  <div class="fade-up">
+    <div class="section-label">Our Philosophy</div>
+    <h2>Spice, craft, and Pacific Northwest soul</h2>
+    <p>At Bhuna, we honor the rich traditions of Indian cuisine while embracing the bounty of the Pacific Northwest. Every dish tells a story — of ancestral recipes passed down through generations, reimagined with locally-sourced ingredients from Oregon's farms and waters.</p>
+  </div>
+</section>
+
+<section class="menu-section" id="menu">
+  <div class="menu-header fade-up">
+    <div class="section-label">Signature Dishes</div>
+    <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(36px, 5vw, 52px); font-weight: 400;">From Our Kitchen</h2>
+  </div>
+  <div class="menu-grid">
+    <div class="menu-card fade-up">
+      <div class="menu-card-num">01</div>
+      <h3>Bhuna Lamb</h3>
+      <p>Slow-cooked lamb shoulder with caramelized onions, tomatoes, and our signature bhuna spice blend. Served with saffron rice.</p>
+    </div>
+    <div class="menu-card fade-up">
+      <div class="menu-card-num">02</div>
+      <h3>Pacific Salmon Tikka</h3>
+      <p>Wild-caught Oregon salmon marinated in tandoor spices, grilled over open flame. Northwest fish meets ancestral technique.</p>
+    </div>
+    <div class="menu-card fade-up">
+      <div class="menu-card-num">03</div>
+      <h3>Craft Chai Flight</h3>
+      <p>Three preparations of our house chai — traditional masala, lavender honey, and cold-brewed cardamom. A ritual in every cup.</p>
+    </div>
+    <div class="menu-card fade-up">
+      <div class="menu-card-num">04</div>
+      <h3>Tandoori Vegetables</h3>
+      <p>Seasonal vegetables from local farms, marinated in yogurt and spices, charred in our clay tandoor oven.</p>
+    </div>
+    <div class="menu-card fade-up">
+      <div class="menu-card-num">05</div>
+      <h3>Duck Vindaloo</h3>
+      <p>Willamette Valley duck in fiery Goan vindaloo sauce. Bold, tangy, unforgettable. For those who embrace the heat.</p>
+    </div>
+    <div class="menu-card fade-up">
+      <div class="menu-card-num">06</div>
+      <h3>Cardamom Kulfi</h3>
+      <p>Traditional Indian ice cream infused with green cardamom and Oregon hazelnuts. A sweet ending to your journey.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" id="visit">
+  <div class="fade-up">
+    <h2>Experience Bhuna</h2>
+    <p>Join us in Portland for a culinary journey that bridges continents and celebrates the best of both worlds.</p>
+    <a href="https://www.touchbistro.com/blog/best-restaurant-websites/" target="_blank" class="cta-btn">Visit Original Site</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Bhuna</div>
+  <div class="footer-links">
+    <a href="https://www.touchbistro.com/blog/best-restaurant-websites/" target="_blank">Original Website</a>
+    <a href="#menu">Menu</a>
+    <a href="#philosophy">About</a>
+  </div>
+  <p class="footer-copy">Cinematic concept redesign. Visit <a href="https://www.touchbistro.com/blog/best-restaurant-websites/" target="_blank">the original site</a> for reservations.</p>
+</footer>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// Hero animations
+gsap.to('#heroLabel', { opacity: 1, y: 0, duration: 1, delay: 0.3, ease: 'power2.out' });
+gsap.to('#heroTitle', { opacity: 1, y: 0, duration: 1.2, delay: 0.5, ease: 'power2.out' });
+gsap.to('#heroTagline', { opacity: 1, y: 0, duration: 1, delay: 0.8, ease: 'power2.out' });
+gsap.to('#heroLocation', { opacity: 1, duration: 1, delay: 1, ease: 'power2.out' });
+
+// Fade up animations
+gsap.utils.toArray('.fade-up').forEach(function(el) {
+  gsap.to(el, {
+    opacity: 1, y: 0, duration: 1, ease: 'power2.out',
+    scrollTrigger: { trigger: el, start: 'top 85%' }
+  });
+});
+</script>
+</body>
+</html>
