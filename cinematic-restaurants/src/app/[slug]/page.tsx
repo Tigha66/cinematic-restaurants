@@ -6,8 +6,9 @@ import { ScrollChapters } from "@/components/cinematic/ScrollChapters";
 import { SignatureDishes } from "@/components/cinematic/SignatureDishes";
 import { FooterCTA } from "@/components/cinematic/FooterCTA";
 
-export default function RestaurantPage({ params }: { params: { slug: string } }) {
-  const r = getRestaurant(params.slug);
+export default async function RestaurantPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const r = getRestaurant(slug);
   if (!r) return notFound();
 
   return (
@@ -70,8 +71,9 @@ export default function RestaurantPage({ params }: { params: { slug: string } })
   );
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }) {
-  const r = getRestaurant(params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const r = getRestaurant(slug);
   if (!r) return {};
   return {
     title: `${r.name} — cinematic concept`,
