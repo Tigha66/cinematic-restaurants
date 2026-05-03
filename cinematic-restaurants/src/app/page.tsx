@@ -10,8 +10,8 @@ export default function Home() {
           Scroll-driven storytelling. 3D marks. Premium motion.
         </h1>
         <p className="mt-5 max-w-2xl text-pretty text-lg leading-8 text-white/70">
-          Five concept redesigns inspired by cinematic component patterns (sticky chapters, depth, parallax, and
-          tactile UI). Built for responsive, fast Vercel deploys.
+          Thirteen concept redesigns — restaurants, cafés & coffee roasteries — inspired by cinematic component patterns
+          (sticky chapters, depth, parallax, 3D marks, and tactile UI). Built for responsive, fast Vercel deploys.
         </p>
       </header>
 
