@@ -1,10 +1,14 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getRestaurant } from "@/lib/restaurants";
+import { getRestaurant, RESTAURANTS } from "@/lib/restaurants";
 import { CinematicHero } from "@/components/cinematic/CinematicHero";
 import { ScrollChapters } from "@/components/cinematic/ScrollChapters";
 import { SignatureDishes } from "@/components/cinematic/SignatureDishes";
 import { FooterCTA } from "@/components/cinematic/FooterCTA";
+
+export function generateStaticParams() {
+  return RESTAURANTS.map((r) => ({ slug: r.key }));
+}
 
 export default async function RestaurantPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
