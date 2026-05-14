@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peacock London — Fine Dining Above the Thames</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+  :root {
+    --bg-dark: #0a0908;
+    --bg-light: #f8f6f3;
+    --surface-dark: #1a1614;
+    --text-dark: #0a0908;
+    --text-light: #eae7e2;
+    --muted-dark: #7a7874;
+    --muted-light: #5a5a5e;
+    --accent-gold: #c8a97e;
+    --accent-copper: #b8856a;
+    --border-dark: #2a2622;
+    --border-light: #e0ddd8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg-dark);
+    color: var(--text-light);
+    font-family: 'Outfit', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .serif { font-family: 'Cormorant Garamond', serif; }
+
+  /* ═══════════════════════════════════════════════════
+     CURTAIN REVEAL HERO
+  ═══════════════════════════════════════════════════ */
+
+  .curtain-section {
+    position: relative;
+    height: 250vh;
+  }
+
+  .curtain-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .curtain-left, .curtain-right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    background: var(--bg-dark);
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease;
+  }
+
+  .curtain-left {
+    left: 0;
+    justify-content: flex-end;
+    padding-right: clamp(24px, 5vw, 64px);
+    border-right: 1px solid var(--border-dark);
+  }
+
+  .curtain-right {
+    right: 0;
+    justify-content: flex-start;
+    padding-left: clamp(24px, 5vw, 64px);
+    border-left: 1px solid var(--border-dark);
+  }
+
+  .curtain-left h1, .curtain-right h1 {
+    font-size: clamp(48px, 9vw, 140px);
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    line-height: 0.9;
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--accent-gold);
+  }
+
+  .curtain-content {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(135deg, #1a1210 0%, #0d0a08 50%, #1a1410 100%);
+    padding: 40px;
+  }
+
+  .curtain-content::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('data:image/svg+xml,%3Csvg width="100" height="100" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" /%3E%3CfeColorMatrix type="saturate" values="0"/%3E%3C/filter%3E%3Crect width="100" height="100" filter="url(%23n)" opacity="0.03"/%3E%3C/svg%3E');
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .hero-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 24px;
+    font-weight: 400;
+  }
+
+  .curtain-content h2 {
+    font-size: clamp(32px, 5vw, 72px);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    font-family: 'Cormorant Garamond', serif;
+    margin-bottom: 16px;
+    max-width: 18ch;
+  }
+
+  .curtain-content p {
+    font-size: clamp(16px, 2vw, 19px);
+    color: var(--muted-light);
+    max-width: 52ch;
+    line-height: 1.75;
+    margin-bottom: 32px;
+  }
+
+  .cta-primary {
+    display: inline-block;
+    padding: 16px 48px;
+    background: var(--accent-gold);
+    color: var(--bg-dark);
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid var(--accent-gold);
+  }
+
+  .cta-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(200, 169, 126, 0.3);
+  }
+
+  /* ═══════════════════════════════════════════════════
+     PHILOSOPHY SECTION
+  ═══════════════════════════════════════════════════ */
+
+  .philosophy-section {
+    background: var(--bg-light);
+    color: var(--text-dark);
+    padding: clamp(100px, 15vh, 140px) 24px;
+    text-align: center;
+  }
+
+  .philosophy-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .philosophy-tag {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-copper);
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+
+  .philosophy-content h2 {
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    font-family: 'Cormorant Garamond', serif;
+    margin-bottom: 32px;
+  }
+
+  .philosophy-content p {
+    font-size: 18px;
+    color: var(--muted-dark);
+    line-height: 1.8;
+    max-width: 60ch;
+    margin: 0 auto 24px;
+  }
+
+  .philosophy-highlight {
+    font-size: 22px;
+    font-style: italic;
+    color: var(--text-dark);
+    font-family: 'Cormorant Garamond', serif;
+    margin: 40px auto;
+    max-width: 45ch;
+    line-height: 1.6;
+  }
+
+  /* ═══════════════════════════════════════════════════
+     SIGNATURE DISHES — HORIZONTAL SCROLL
+  ═══════════════════════════════════════════════════ */
+
+  .section-light {
+    background: var(--bg-light);
+    color: var(--text-dark);
+  }
+
+  .section-header {
+    padding: clamp(80px, 12vh, 120px) 24px 60px;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .section-tag {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-copper);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  .section-header h2 {
+    font-size: clamp(32px, 5vw, 64px);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    font-family: 'Cormorant Garamond', serif;
+    margin-bottom: 16px;
+  }
+
+  .section-header p {
+    font-size: 18px;
+    color: var(--muted-dark);
+    line-height: 1.6;
+    max-width: 50ch;
+    margin: 0 auto;
+  }
+
+  .h-scroll-section {
+    overflow: hidden;
+    padding-bottom: clamp(60px, 10vh, 100px);
+  }
+
+  .h-scroll-sticky {
+    position: sticky;
+    top: 0;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .h-scroll-track {
+    display: flex;
+    gap: 32px;
+    padding: 0 max(48px, 5vw);
+    will-change: transform;
+  }
+
+  .dish-card {
+    flex-shrink: 0;
+    width: clamp(320px, 45vw, 550px);
+    height: 68vh;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--border-light);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    background: white;
+  }
+
+  .dish-card:hover {
+    transform: translateY(-6px);
+  }
+
+  .dish-image {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.6s ease;
+  }
+
+  .dish-card:hover .dish-image {
+    transform: scale(1.05);
+  }
+
+  .dish-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to top, rgba(10,9,8,0.95) 0%, rgba(10,9,8,0.6) 30%, transparent 65%);
+  }
+
+  .dish-content {
+    position: relative;
+    z-index: 2;
+    padding: 32px;
+    color: var(--text-light);
+  }
+
+  .dish-category {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 12px;
+    font-weight: 400;
+  }
+
+  .dish-content h3 {
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .dish-content p {
+    font-size: 14px;
+    color: var(--muted-light);
+    line-height: 1.6;
+    max-width: 40ch;
+  }
+
+  /* ═══════════════════════════════════════════════════
+     EXPERIENCE STORY — TEXT MASK REVEAL
+  ═══════════════════════════════════════════════════ */
+
+  .mask-section {
+    position: relative;
+    min-height: 280vh;
+    background: var(--bg-dark);
+  }
+
+  .mask-sticky {
+    position: sticky;
+    top: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .mask-bg-video {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #1a1208 0%, #2a1f12 25%, #1a1510 50%, #0d0b08 75%, #1a1208 100%);
+    background-size: 400% 400%;
+    animation: ambientShift 15s ease infinite;
+    opacity: 0.9;
+  }
+
+  @keyframes ambientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .mask-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mask-text {
+    font-size: clamp(56px, 14vw, 180px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    text-align: center;
+    text-transform: uppercase;
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(234, 231, 226, 0.12);
+    font-family: 'Outfit', sans-serif;
+    max-width: 12ch;
+    padding: 0 24px;
+  }
+
+  .mask-reveal {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    clip-path: inset(100% 0 0 0);
+  }
+
+  .mask-text-filled {
+    font-size: clamp(56px, 14vw, 180px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: 'Outfit', sans-serif;
+    max-width: 12ch;
+    padding: 0 24px;
+    background: linear-gradient(135deg, #e8d5b5 0%, #c8a97e 50%, #a07850 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .mask-subtext {
+    position: absolute;
+    bottom: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    opacity: 0;
+    z-index: 4;
+    max-width: 90%;
+  }
+
+  .mask-subtext p {
+    font-size: clamp(15px, 2vw, 20px);
+    color: var(--muted-light);
+    max-width: 50ch;
+    line-height: 1.7;
+    margin: 0 auto 20px;
+  }
+
+  /* ═══════════════════════════════════════════════════
+     MENU PHILOSOPHY
+  ═══════════════════════════════════════════════════ */
+
+  .menu-philosophy {
+    background: var(--bg-light);
+    padding: clamp(100px, 15vh, 160px) 24px;
+  }
+
+  .menu-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 48px;
+  }
+
+  .menu-category {
+    text-align: center;
+  }
+
+  .menu-category h3 {
+    font-size: 20px;
+    font-weight: 500;
+    font-family: 'Cormorant Garamond', serif;
+    margin-bottom: 16px;
+    color: var(--text-dark);
+    letter-spacing: 0.01em;
+  }
+
+  .menu-category p {
+    font-size: 15px;
+    color: var(--muted-dark);
+    line-height: 1.7;
+  }
+
+  .menu-divider {
+    height: 1px;
+    background: var(--border-light);
+    margin: 48px 0;
+  }
+
+  /* ═══════════════════════════════════════════════════
+     HERITAGE & STORY
+  ═══════════════════════════════════════════════════ */
+
+  .heritage-section {
+    background: var(--bg-dark);
+    color: var(--text-light);
+    padding: clamp(100px, 15vh, 160px) 24px;
+  }
+
+  .heritage-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(40px, 8vw, 100px);
+    align-items: center;
+  }
+
+  .heritage-text h3 {
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    font-family: 'Cormorant Garamond', serif;
+    margin-bottom: 24px;
+  }
+
+  .heritage-text p {
+    font-size: 17px;
+    color: var(--muted-light);
+    line-height: 1.8;
+    margin-bottom: 20px;
+  }
+
+  .heritage-text .quote {
+    border-left: 3px solid var(--accent-copper);
+    padding-left: 24px;
+    margin: 32px 0;
+    font-style: italic;
+    color: var(--text-light);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+  }
+
+  .heritage-image {
+    position: relative;
+    height: 500px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--surface-dark);
+  }
+
+  .heritage-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  .heritage-image:hover img {
+    transform: scale(1.03);
+  }
+
+  /* ═══════════════════════════════════════════════════
+     PRIVATE DINING
+  ═══════════════════════════════════════════════════ */
+
+  .private-section {
+    background: var(--bg-light);
+    padding: clamp(100px, 15vh, 160px) 24px;
+    color: var(--text-dark);
+  }
+
+  .private-container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .private-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .private-header h2 {
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    font-family: 'Cormorant Garamond', serif;
+    margin-bottom: 16px;
+    color: var(--text-dark);
+  }
+
+  .private-header p {
+    font-size: 18px;
+    color: var(--muted-dark);
+    max-width: 60ch;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .private-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+  }
+
+  .private-card {
+    position: relative;
+    height: 400px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border-light);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .private-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .private-card-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.5s ease;
+  }
+
+  .private-card:hover .private-card-bg {
+    transform: scale(1.08);
+  }
+
+  .private-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10,9,8,0.95) 0%, transparent 70%);
+  }
+
+  .private-card-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 32px;
+    z-index: 2;
+  }
+
+  .private-card h4 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--text-light);
+  }
+
+  .private-card p {
+    font-size: 14px;
+    color: var(--muted-light);
+    line-height: 1.5;
+  }
+
+  /* ═══════════════════════════════════════════════════
+     RESERVATIONS CTA
+  ═══════════════════════════════════════════════════ */
+
+  .reservation-section {
+    background: linear-gradient(135deg, #1a1208 0%, #2a1f12 50%, #1a1510 100%);
+    padding: clamp(100px, 15vh, 140px) 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .reservation-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('data:image/svg+xml,%3Csvg width="100" height="100" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" /%3E%3CfeColorMatrix type="saturate" values="0"/%3E%3C/filter%3E%3Crect width="100" height="100" filter="url(%23n)" opacity="0.03"/%3E%3C/svg%3E');
+    opacity: 0.3;
+  }
+
+  .reservation-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .reservation-content h2 {
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    font-family: 'Cormorant Garamond', serif;
+    margin-bottom: 24px;
+    line-height: 1.1;
+  }
+
+  .reservation-content p {
+    font-size: 19px;
+    color: var(--muted-light);
+    line-height: 1.7;
+    margin-bottom: 40px;
+    max-width: 55ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-group {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .cta-secondary {
+    display: inline-block;
+    padding: 16px 48px;
+    background: transparent;
+    color: var(--text-light);
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid var(--accent-gold);
+    transition: all 0.3s ease;
+  }
+
+  .cta-secondary:hover {
+    background: var(--accent-gold);
+    color: var(--bg-dark);
+    transform: translateY(-2px);
+  }
+
+  /* ═══════════════════════════════════════════════════
+     LOCATION & CONTACT
+  ═══════════════════════════════════════════════════ */
+
+  .location-section {
+    background: var(--bg-light);
+    color: var(--text-dark);
+    padding: clamp(100px, 15vh, 160px) 24px;
+  }
+
+  .location-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+  }
+
+  .location-info h3 {
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 400;
+    font-family: 'Cormorant Garamond', serif;
+    margin-bottom: 32px;
+    letter-spacing: -0.01em;
+  }
+
+  .info-block {
+    margin-bottom: 32px;
+  }
+
+  .info-label {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-copper);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .info-text {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--text-dark);
+  }
+
+  .info-text a {
+    color: var(--accent-copper);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .info-text a:hover {
+    opacity: 0.7;
+  }
+
+  .location-map {
+    height: 500px;
+    background: var(--surface-dark);
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--muted-light);
+  }
+
+  /* ═══════════════════════════════════════════════════
+     FOOTER
+  ═══════════════════════════════════════════════════ */
+
+  footer {
+    background: var(--bg-dark);
+    padding: 80px 24px 40px;
+    border-top: 1px solid var(--border-dark);
+  }
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .footer-logo {
+    font-size: 32px;
+    font-weight: 400;
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--accent-gold);
+    margin-bottom: 16px;
+    letter-spacing: 0.02em;
+  }
+
+  .footer-tagline {
+    font-size: 14px;
+    color: var(--muted-light);
+    margin-bottom: 32px;
+    max-width: 50ch;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    margin-bottom: 40px;
+  }
+
+  .footer-social a {
+    color: var(--muted-light);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+
+  .footer-social a:hover {
+    color: var(--accent-gold);
+  }
+
+  .footer-legal {
+    font-size: 12px;
+    color: var(--muted-light);
+    padding-top: 32px;
+    border-top: 1px solid var(--border-dark);
+  }
+
+  /* ═══════════════════════════════════════════════════
+     RESPONSIVE
+  ═══════════════════════════════════════════════════ */
+
+  @media (max-width: 768px) {
+    .curtain-left h1, .curtain-right h1 { font-size: clamp(32px, 12vw, 64px); }
+    .heritage-grid, .location-grid { grid-template-columns: 1fr; gap: 48px; }
+    .heritage-image { height: 350px; }
+    .private-grid { grid-template-columns: 1fr; }
+    .h-scroll-track { padding: 0 24px; }
+    .dish-card { width: 85vw; }
+    .menu-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════
+     CURTAIN REVEAL HERO
+═══════════════════════════════════════════════════ -->
+
+<section class="curtain-section">
+  <div class="curtain-sticky">
+    <div class="curtain-content">
+      <div class="hero-label">Fine Dining • South Bank • London</div>
+      <h2 class="serif">The seafood is the star of the plate</h2>
+      <p>Perched above the Thames with panoramic views of London's skyline, Peacock London celebrates ingredient-focused cuisine where simplicity meets refinement.</p>
+      <a href="#reservations" class="cta-primary">Reserve Your Table</a>
+    </div>
+    <div class="curtain-left" id="curtainLeft">
+      <h1 class="serif">PEA</h1>
+    </div>
+    <div class="curtain-right" id="curtainRight">
+      <h1 class="serif">COCK</h1>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     PHILOSOPHY
+═══════════════════════════════════════════════════ -->
+
+<section class="philosophy-section">
+  <div class="philosophy-content">
+    <div class="philosophy-tag">Our Philosophy</div>
+    <h2 class="serif">Respect for ingredients. Restraint in preparation.</h2>
+    <p>At Peacock London, we believe the finest ingredients need little embellishment. Sourced from trusted fishmongers, artisan farms, and seasonal suppliers, each component is treated with care and intention.</p>
+    <p class="philosophy-highlight">"We don't create dishes to showcase technique. We create technique to showcase the dish."</p>
+    <p>This philosophy guides every plate, every pairing, and every moment of your evening with us.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SIGNATURE DISHES — HORIZONTAL SCROLL
+═══════════════════════════════════════════════════ -->
+
+<section class="section-light">
+  <div class="section-header">
+    <div class="section-tag">Signature Collection</div>
+    <h2 class="serif">Almost Raw. Barely Touched. Lightly Cooked.</h2>
+    <p>Our menu follows a philosophy of minimal intervention—three categories that honor the natural integrity of each ingredient.</p>
+  </div>
+
+  <div class="h-scroll-section" id="dishesSection">
+    <div class="h-scroll-sticky">
+      <div class="h-scroll-track" id="dishesTrack">
+
+        <div class="dish-card">
+          <div class="dish-image" style="background: linear-gradient(135deg, rgba(200,169,126,0.12), rgba(10,9,8,0.5)), linear-gradient(135deg, #2d4a3e, #1a2e1f);"></div>
+          <div class="dish-overlay"></div>
+          <div class="dish-content">
+            <div class="dish-category">Almost Raw</div>
+            <h3 class="serif">Royal Osetra Caviar</h3>
+            <p>Served simply with crème fraîche and warm blinis. The caviar speaks for itself—briny, buttery, and pure luxury.</p>
+          </div>
+        </div>
+
+        <div class="dish-card">
+          <div class="dish-image" style="background: linear-gradient(135deg, rgba(200,169,126,0.12), rgba(10,9,8,0.5)), linear-gradient(135deg, #4a3a2d, #2a1f1a);"></div>
+          <div class="dish-overlay"></div>
+          <div class="dish-content">
+            <div class="dish-category">Almost Raw</div>
+            <h3 class="serif">Yellowfin Tuna Tartare</h3>
+            <p>Hand-cut yellowfin with avocado purée, sesame tuile, yuzu dressing. Fresh. Vibrant. Restrained.</p>
+          </div>
+        </div>
+
+        <div class="dish-card">
+          <div class="dish-image" style="background: linear-gradient(135deg, rgba(200,169,126,0.12), rgba(10,9,8,0.5)), linear-gradient(135deg, #2a1a2e, #1a1020);"></div>
+          <div class="dish-overlay"></div>
+          <div class="dish-content">
+            <div class="dish-category">Barely Touched</div>
+            <h3 class="serif">Seared Diver Scallops</h3>
+            <p>Caramelized on one side, raw on the other. Saffron emulsion, crispy fennel, and citrus pearls.</p>
+          </div>
+        </div>
+
+        <div class="dish-card">
+          <div class="dish-image" style="background: linear-gradient(135deg, rgba(200,169,126,0.12), rgba(10,9,8,0.5)), linear-gradient(135deg, #2e1a1a, #1c0d0d);"></div>
+          <div class="dish-overlay"></div>
+          <div class="dish-content">
+            <div class="dish-category">Lightly Cooked</div>
+            <h3 class="serif">Black Cod Miso</h3>
+            <p>Marinated for 72 hours in sweet miso. Served with baby bok choy and shiitake broth. A modern classic.</p>
+          </div>
+        </div>
+
+        <div class="dish-card">
+          <div class="dish-image" style="background: linear-gradient(135deg, rgba(200,169,126,0.12), rgba(10,9,8,0.5)), linear-gradient(135deg, #1a2a2e, #0d1518);"></div>
+          <div class="dish-overlay"></div>
+          <div class="dish-content">
+            <div class="dish-category">Lightly Cooked</div>
+            <h3 class="serif">Poached Dover Sole</h3>
+            <p>Whole Dover sole with truffled morels, seasonal vegetables, and champagne beurre blanc. Technique and timing in perfect harmony.</p>
+          </div>
+        </div>
+
+        <div class="dish-card">
+          <div class="dish-image" style="background: linear-gradient(135deg, rgba(200,169,126,0.12), rgba(10,9,8,0.5)), linear-gradient(135deg, #2e2a1a, #1a1810);"></div>
+          <div class="dish-overlay"></div>
+          <div class="dish-content">
+            <div class="dish-category">Dessert</div>
+            <h3 class="serif">Matcha Soufflé</h3>
+            <p>Airy Japanese matcha soufflé with white chocolate ganache and black sesame ice cream. Delicate. Balanced. Unforgettable.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     EXPERIENCE — TEXT MASK REVEAL
+═══════════════════════════════════════════════════ -->
+
+<section class="mask-section">
+  <div class="mask-sticky">
+    <div class="mask-bg-video"></div>
+
+    <div class="mask-overlay">
+      <div class="mask-text">EVERY SEAT CRAFTED FOR AN UNFORGETTABLE EVENING</div>
+    </div>
+
+    <div class="mask-reveal">
+      <div class="mask-text-filled">EVERY SEAT CRAFTED FOR AN UNFORGETTABLE EVENING</div>
+    </div>
+
+    <div class="mask-subtext">
+      <p>Panoramic Thames views. Curated lighting. Service that anticipates without intruding. At Peacock London, every detail exists to elevate your experience.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     MENU PHILOSOPHY
+═══════════════════════════════════════════════════ -->
+
+<section class="menu-philosophy">
+  <div class="menu-grid">
+    <div class="menu-category">
+      <h3 class="serif">Almost Raw</h3>
+      <p>The ingredient at its purest. Tartares, crudo, oysters, and caviar—minimal intervention, maximum flavor.</p>
+    </div>
+    <div class="menu-category">
+      <h3 class="serif">Barely Touched</h3>
+      <p>Quick sears, gentle poaching, precise temperature control. Technique that enhances without overshadowing.</p>
+    </div>
+    <div class="menu-category">
+      <h3 class="serif">Lightly Cooked</h3>
+      <p>Traditional methods reimagined. Roasting, braising, and reduction that bring out depth and complexity.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     HERITAGE & STORY
+═══════════════════════════════════════════════════ -->
+
+<section class="heritage-section">
+  <div class="heritage-grid">
+    <div class="heritage-text">
+      <h3 class="serif">A Commitment to Excellence</h3>
+      <p>Since opening, Peacock London has been guided by a single principle: let the ingredients lead. Inspired by Le Bernardin's reverence for seafood and Eleven Madison Park's focus on seasonality, we've built a restaurant that honors provenance, craft, and connection.</p>
+      <p>Our team works with trusted suppliers—fishmongers who bring in the day's catch at dawn, farmers who grow rare heirloom vegetables, and artisans who cure, age, and ferment with precision.</p>
+      <div class="quote serif">"The fish is the star of the plate. Everything else is there to support it."</div>
+      <p>Join us for an experience where culinary artistry meets iconic Thames views.</p>
+    </div>
+    <div class="heritage-image">
+      <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #2a1f12 0%, #1a1510 100%); display: flex; align-items: center; justify-content: center; color: var(--accent-gold); font-size: 14px; font-family: 'Cormorant Garamond', serif; letter-spacing: 0.1em;">Thames View Interior</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     PRIVATE DINING
+═══════════════════════════════════════════════════ -->
+
+<section class="private-section">
+  <div class="private-container">
+    <div class="private-header">
+      <h2 class="serif">Private Dining & Events</h2>
+      <p>Celebrate milestones, host intimate gatherings, or curate corporate experiences in spaces designed for elegance and exclusivity.</p>
+    </div>
+
+    <div class="private-grid">
+      <div class="private-card">
+        <div class="private-card-bg" style="background: linear-gradient(135deg, rgba(26,18,8,0.4), rgba(10,9,8,0.7)), linear-gradient(135deg, #2a1f12, #1a1510);"></div>
+        <div class="private-card-overlay"></div>
+        <div class="private-card-content">
+          <h4 class="serif">The Grand Private Room</h4>
+          <p>Seats 24. Floor-to-ceiling windows overlooking the Thames. Tailored tasting menus and sommelier pairings.</p>
+        </div>
+      </div>
+
+      <div class="private-card">
+        <div class="private-card-bg" style="background: linear-gradient(135deg, rgba(26,18,8,0.4), rgba(10,9,8,0.7)), linear-gradient(135deg, #1a1510, #2a1f12);"></div>
+        <div class="private-card-overlay"></div>
+        <div class="private-card-content">
+          <h4 class="serif">The Skyline Suite</h4>
+          <p>Intimate setting for 8–12. Perfect for business dinners or family celebrations. Exclusive service and custom menus.</p>
+        </div>
+      </div>
+
+      <div class="private-card">
+        <div class="private-card-bg" style="background: linear-gradient(135deg, rgba(26,18,8,0.4), rgba(10,9,8,0.7)), linear-gradient(135deg, #2a1f12, #1a1408);"></div>
+        <div class="private-card-overlay"></div>
+        <div class="private-card-content">
+          <h4 class="serif">Full Venue Hire</h4>
+          <p>Reserve the entire restaurant for up to 120 guests. Weddings, galas, and corporate events above the city.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     RESERVATIONS CTA
+═══════════════════════════════════════════════════ -->
+
+<section class="reservation-section" id="reservations">
+  <div class="reservation-content">
+    <h2 class="serif">Begin Your Experience</h2>
+    <p>Tables are limited and demand is high. Reserve your Thames-view table today and discover why Peacock London is one of the city's most refined dining destinations.</p>
+    <div class="cta-group">
+      <a href="tel:+442012345678" class="cta-primary">Call to Reserve</a>
+      <a href="#contact" class="cta-secondary">Contact Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     LOCATION & CONTACT
+═══════════════════════════════════════════════════ -->
+
+<section class="location-section" id="contact">
+  <div class="location-grid">
+    <div class="location-info">
+      <h3 class="serif">Find Us</h3>
+
+      <div class="info-block">
+        <div class="info-label">Address</div>
+        <div class="info-text">
+          Peacock London<br>
+          London South Bank<br>
+          London SE1 9PP<br>
+          United Kingdom
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-label">Reservations</div>
+        <div class="info-text">
+          <a href="tel:+442012345678">+44 20 1234 5678</a><br>
+          <a href="mailto:reservations@peacocklondon.com">reservations@peacocklondon.com</a>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-label">Hours</div>
+        <div class="info-text">
+          Tuesday – Saturday: 6:00 PM – 11:00 PM<br>
+          Sunday: 5:00 PM – 10:00 PM<br>
+          Monday: Closed
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-label">Dress Code</div>
+        <div class="info-text">
+          Smart casual to elegant attire encouraged
+        </div>
+      </div>
+    </div>
+
+    <div class="location-map">
+      <p>[ Thames-side Location Map ]</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════ -->
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-logo serif">Peacock London</div>
+    <p class="footer-tagline">Where ingredient-focused cuisine meets Thames views. An evening of restraint, refinement, and respect.</p>
+
+    <div class="footer-social">
+      <a href="#">Instagram</a>
+      <a href="#">Facebook</a>
+      <a href="#">Twitter</a>
+      <a href="#">LinkedIn</a>
+    </div>
+
+    <div class="footer-legal">
+      © 2024 Peacock London. All Rights Reserved. | <a href="#" style="color: var(--muted-light); text-decoration: none;">Privacy Policy</a> | <a href="#" style="color: var(--muted-light); text-decoration: none;">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════
+     GSAP ANIMATIONS
+═══════════════════════════════════════════════════ -->
+
+<script>
+(function() {
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ─── Curtain Reveal ───
+  const curtainSection = document.querySelector('.curtain-section');
+
+  gsap.to('#curtainLeft', {
+    xPercent: -100,
+    ease: 'power2.inOut',
+    scrollTrigger: {
+      trigger: curtainSection,
+      start: 'top top',
+      end: '50% top',
+      scrub: 0.8
+    }
+  });
+
+  gsap.to('#curtainRight', {
+    xPercent: 100,
+    ease: 'power2.inOut',
+    scrollTrigger: {
+      trigger: curtainSection,
+      start: 'top top',
+      end: '50% top',
+      scrub: 0.8
+    }
+  });
+
+  // ─── Horizontal Scroll (Dishes) ───
+  const dishesTrack = document.getElementById('dishesTrack');
+  const dishesSection = document.getElementById('dishesSection');
+  const dishCards = dishesTrack.querySelectorAll('.dish-card');
+
+  function getDishesScrollDistance() {
+    return dishesTrack.scrollWidth - window.innerWidth;
+  }
+
+  dishesSection.style.height = (dishCards.length * 100) + 'vh';
+
+  gsap.to(dishesTrack, {
+    x: function() { return -getDishesScrollDistance(); },
+    ease: 'none',
+    scrollTrigger: {
+      trigger: dishesSection,
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 0.6,
+      invalidateOnRefresh: true
+    }
+  });
+
+  // ─── Text Mask Reveal ───
+  const maskSection = document.querySelector('.mask-section');
+
+  gsap.to('.mask-reveal', {
+    clipPath: 'inset(0% 0 0 0)',
+    ease: 'none',
+    scrollTrigger: {
+      trigger: maskSection,
+      start: 'top top',
+      end: '55% bottom',
+      scrub: 0.4,
+      pin: false
+    }
+  });
+
+  gsap.to('.mask-subtext', {
+    opacity: 1,
+    y: 0,
+    scrollTrigger: {
+      trigger: maskSection,
+      start: '50% top',
+      end: '65% top',
+      scrub: true
+    }
+  });
+
+  // ─── Smooth fade-ins for sections ───
+  gsap.utils.toArray('.philosophy-section, .heritage-section, .private-section, .reservation-section, .location-section').forEach(function(section) {
+    gsap.from(section, {
+      opacity: 0,
+      y: 40,
+      duration: 1,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 80%',
+        once: true
+      }
+    });
+  });
+
+})();
+</script>
+
+</body>
+</html>
