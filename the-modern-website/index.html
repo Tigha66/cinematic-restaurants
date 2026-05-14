@@ -1,0 +1,1704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Modern | Contemporary Fine Dining at MoMA, NYC</title>
+<meta name="description" content="Experience two Michelin-starred contemporary American cuisine overlooking MoMA's Abby Aldrich Rockefeller Sculpture Garden. Reserve your table at The Modern.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+:root {
+  /* Dark Theme */
+  --bg-dark: #0a0a0b;
+  --text-light: #eae7e2;
+  --accent-gold: #c8a97e;
+  --accent-gold-dim: rgba(200, 169, 126, 0.15);
+  --muted-dark: #5a5a5e;
+  --border-dark: #1e1e22;
+  --surface-dark: #111114;
+
+  /* Light Theme */
+  --bg-light: #f8f6f3;
+  --text-dark: #1a1a1f;
+  --muted-light: #6a6a6e;
+  --border-light: #e5e2dd;
+
+  /* Spacing */
+  --section-padding: clamp(80px, 12vh, 140px);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg-dark);
+  color: var(--text-light);
+  font-family: 'Outfit', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Typography */
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION 1: HERO - CURTAIN REVEAL
+   ═══════════════════════════════════════════════════════════════ */
+.hero-curtain {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
+  background: var(--bg-dark);
+}
+
+/* Background reveal image */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.hero-bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.85;
+}
+
+.hero-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 10, 11, 0.3) 0%,
+    rgba(10, 10, 11, 0.5) 50%,
+    rgba(10, 10, 11, 0.9) 100%
+  );
+}
+
+/* Curtain panels */
+.curtain {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  pointer-events: none;
+}
+
+.curtain-left,
+.curtain-right {
+  flex: 1;
+  background: var(--bg-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+}
+
+.curtain-left {
+  transform-origin: left center;
+  justify-content: flex-end;
+  padding-right: 8px;
+}
+
+.curtain-right {
+  transform-origin: right center;
+  justify-content: flex-start;
+  padding-left: 8px;
+}
+
+.curtain-text {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(48px, 12vw, 160px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  color: var(--text-light);
+  user-select: none;
+}
+
+/* Hero content (revealed) */
+.hero-content {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 24px;
+  opacity: 0;
+}
+
+.hero-label {
+  margin-bottom: 20px;
+}
+
+.hero-title {
+  font-size: clamp(36px, 6vw, 72px);
+  max-width: 800px;
+  margin-bottom: 24px;
+}
+
+.hero-subtitle {
+  font-size: clamp(16px, 2vw, 20px);
+  color: rgba(234, 231, 226, 0.75);
+  max-width: 550px;
+  margin-bottom: 40px;
+  font-weight: 300;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 40px;
+  background: var(--accent-gold);
+  color: var(--bg-dark);
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.hero-cta:hover {
+  background: #d9bc91;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(200, 169, 126, 0.3);
+}
+
+.hero-cta svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s ease;
+}
+
+.hero-cta:hover svg {
+  transform: translateX(4px);
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  animation: fadeInUp 1s ease 2s forwards;
+}
+
+.scroll-indicator span {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted-dark);
+}
+
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--accent-gold), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translate(-50%, 20px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION 2: INTRODUCTION
+   ═══════════════════════════════════════════════════════════════ */
+.intro-section {
+  background: var(--bg-dark);
+  padding: var(--section-padding) 24px;
+  text-align: center;
+}
+
+.intro-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.intro-stars {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.intro-stars svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--accent-gold);
+}
+
+.intro-accolade {
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-dark);
+  margin-bottom: 40px;
+}
+
+.intro-headline {
+  font-size: clamp(28px, 4vw, 48px);
+  margin-bottom: 24px;
+  color: var(--text-light);
+}
+
+.intro-description {
+  font-size: clamp(16px, 1.8vw, 19px);
+  color: rgba(234, 231, 226, 0.7);
+  line-height: 1.7;
+  max-width: 650px;
+  margin: 0 auto 40px;
+}
+
+.intro-details {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+  padding-top: 40px;
+  border-top: 1px solid var(--border-dark);
+}
+
+.intro-detail {
+  text-align: center;
+}
+
+.intro-detail-label {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted-dark);
+  margin-bottom: 8px;
+}
+
+.intro-detail-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  color: var(--text-light);
+}
+
+.intro-detail-value a {
+  color: var(--text-light);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.intro-detail-value a:hover {
+  color: var(--accent-gold);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION 3: DINING EXPERIENCES - HORIZONTAL SCROLL
+   ═══════════════════════════════════════════════════════════════ */
+.experiences-section {
+  overflow: hidden;
+  background: var(--bg-dark);
+}
+
+.experiences-header {
+  text-align: center;
+  padding: var(--section-padding) 24px 60px;
+}
+
+.experiences-header .label {
+  margin-bottom: 16px;
+  display: block;
+}
+
+.experiences-header h2 {
+  font-size: clamp(32px, 5vw, 56px);
+  color: var(--text-light);
+}
+
+.h-scroll-section {
+  overflow: hidden;
+}
+
+.h-scroll-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.h-scroll-track {
+  display: flex;
+  gap: 32px;
+  padding: 0 max(48px, 5vw);
+  will-change: transform;
+}
+
+.experience-card {
+  flex-shrink: 0;
+  width: clamp(320px, 42vw, 520px);
+  height: 68vh;
+  min-height: 450px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--border-dark);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  cursor: default;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s;
+}
+
+.experience-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(200, 169, 126, 0.3);
+}
+
+.experience-card-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s ease;
+}
+
+.experience-card:hover .experience-card-bg {
+  transform: scale(1.05);
+}
+
+.experience-card-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to top,
+    rgba(10, 10, 11, 0.95) 0%,
+    rgba(10, 10, 11, 0.6) 35%,
+    rgba(10, 10, 11, 0.2) 60%,
+    transparent 100%
+  );
+}
+
+.experience-card-content {
+  position: relative;
+  z-index: 2;
+  padding: 32px;
+}
+
+.experience-card-num {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 12px;
+}
+
+.experience-card h3 {
+  font-size: clamp(24px, 3vw, 32px);
+  margin-bottom: 12px;
+  color: var(--text-light);
+}
+
+.experience-card p {
+  font-size: 15px;
+  color: rgba(234, 231, 226, 0.7);
+  line-height: 1.6;
+  max-width: 38ch;
+}
+
+.experience-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent-gold);
+  text-decoration: none;
+  transition: gap 0.3s;
+}
+
+.experience-card-link:hover {
+  gap: 12px;
+}
+
+/* Progress bar */
+.h-progress {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  opacity: 0;
+  transition: opacity 0.4s;
+  background: rgba(10, 10, 11, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 12px 20px;
+  border-radius: 100px;
+  border: 1px solid var(--border-dark);
+}
+
+.h-progress.visible {
+  opacity: 1;
+}
+
+.h-progress-bar {
+  width: 100px;
+  height: 2px;
+  background: var(--border-dark);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.h-progress-fill {
+  height: 100%;
+  background: var(--accent-gold);
+  width: 0%;
+  transition: width 0.1s;
+}
+
+.h-progress-label {
+  font-size: 12px;
+  color: var(--muted-dark);
+  letter-spacing: 0.05em;
+  min-width: 40px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION 4: CHEF & PHILOSOPHY
+   ═══════════════════════════════════════════════════════════════ */
+.chef-section {
+  background: var(--bg-light);
+  color: var(--text-dark);
+  padding: var(--section-padding) 24px;
+}
+
+.chef-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.chef-image-wrapper {
+  position: relative;
+}
+
+.chef-image {
+  width: 100%;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.chef-image-accent {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 120px;
+  height: 120px;
+  border: 1px solid var(--accent-gold);
+  border-radius: 8px;
+  z-index: -1;
+}
+
+.chef-text .label {
+  margin-bottom: 20px;
+  display: block;
+  color: var(--accent-gold);
+}
+
+.chef-text h2 {
+  font-size: clamp(32px, 4vw, 48px);
+  color: var(--text-dark);
+  margin-bottom: 24px;
+}
+
+.chef-quote {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(20px, 2.5vw, 26px);
+  font-style: italic;
+  color: var(--text-dark);
+  line-height: 1.5;
+  margin-bottom: 24px;
+  padding-left: 24px;
+  border-left: 2px solid var(--accent-gold);
+}
+
+.chef-description {
+  font-size: 16px;
+  color: var(--muted-light);
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+.chef-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  background: transparent;
+  color: var(--text-dark);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--text-dark);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.chef-cta:hover {
+  background: var(--text-dark);
+  color: var(--bg-light);
+}
+
+@media (max-width: 900px) {
+  .chef-content {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .chef-image-wrapper {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION 5: ACCOLADES - ACCORDION SLIDER
+   ═══════════════════════════════════════════════════════════════ */
+.accolades-section {
+  background: var(--bg-light);
+  color: var(--text-dark);
+  padding: var(--section-padding) 24px;
+  border-top: 1px solid var(--border-light);
+}
+
+.accolades-header {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 60px;
+}
+
+.accolades-header .label {
+  margin-bottom: 16px;
+  display: block;
+}
+
+.accolades-header h2 {
+  font-size: clamp(32px, 4vw, 48px);
+  color: var(--text-dark);
+  margin-bottom: 16px;
+}
+
+.accolades-header p {
+  font-size: 17px;
+  color: var(--muted-light);
+}
+
+.accordion-slider {
+  display: flex;
+  gap: 8px;
+  height: 450px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.accordion-panel {
+  flex: 1;
+  min-width: 80px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: flex 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.accordion-panel:hover {
+  flex: 4;
+}
+
+.accordion-panel-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s ease;
+}
+
+.accordion-panel:hover .accordion-panel-bg {
+  transform: scale(1.05);
+}
+
+.accordion-panel-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(10, 10, 11, 0.9) 0%,
+    rgba(10, 10, 11, 0.4) 50%,
+    rgba(10, 10, 11, 0.2) 100%
+  );
+  transition: background 0.4s;
+}
+
+.accordion-panel:hover .accordion-panel-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(10, 10, 11, 0.85) 0%,
+    rgba(10, 10, 11, 0.3) 60%,
+    rgba(10, 10, 11, 0.1) 100%
+  );
+}
+
+.accordion-panel-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 32px;
+  color: var(--text-light);
+}
+
+.accordion-panel-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.4s ease 0.1s;
+}
+
+.accordion-panel:hover .accordion-panel-icon {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.accordion-panel-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: var(--accent-gold);
+}
+
+.accordion-panel-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: font-size 0.4s;
+}
+
+.accordion-panel:hover .accordion-panel-title {
+  font-size: 24px;
+  white-space: normal;
+}
+
+.accordion-panel-desc {
+  font-size: 14px;
+  color: rgba(234, 231, 226, 0.7);
+  line-height: 1.5;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.4s ease 0.1s;
+}
+
+.accordion-panel:hover .accordion-panel-desc {
+  opacity: 1;
+  max-height: 100px;
+  margin-top: 8px;
+}
+
+@media (max-width: 768px) {
+  .accordion-slider {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .accordion-panel {
+    min-height: 100px;
+    flex: none;
+  }
+
+  .accordion-panel:hover {
+    flex: none;
+    min-height: 200px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION 6: PRIVATE DINING
+   ═══════════════════════════════════════════════════════════════ */
+.private-section {
+  background: var(--bg-dark);
+  padding: var(--section-padding) 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.private-bg {
+  position: absolute;
+  inset: 0;
+  opacity: 0.15;
+}
+
+.private-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.private-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.private-content .label {
+  margin-bottom: 20px;
+  display: block;
+}
+
+.private-content h2 {
+  font-size: clamp(36px, 5vw, 56px);
+  margin-bottom: 24px;
+}
+
+.private-content p {
+  font-size: 18px;
+  color: rgba(234, 231, 226, 0.7);
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+
+.private-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 40px;
+  background: transparent;
+  color: var(--text-light);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--accent-gold);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.private-cta:hover {
+  background: var(--accent-gold);
+  color: var(--bg-dark);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION 7: RESERVATIONS CTA
+   ═══════════════════════════════════════════════════════════════ */
+.reservation-section {
+  background: var(--surface-dark);
+  padding: var(--section-padding) 24px;
+  text-align: center;
+  border-top: 1px solid var(--border-dark);
+}
+
+.reservation-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.reservation-content .label {
+  margin-bottom: 20px;
+  display: block;
+}
+
+.reservation-content h2 {
+  font-size: clamp(36px, 5vw, 56px);
+  margin-bottom: 32px;
+}
+
+.reservation-info {
+  margin-bottom: 40px;
+}
+
+.reservation-address {
+  font-size: 17px;
+  color: rgba(234, 231, 226, 0.8);
+  margin-bottom: 8px;
+}
+
+.reservation-phone {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: var(--text-light);
+}
+
+.reservation-phone a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.reservation-phone a:hover {
+  color: var(--accent-gold);
+}
+
+.reservation-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.reservation-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 48px;
+  background: var(--accent-gold);
+  color: var(--bg-dark);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.reservation-btn-primary:hover {
+  background: #d9bc91;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(200, 169, 126, 0.3);
+}
+
+.reservation-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 48px;
+  background: transparent;
+  color: var(--text-light);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--border-dark);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.reservation-btn-secondary:hover {
+  border-color: var(--text-light);
+  background: rgba(234, 231, 226, 0.05);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════════════════════════ */
+footer {
+  background: var(--bg-dark);
+  padding: 60px 24px 40px;
+  border-top: 1px solid var(--border-dark);
+}
+
+.footer-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+}
+
+.footer-brand h3 {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.footer-brand p {
+  font-size: 14px;
+  color: var(--muted-dark);
+  margin-bottom: 24px;
+}
+
+.footer-social {
+  display: flex;
+  gap: 16px;
+}
+
+.footer-social a {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-dark);
+  border: 1px solid var(--border-dark);
+  border-radius: 50%;
+  color: var(--text-light);
+  transition: all 0.3s;
+}
+
+.footer-social a:hover {
+  background: var(--accent-gold);
+  border-color: var(--accent-gold);
+  color: var(--bg-dark);
+}
+
+.footer-social svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.footer-column h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-dark);
+  margin-bottom: 20px;
+}
+
+.footer-column ul {
+  list-style: none;
+}
+
+.footer-column li {
+  margin-bottom: 12px;
+}
+
+.footer-column a {
+  font-size: 14px;
+  color: rgba(234, 231, 226, 0.7);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-column a:hover {
+  color: var(--accent-gold);
+}
+
+.footer-bottom {
+  max-width: 1100px;
+  margin: 48px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-dark);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-copyright {
+  font-size: 13px;
+  color: var(--muted-dark);
+}
+
+.footer-legal {
+  display: flex;
+  gap: 24px;
+}
+
+.footer-legal a {
+  font-size: 13px;
+  color: var(--muted-dark);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-legal a:hover {
+  color: var(--text-light);
+}
+
+@media (max-width: 900px) {
+  .footer-content {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-brand {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-content {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-brand {
+    grid-column: span 1;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UTILITY CLASSES & ANIMATIONS
+   ═══════════════════════════════════════════════════════════════ */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection color */
+::selection {
+  background: var(--accent-gold);
+  color: var(--bg-dark);
+}
+
+/* Focus states for accessibility */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent-gold);
+  outline-offset: 4px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE ADJUSTMENTS
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .curtain-text {
+    font-size: clamp(36px, 15vw, 80px);
+  }
+
+  .intro-details {
+    gap: 32px;
+  }
+
+  .reservation-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .reservation-btn-primary,
+  .reservation-btn-secondary {
+    width: 100%;
+    max-width: 300px;
+    justify-content: center;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 1: HERO - CURTAIN REVEAL
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="hero-curtain" id="hero">
+  <!-- Background (revealed) -->
+  <div class="hero-bg">
+    <img
+      class="hero-bg-image"
+      src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80"
+      alt="Fine dining restaurant interior"
+    >
+    <div class="hero-bg-overlay"></div>
+  </div>
+
+  <!-- Hero content (revealed) -->
+  <div class="hero-content" id="heroContent">
+    <span class="label hero-label">Two Michelin Stars</span>
+    <h1 class="hero-title">Contemporary Fine Dining at MoMA</h1>
+    <p class="hero-subtitle">
+      Experience refined, contemporary cuisine overlooking the Abby Aldrich Rockefeller Sculpture Garden
+    </p>
+    <a href="#reservation" class="hero-cta">
+      Reserve Your Table
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </a>
+  </div>
+
+  <!-- Curtain panels -->
+  <div class="curtain" id="curtain">
+    <div class="curtain-left" id="curtainLeft">
+      <span class="curtain-text">THE</span>
+    </div>
+    <div class="curtain-right" id="curtainRight">
+      <span class="curtain-text">MODERN</span>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 2: INTRODUCTION
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="intro-section" id="intro">
+  <div class="intro-content">
+    <div class="intro-stars">
+      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    </div>
+    <p class="intro-accolade">Michelin Guide</p>
+
+    <h2 class="intro-headline fade-in">Where Art Meets Gastronomy</h2>
+
+    <p class="intro-description fade-in">
+      Located within the Museum of Modern Art, The Modern offers a two Michelin-star dining experience
+      where contemporary artistry meets refined American cuisine. Under the direction of Executive Chef
+      Thomas Allan, our seasonally inspired menus celebrate exceptional ingredients and innovative techniques.
+    </p>
+
+    <div class="intro-details fade-in">
+      <div class="intro-detail">
+        <div class="intro-detail-label">Location</div>
+        <div class="intro-detail-value">9 West 53rd Street<br>New York, NY 10019</div>
+      </div>
+      <div class="intro-detail">
+        <div class="intro-detail-label">Reservations</div>
+        <div class="intro-detail-value"><a href="tel:+12123331220">(212) 333-1220</a></div>
+      </div>
+      <div class="intro-detail">
+        <div class="intro-detail-label">Hours</div>
+        <div class="intro-detail-value">Lunch & Dinner<br>Tuesday – Saturday</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 3: DINING EXPERIENCES - HORIZONTAL SCROLL
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="experiences-section">
+  <div class="experiences-header">
+    <span class="label">Explore</span>
+    <h2>Our Dining Experiences</h2>
+  </div>
+
+  <div class="h-scroll-section" id="hSection">
+    <div class="h-scroll-sticky">
+      <div class="h-scroll-track" id="hTrack">
+
+        <!-- Card 1: The Dining Room -->
+        <div class="experience-card">
+          <div class="experience-card-bg" style="background-image: url('https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=800&q=80');"></div>
+          <div class="experience-card-overlay"></div>
+          <div class="experience-card-content">
+            <div class="experience-card-num">01 / The Dining Room</div>
+            <h3>Sculpture Garden Views</h3>
+            <p>Our flagship dining experience offers refined tasting menus in an elegant setting overlooking MoMA's iconic Sculpture Garden.</p>
+            <a href="#reservation" class="experience-card-link">
+              Reserve Now
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 2: The Bar Room -->
+        <div class="experience-card">
+          <div class="experience-card-bg" style="background-image: url('https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=800&q=80');"></div>
+          <div class="experience-card-overlay"></div>
+          <div class="experience-card-content">
+            <div class="experience-card-num">02 / The Bar Room</div>
+            <h3>Lively & Sophisticated</h3>
+            <p>A vibrant atmosphere with seasonal à la carte offerings. The perfect setting for pre-dinner cocktails or a complete evening.</p>
+            <a href="#reservation" class="experience-card-link">
+              Reserve Now
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 3: The Kitchen Table -->
+        <div class="experience-card">
+          <div class="experience-card-bg" style="background-image: url('https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=800&q=80');"></div>
+          <div class="experience-card-overlay"></div>
+          <div class="experience-card-content">
+            <div class="experience-card-num">03 / The Kitchen Table</div>
+            <h3>Intimate Chef's Experience</h3>
+            <p>An exclusive counter for up to four guests, positioned in the heart of our kitchen. Watch culinary artistry unfold before you.</p>
+            <a href="#reservation" class="experience-card-link">
+              Inquire Now
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 4: The Terrace -->
+        <div class="experience-card">
+          <div class="experience-card-bg" style="background-image: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80');"></div>
+          <div class="experience-card-overlay"></div>
+          <div class="experience-card-content">
+            <div class="experience-card-num">04 / The Terrace</div>
+            <h3>Al Fresco Elegance</h3>
+            <p>Seasonal outdoor dining in the heart of Midtown Manhattan. A rare urban oasis for lunch or evening cocktails.</p>
+            <a href="#reservation" class="experience-card-link">
+              Reserve Now
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 5: Wine Program -->
+        <div class="experience-card">
+          <div class="experience-card-bg" style="background-image: url('https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&q=80');"></div>
+          <div class="experience-card-overlay"></div>
+          <div class="experience-card-content">
+            <div class="experience-card-num">05 / Wine Program</div>
+            <h3>Grand Award Collection</h3>
+            <p>Our award-winning wine program features over 3,000 selections, curated to complement every course and occasion.</p>
+            <a href="#" class="experience-card-link">
+              Explore Wines
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Progress indicator for horizontal scroll -->
+<div class="h-progress" id="hProgress">
+  <div class="h-progress-bar"><div class="h-progress-fill" id="hFill"></div></div>
+  <div class="h-progress-label" id="hLabel">1 / 5</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 4: CHEF & PHILOSOPHY
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="chef-section" id="chef">
+  <div class="chef-content">
+    <div class="chef-image-wrapper fade-in">
+      <img
+        class="chef-image"
+        src="https://images.unsplash.com/photo-1581299894007-aaa50297cf16?w=800&q=80"
+        alt="Executive Chef in kitchen"
+      >
+      <div class="chef-image-accent"></div>
+    </div>
+
+    <div class="chef-text">
+      <span class="label">Culinary Vision</span>
+      <h2>Executive Chef<br>Thomas Allan</h2>
+
+      <blockquote class="chef-quote fade-in">
+        "Each dish is a collaboration between flavor and design, inspired by art, seasonality, and the pursuit of perfection."
+      </blockquote>
+
+      <p class="chef-description fade-in">
+        Under Chef Allan's direction, The Modern's ever-evolving menus showcase the finest seasonal ingredients
+        through innovative techniques rooted in classical training. His approach honors tradition while
+        embracing contemporary creativity—a philosophy that has earned the restaurant its two Michelin stars
+        and four James Beard Awards.
+      </p>
+
+      <a href="#" class="chef-cta fade-in">
+        View Menus
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 5: ACCOLADES - ACCORDION SLIDER
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="accolades-section" id="accolades">
+  <div class="accolades-header">
+    <span class="label">Recognition</span>
+    <h2>Awards & Accolades</h2>
+    <p>A testament to our commitment to culinary excellence</p>
+  </div>
+
+  <div class="accordion-slider">
+    <!-- Panel 1: Michelin Stars -->
+    <div class="accordion-panel">
+      <div class="accordion-panel-bg" style="background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80');"></div>
+      <div class="accordion-panel-overlay"></div>
+      <div class="accordion-panel-content">
+        <div class="accordion-panel-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <h3 class="accordion-panel-title">Two Michelin Stars</h3>
+        <p class="accordion-panel-desc">Recognized for exceptional cuisine worth a special journey. A distinction held since our dedication to culinary excellence began.</p>
+      </div>
+    </div>
+
+    <!-- Panel 2: NY Times -->
+    <div class="accordion-panel">
+      <div class="accordion-panel-bg" style="background-image: url('https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=600&q=80');"></div>
+      <div class="accordion-panel-overlay"></div>
+      <div class="accordion-panel-content">
+        <div class="accordion-panel-icon">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+        </div>
+        <h3 class="accordion-panel-title">The New York Times — Three Stars</h3>
+        <p class="accordion-panel-desc">Acclaimed by the nation's most influential food critics for our innovative approach to contemporary American cuisine.</p>
+      </div>
+    </div>
+
+    <!-- Panel 3: James Beard -->
+    <div class="accordion-panel">
+      <div class="accordion-panel-bg" style="background-image: url('https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600&q=80');"></div>
+      <div class="accordion-panel-overlay"></div>
+      <div class="accordion-panel-content">
+        <div class="accordion-panel-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        </div>
+        <h3 class="accordion-panel-title">Four James Beard Awards</h3>
+        <p class="accordion-panel-desc">Multiple honors from America's most prestigious culinary foundation, celebrating outstanding achievement in the culinary arts.</p>
+      </div>
+    </div>
+
+    <!-- Panel 4: Wine Spectator -->
+    <div class="accordion-panel">
+      <div class="accordion-panel-bg" style="background-image: url('https://images.unsplash.com/photo-1474722883778-792e7990302f?w=600&q=80');"></div>
+      <div class="accordion-panel-overlay"></div>
+      <div class="accordion-panel-content">
+        <div class="accordion-panel-icon">
+          <svg viewBox="0 0 24 24"><path d="M6 2v6h.01L6 8.01 10 12l-4 4 .01.01H6V22h12v-5.99h-.01L18 16l-4-4 4-3.99-.01-.01H18V2H6z"/></svg>
+        </div>
+        <h3 class="accordion-panel-title">Wine Spectator Grand Award</h3>
+        <p class="accordion-panel-desc">Our sommelier team curates one of New York's most distinguished wine collections, featuring over 3,000 exceptional selections.</p>
+      </div>
+    </div>
+
+    <!-- Panel 5: Chef -->
+    <div class="accordion-panel">
+      <div class="accordion-panel-bg" style="background-image: url('https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600&q=80');"></div>
+      <div class="accordion-panel-overlay"></div>
+      <div class="accordion-panel-content">
+        <div class="accordion-panel-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        </div>
+        <h3 class="accordion-panel-title">Executive Chef Thomas Allan</h3>
+        <p class="accordion-panel-desc">A visionary leader whose seasonal menus and innovative techniques have redefined contemporary American fine dining.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 6: PRIVATE DINING
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="private-section" id="private">
+  <div class="private-bg">
+    <img src="https://images.unsplash.com/photo-1559329007-40df8a9345d8?w=1920&q=80" alt="Private dining room">
+  </div>
+
+  <div class="private-content">
+    <span class="label">Private Events</span>
+    <h2 class="fade-in">Host an Unforgettable Evening</h2>
+    <p class="fade-in">
+      From intimate celebrations to corporate gatherings, The Modern offers bespoke private dining
+      experiences tailored to your vision. Our dedicated events team will craft a personalized menu
+      and ambiance that transforms any occasion into something extraordinary.
+    </p>
+    <a href="#" class="private-cta fade-in">
+      Inquire About Private Dining
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 7: RESERVATIONS CTA
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="reservation-section" id="reservation">
+  <div class="reservation-content">
+    <span class="label">Reservations</span>
+    <h2 class="fade-in">Begin Your Experience</h2>
+
+    <div class="reservation-info fade-in">
+      <p class="reservation-address">9 West 53rd Street, New York, NY 10019</p>
+      <p class="reservation-phone"><a href="tel:+12123331220">(212) 333-1220</a></p>
+    </div>
+
+    <div class="reservation-buttons fade-in">
+      <a href="#" class="reservation-btn-primary">
+        Reserve a Table
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+      <a href="#" class="reservation-btn-secondary">
+        View Menus
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-brand">
+      <h3>The Modern</h3>
+      <p>At the Museum of Modern Art</p>
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <a href="#" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-column">
+      <h4>Dining</h4>
+      <ul>
+        <li><a href="#">The Dining Room</a></li>
+        <li><a href="#">The Bar Room</a></li>
+        <li><a href="#">The Kitchen Table</a></li>
+        <li><a href="#">The Terrace</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column">
+      <h4>Menus</h4>
+      <ul>
+        <li><a href="#">Tasting Menu</a></li>
+        <li><a href="#">Bar Room Menu</a></li>
+        <li><a href="#">Wine List</a></li>
+        <li><a href="#">Cocktails</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">Private Events</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p class="footer-copyright">&copy; 2024 The Modern. All rights reserved.</p>
+    <div class="footer-legal">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Accessibility</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     JAVASCRIPT - GSAP ANIMATIONS
+     ═══════════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ─── CURTAIN REVEAL ANIMATION ───
+  const curtainLeft = document.getElementById('curtainLeft');
+  const curtainRight = document.getElementById('curtainRight');
+  const heroContent = document.getElementById('heroContent');
+
+  // Initial state
+  gsap.set(heroContent, { opacity: 0, y: 30 });
+
+  // Curtain timeline
+  const curtainTL = gsap.timeline({
+    scrollTrigger: {
+      trigger: '#hero',
+      start: 'top top',
+      end: '+=80%',
+      scrub: 1,
+      pin: true,
+      anticipatePin: 1
+    }
+  });
+
+  curtainTL
+    .to(curtainLeft, {
+      xPercent: -100,
+      ease: 'power2.inOut',
+      duration: 1
+    }, 0)
+    .to(curtainRight, {
+      xPercent: 100,
+      ease: 'power2.inOut',
+      duration: 1
+    }, 0)
+    .to(heroContent, {
+      opacity: 1,
+      y: 0,
+      ease: 'power2.out',
+      duration: 0.6
+    }, 0.4);
+
+  // ─── HORIZONTAL SCROLL ───
+  const hTrack = document.getElementById('hTrack');
+  const hSection = document.getElementById('hSection');
+  const hProgress = document.getElementById('hProgress');
+  const hFill = document.getElementById('hFill');
+  const hLabel = document.getElementById('hLabel');
+  const cards = hTrack.querySelectorAll('.experience-card');
+  const totalCards = cards.length;
+
+  function getScrollDistance() {
+    return hTrack.scrollWidth - window.innerWidth;
+  }
+
+  // Set section height
+  hSection.style.height = (totalCards * 100) + 'vh';
+
+  gsap.to(hTrack, {
+    x: function() { return -getScrollDistance(); },
+    ease: 'none',
+    scrollTrigger: {
+      trigger: hSection,
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 0.8,
+      invalidateOnRefresh: true,
+      onUpdate: function(self) {
+        const p = self.progress;
+        hFill.style.width = (p * 100) + '%';
+        hLabel.textContent = Math.min(Math.ceil(p * totalCards + 0.5), totalCards) + ' / ' + totalCards;
+      },
+      onEnter: function() { hProgress.classList.add('visible'); },
+      onLeave: function() { hProgress.classList.remove('visible'); },
+      onEnterBack: function() { hProgress.classList.add('visible'); },
+      onLeaveBack: function() { hProgress.classList.remove('visible'); }
+    }
+  });
+
+  // ─── FADE IN ANIMATIONS ───
+  const fadeElements = document.querySelectorAll('.fade-in');
+
+  fadeElements.forEach(function(el) {
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 85%',
+      onEnter: function() {
+        el.classList.add('visible');
+      }
+    });
+  });
+
+  // ─── SMOOTH ANCHOR SCROLLING ───
+  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+    anchor.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      if (href !== '#') {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+          gsap.to(window, {
+            duration: 1,
+            scrollTo: { y: target, offsetY: 0 },
+            ease: 'power2.inOut'
+          });
+        }
+      }
+    });
+  });
+
+  // ─── REFRESH SCROLLTRIGGER ON RESIZE ───
+  let resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      ScrollTrigger.refresh();
+    }, 250);
+  });
+
+})();
+</script>
+
+</body>
+</html>
