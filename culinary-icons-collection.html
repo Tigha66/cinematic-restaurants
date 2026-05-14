@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Culinary Icons — A Celebration of America's Finest Restaurants</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+  :root {
+    --bg-dark: #0a0908;
+    --bg-light: #f9f8f6;
+    --surface-dark: #1a1614;
+    --text-dark: #0a0908;
+    --text-light: #eae7e2;
+    --muted-dark: #7a7874;
+    --muted-light: #5a5a5e;
+    --accent-gold: #c8a97e;
+    --accent-green: #6b8e73;
+    --accent-blue: #5e7c8f;
+    --border-dark: #2a2622;
+    --border-light: #e0ddd8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg-dark);
+    color: var(--text-light);
+    font-family: 'Outfit', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .serif { font-family: 'Cormorant Garamond', serif; }
+
+  /* ═══════════════════════════════════════════════════
+     CURTAIN REVEAL HERO
+  ═══════════════════════════════════════════════════ */
+
+  .curtain-section {
+    position: relative;
+    height: 250vh;
+  }
+
+  .curtain-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .curtain-left, .curtain-right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    background: var(--bg-dark);
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease;
+  }
+
+  .curtain-left {
+    left: 0;
+    justify-content: flex-end;
+    padding-right: clamp(24px, 5vw, 64px);
+    border-right: 1px solid var(--border-dark);
+  }
+
+  .curtain-right {
+    right: 0;
+    justify-content: flex-start;
+    padding-left: clamp(24px, 5vw, 64px);
+    border-left: 1px solid var(--border-dark);
+  }
+
+  .curtain-left h1, .curtain-right h1 {
+    font-size: clamp(48px, 9vw, 140px);
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    line-height: 0.9;
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--accent-gold);
+  }
+
+  .curtain-content {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(135deg, #1a1210 0%, #0d0a08 50%, #1a1410 100%);
+    padding: 40px;
+  }
+
+  .curtain-content::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('data:image/svg+xml,%3Csvg width="100" height="100" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" /%3E%3CfeColorMatrix type="saturate" values="0"/%3E%3C/filter%3E%3Crect width="100" height="100" filter="url(%23n)" opacity="0.03"/%3E%3C/svg%3E');
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .hero-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 24px;
+    font-weight: 400;
+  }
+
+  .curtain-content h2 {
+    font-size: clamp(32px, 5vw, 72px);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    font-family: 'Cormorant Garamond', serif;
+    margin-bottom: 16px;
+    max-width: 20ch;
+  }
+
+  .curtain-content p {
+    font-size: clamp(16px, 2vw, 19px);
+    color: var(--muted-light);
+    max-width: 60ch;
+    line-height: 1.75;
+    margin-bottom: 32px;
+  }
+
+  .cta-primary {
+    display: inline-block;
+    padding: 16px 48px;
+    background: var(--accent-gold);
+    color: var(--bg-dark);
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid var(--accent-gold);
+  }
+
+  .cta-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(200, 169, 126, 0.3);
+  }
+
+  /* ═══════════════════════════════════════════════════
+     RESTAURANT CARDS — HORIZONTAL SCROLL
+  ═══════════════════════════════════════════════════ */
+
+  .section-light {
+    background: var(--bg-light);
+    color: var(--text-dark);
+  }
+
+  .section-header {
+    padding: clamp(80px, 12vh, 120px) 24px 60px;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .section-tag {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  .section-header h2 {
+    font-size: clamp(32px, 5vw, 64px);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    font-family: 'Cormorant Garamond', serif;
+    margin-bottom: 16px;
+  }
+
+  .section-header p {
+    font-size: 18px;
+    color: var(--muted-dark);
+    line-height: 1.6;
+    max-width: 55ch;
+    margin: 0 auto;
+  }
+
+  .h-scroll-section {
+    overflow: hidden;
+    padding-bottom: clamp(60px, 10vh, 100px);
+  }
+
+  .h-scroll-sticky {
+    position: sticky;
+    top: 0;
+    height: 85vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .h-scroll-track {
+    display: flex;
+    gap: 32px;
+    padding: 0 max(48px, 5vw);
+    will-change: transform;
+  }
+
+  .restaurant-card {
+    flex-shrink: 0;
+    width: clamp(340px, 48vw, 600px);
+    height: 75vh;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--border-light);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    background: white;
+  }
+
+  .restaurant-card:hover {
+    transform: translateY(-6px);
+  }
+
+  .restaurant-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.6s ease;
+  }
+
+  .restaurant-card:hover .restaurant-bg {
+    transform: scale(1.05);
+  }
+
+  .restaurant-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to top, rgba(10,9,8,0.95) 0%, rgba(10,9,8,0.7) 30%, transparent 60%);
+  }
+
+  .restaurant-content {
+    position: relative;
+    z-index: 2;
+    padding: 40px 32px;
+    color: var(--text-light);
+  }
+
+  .restaurant-location {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 12px;
+    font-weight: 400;
+  }
+
+  .restaurant-content h3 {
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    margin-bottom: 12px;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .restaurant-content .chef {
+    font-size: 14px;
+    color: var(--accent-gold);
+    margin-bottom: 12px;
+    font-style: italic;
+  }
+
+  .restaurant-content p {
+    font-size: 15px;
+    color: var(--muted-light);
+    line-height: 1.6;
+    max-width: 45ch;
+    margin-bottom: 16px;
+  }
+
+  .restaurant-badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .badge {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 3px;
+    border: 1px solid rgba(200, 169, 126, 0.3);
+    color: var(--accent-gold);
+  }
+
+  /* ═══════════════════════════════════════════════════
+     TEXT MASK REVEAL
+  ═══════════════════════════════════════════════════ */
+
+  .mask-section {
+    position: relative;
+    min-height: 280vh;
+    background: var(--bg-dark);
+  }
+
+  .mask-sticky {
+    position: sticky;
+    top: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .mask-bg-video {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #1a1208 0%, #2a1f12 25%, #1a1510 50%, #0d0b08 75%, #1a1208 100%);
+    background-size: 400% 400%;
+    animation: ambientShift 15s ease infinite;
+    opacity: 0.9;
+  }
+
+  @keyframes ambientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .mask-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mask-text {
+    font-size: clamp(56px, 14vw, 180px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    text-align: center;
+    text-transform: uppercase;
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(234, 231, 226, 0.12);
+    font-family: 'Outfit', sans-serif;
+    max-width: 14ch;
+    padding: 0 24px;
+  }
+
+  .mask-reveal {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    clip-path: inset(100% 0 0 0);
+  }
+
+  .mask-text-filled {
+    font-size: clamp(56px, 14vw, 180px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: 'Outfit', sans-serif;
+    max-width: 14ch;
+    padding: 0 24px;
+    background: linear-gradient(135deg, #e8d5b5 0%, #c8a97e 50%, #a07850 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .mask-subtext {
+    position: absolute;
+    bottom: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    opacity: 0;
+    z-index: 4;
+    max-width: 90%;
+  }
+
+  .mask-subtext p {
+    font-size: clamp(15px, 2vw, 20px);
+    color: var(--muted-light);
+    max-width: 55ch;
+    line-height: 1.7;
+    margin: 0 auto 20px;
+  }
+
+  /* ═══════════════════════════════════════════════════
+     PHILOSOPHY GRID
+  ═══════════════════════════════════════════════════ */
+
+  .philosophy-section {
+    background: var(--bg-light);
+    padding: clamp(100px, 15vh, 160px) 24px;
+  }
+
+  .philosophy-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .philosophy-intro {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+
+  .philosophy-intro h2 {
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    font-family: 'Cormorant Garamond', serif;
+    margin-bottom: 20px;
+    color: var(--text-dark);
+  }
+
+  .philosophy-intro p {
+    font-size: 18px;
+    color: var(--muted-dark);
+    max-width: 60ch;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  .philosophy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 48px;
+  }
+
+  .philosophy-card {
+    text-align: center;
+  }
+
+  .philosophy-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: var(--accent-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: white;
+  }
+
+  .philosophy-card h3 {
+    font-size: 22px;
+    font-weight: 500;
+    font-family: 'Cormorant Garamond', serif;
+    margin-bottom: 12px;
+    color: var(--text-dark);
+  }
+
+  .philosophy-card p {
+    font-size: 15px;
+    color: var(--muted-dark);
+    line-height: 1.7;
+  }
+
+  /* ═══════════════════════════════════════════════════
+     SIGNATURE DISHES
+  ═══════════════════════════════════════════════════ */
+
+  .dishes-section {
+    background: var(--bg-dark);
+    padding: clamp(100px, 15vh, 160px) 24px;
+  }
+
+  .dishes-container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .dishes-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .dishes-header h2 {
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    font-family: 'Cormorant Garamond', serif;
+    margin-bottom: 16px;
+    color: var(--text-light);
+  }
+
+  .dishes-header p {
+    font-size: 18px;
+    color: var(--muted-light);
+    max-width: 60ch;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .dishes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+  }
+
+  .dish-item {
+    border: 1px solid var(--border-dark);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+
+  .dish-item:hover {
+    transform: translateY(-4px);
+  }
+
+  .dish-item-image {
+    height: 240px;
+    background: var(--surface-dark);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dish-item-image-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.5s ease;
+  }
+
+  .dish-item:hover .dish-item-image-bg {
+    transform: scale(1.08);
+  }
+
+  .dish-item-content {
+    padding: 24px;
+  }
+
+  .dish-item-restaurant {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 8px;
+  }
+
+  .dish-item h4 {
+    font-size: 20px;
+    font-weight: 500;
+    font-family: 'Cormorant Garamond', serif;
+    margin-bottom: 8px;
+    color: var(--text-light);
+  }
+
+  .dish-item p {
+    font-size: 14px;
+    color: var(--muted-light);
+    line-height: 1.6;
+  }
+
+  /* ═══════════════════════════════════════════════════
+     RESERVATIONS CTA
+  ═══════════════════════════════════════════════════ */
+
+  .reservation-section {
+    background: linear-gradient(135deg, #1a1208 0%, #2a1f12 50%, #1a1510 100%);
+    padding: clamp(100px, 15vh, 140px) 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .reservation-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('data:image/svg+xml,%3Csvg width="100" height="100" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="n"%3E%3CfeTurbulance type="fractalNoise" baseFrequency="0.9" numOctaves="4" /%3E%3CfeColorMatrix type="saturate" values="0"/%3E%3C/filter%3E%3Crect width="100" height="100" filter="url(%23n)" opacity="0.03"/%3E%3C/svg%3E');
+    opacity: 0.3;
+  }
+
+  .reservation-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .reservation-content h2 {
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    font-family: 'Cormorant Garamond', serif;
+    margin-bottom: 24px;
+    line-height: 1.1;
+  }
+
+  .reservation-content p {
+    font-size: 19px;
+    color: var(--muted-light);
+    line-height: 1.7;
+    margin-bottom: 40px;
+    max-width: 55ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-group {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .cta-secondary {
+    display: inline-block;
+    padding: 16px 48px;
+    background: transparent;
+    color: var(--text-light);
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid var(--accent-gold);
+    transition: all 0.3s ease;
+  }
+
+  .cta-secondary:hover {
+    background: var(--accent-gold);
+    color: var(--bg-dark);
+    transform: translateY(-2px);
+  }
+
+  /* ═══════════════════════════════════════════════════
+     FOOTER
+  ═══════════════════════════════════════════════════ */
+
+  footer {
+    background: var(--bg-dark);
+    padding: 80px 24px 40px;
+    border-top: 1px solid var(--border-dark);
+  }
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .footer-logo {
+    font-size: 32px;
+    font-weight: 400;
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--accent-gold);
+    margin-bottom: 16px;
+    letter-spacing: 0.02em;
+  }
+
+  .footer-tagline {
+    font-size: 14px;
+    color: var(--muted-light);
+    margin-bottom: 32px;
+    max-width: 60ch;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+
+  .footer-restaurants {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+
+  .footer-restaurants a {
+    color: var(--muted-light);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+
+  .footer-restaurants a:hover {
+    color: var(--accent-gold);
+  }
+
+  .footer-legal {
+    font-size: 12px;
+    color: var(--muted-light);
+    padding-top: 32px;
+    border-top: 1px solid var(--border-dark);
+  }
+
+  /* ═══════════════════════════════════════════════════
+     RESPONSIVE
+  ═══════════════════════════════════════════════════ */
+
+  @media (max-width: 768px) {
+    .curtain-left h1, .curtain-right h1 { font-size: clamp(32px, 12vw, 64px); }
+    .h-scroll-track { padding: 0 24px; }
+    .restaurant-card { width: 85vw; }
+    .philosophy-grid { grid-template-columns: 1fr; gap: 40px; }
+    .dishes-grid { grid-template-columns: 1fr; }
+    .footer-restaurants { flex-direction: column; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════
+     CURTAIN REVEAL HERO
+═══════════════════════════════════════════════════ -->
+
+<section class="curtain-section">
+  <div class="curtain-sticky">
+    <div class="curtain-content">
+      <div class="hero-label">Culinary Icons Collection</div>
+      <h2 class="serif">A Celebration of America's Finest Restaurants</h2>
+      <p>From Napa Valley to New York, Chicago to Miami — discover the legendary establishments that define excellence in American fine dining.</p>
+      <a href="#restaurants" class="cta-primary">Explore the Collection</a>
+    </div>
+    <div class="curtain-left" id="curtainLeft">
+      <h1 class="serif">CULI</h1>
+    </div>
+    <div class="curtain-right" id="curtainRight">
+      <h1 class="serif">NARY</h1>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     RESTAURANT CARDS — HORIZONTAL SCROLL
+═══════════════════════════════════════════════════ -->
+
+<section class="section-light" id="restaurants">
+  <div class="section-header">
+    <div class="section-tag">The Icons</div>
+    <h2 class="serif">Nine Legendary Restaurants</h2>
+    <p>Each represents decades of culinary mastery, Michelin stars, and unforgettable experiences. These are the restaurants that changed American dining forever.</p>
+  </div>
+
+  <div class="h-scroll-section" id="restaurantsSection">
+    <div class="h-scroll-sticky">
+      <div class="h-scroll-track" id="restaurantsTrack">
+
+        <!-- The French Laundry -->
+        <div class="restaurant-card">
+          <div class="restaurant-bg" style="background: linear-gradient(135deg, rgba(200,169,126,0.15), rgba(10,9,8,0.6)), linear-gradient(135deg, #2d4a3e, #1a2e1f);"></div>
+          <div class="restaurant-overlay"></div>
+          <div class="restaurant-content">
+            <div class="restaurant-location">Yountville, California</div>
+            <h3 class="serif">The French Laundry</h3>
+            <div class="chef">Chef Thomas Keller</div>
+            <p>A timeless Napa Valley institution. Michelin three-star excellence with ingredients sourced from their culinary garden and local farmers.</p>
+            <div class="restaurant-badges">
+              <span class="badge">⭐⭐⭐ Michelin</span>
+              <span class="badge">Relais & Châteaux</span>
+              <span class="badge">Green Star</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Per Se -->
+        <div class="restaurant-card">
+          <div class="restaurant-bg" style="background: linear-gradient(135deg, rgba(200,169,126,0.15), rgba(10,9,8,0.6)), linear-gradient(135deg, #4a3a2d, #2a1f1a);"></div>
+          <div class="restaurant-overlay"></div>
+          <div class="restaurant-content">
+            <div class="restaurant-location">New York, New York</div>
+            <h3 class="serif">Per Se</h3>
+            <div class="chef">Chef Thomas Keller</div>
+            <p>Overlooking Central Park, Per Se delivers impeccable service and precision-driven French cuisine in the heart of Manhattan.</p>
+            <div class="restaurant-badges">
+              <span class="badge">⭐⭐⭐ Michelin</span>
+              <span class="badge">Forbes Five-Star</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Eleven Madison Park -->
+        <div class="restaurant-card">
+          <div class="restaurant-bg" style="background: linear-gradient(135deg, rgba(200,169,126,0.15), rgba(10,9,8,0.6)), linear-gradient(135deg, #2a1a2e, #1a1020);"></div>
+          <div class="restaurant-overlay"></div>
+          <div class="restaurant-content">
+            <div class="restaurant-location">New York, New York</div>
+            <h3 class="serif">Eleven Madison Park</h3>
+            <div class="chef">Chef Daniel Humm</div>
+            <p>Plant-forward fine dining at its peak. Sourced from their own Magic Farms with impeccable execution and seasonal storytelling.</p>
+            <div class="restaurant-badges">
+              <span class="badge">⭐⭐⭐ Michelin</span>
+              <span class="badge">World's 50 Best</span>
+              <span class="badge">Relais & Châteaux</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Le Bernardin -->
+        <div class="restaurant-card">
+          <div class="restaurant-bg" style="background: linear-gradient(135deg, rgba(200,169,126,0.15), rgba(10,9,8,0.6)), linear-gradient(135deg, #2e1a1a, #1c0d0d);"></div>
+          <div class="restaurant-overlay"></div>
+          <div class="restaurant-content">
+            <div class="restaurant-location">New York, New York</div>
+            <h3 class="serif">Le Bernardin</h3>
+            <div class="chef">Chef Eric Ripert</div>
+            <p>The fish is the star. Michelin three-star seafood perfection with restraint, elegance, and decades of consistency.</p>
+            <div class="restaurant-badges">
+              <span class="badge">⭐⭐⭐ Michelin</span>
+              <span class="badge">Almost Raw</span>
+              <span class="badge">Barely Touched</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Blue Hill at Stone Barns -->
+        <div class="restaurant-card">
+          <div class="restaurant-bg" style="background: linear-gradient(135deg, rgba(107,142,115,0.2), rgba(10,9,8,0.6)), linear-gradient(135deg, #3a4a3e, #1a2a1e);"></div>
+          <div class="restaurant-overlay"></div>
+          <div class="restaurant-content">
+            <div class="restaurant-location">Pocantico Hills, New York</div>
+            <h3 class="serif">Blue Hill at Stone Barns</h3>
+            <div class="chef">Chef Dan Barber</div>
+            <p>Farm-to-table philosophy in its purest form. Sustainability, seasonality, and ingredients picked steps from the kitchen.</p>
+            <div class="restaurant-badges">
+              <span class="badge">⭐⭐ Michelin</span>
+              <span class="badge">Green Star</span>
+              <span class="badge">Farm-to-Table Pioneer</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chez Panisse -->
+        <div class="restaurant-card">
+          <div class="restaurant-bg" style="background: linear-gradient(135deg, rgba(200,169,126,0.15), rgba(10,9,8,0.6)), linear-gradient(135deg, #4a3a2d, #2a1f1a);"></div>
+          <div class="restaurant-overlay"></div>
+          <div class="restaurant-content">
+            <div class="restaurant-location">Berkeley, California</div>
+            <h3 class="serif">Chez Panisse</h3>
+            <div class="chef">Alice Waters</div>
+            <p>The birthplace of California cuisine. Five decades of farm-to-table advocacy, seasonal menus, and cultural influence.</p>
+            <div class="restaurant-badges">
+              <span class="badge">⭐ Michelin</span>
+              <span class="badge">James Beard Award</span>
+              <span class="badge">California Cuisine</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Momofuku -->
+        <div class="restaurant-card">
+          <div class="restaurant-bg" style="background: linear-gradient(135deg, rgba(200,169,126,0.15), rgba(10,9,8,0.6)), linear-gradient(135deg, #2a1a2e, #1a1020);"></div>
+          <div class="restaurant-overlay"></div>
+          <div class="restaurant-content">
+            <div class="restaurant-location">New York & Los Angeles</div>
+            <h3 class="serif">Momofuku</h3>
+            <div class="chef">Chef David Chang</div>
+            <p>Modern Asian-American cuisine with bold flavors. From noodle bars to Michelin-starred Majordōmo, a culinary empire redefined.</p>
+            <div class="restaurant-badges">
+              <span class="badge">⭐ Michelin</span>
+              <span class="badge">Asian Fusion</span>
+              <span class="badge">10 Locations</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Girl & the Goat -->
+        <div class="restaurant-card">
+          <div class="restaurant-bg" style="background: linear-gradient(135deg, rgba(200,169,126,0.15), rgba(10,9,8,0.6)), linear-gradient(135deg, #2e1a1a, #1c0d0d);"></div>
+          <div class="restaurant-overlay"></div>
+          <div class="restaurant-content">
+            <div class="restaurant-location">Chicago & Los Angeles</div>
+            <h3 class="serif">Girl & the Goat</h3>
+            <div class="chef">Chef Stephanie Izard</div>
+            <p>Bold, creative, and energetic. Top Chef winner Stephanie Izard's signature style with adventurous proteins and vibrant flavors.</p>
+            <div class="restaurant-badges">
+              <span class="badge">James Beard Award</span>
+              <span class="badge">Top Chef Winner</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Joe's Stone Crab -->
+        <div class="restaurant-card">
+          <div class="restaurant-bg" style="background: linear-gradient(135deg, rgba(94,124,143,0.2), rgba(10,9,8,0.6)), linear-gradient(135deg, #2d4a5a, #1a2e36);"></div>
+          <div class="restaurant-overlay"></div>
+          <div class="restaurant-content">
+            <div class="restaurant-location">Miami Beach, Florida</div>
+            <h3 class="serif">Joe's Stone Crab</h3>
+            <div class="chef">Est. 1913</div>
+            <p>An American institution. Over a century of serving the finest stone crab claws with mustard sauce — a Miami Beach legend.</p>
+            <div class="restaurant-badges">
+              <span class="badge">Historic Landmark</span>
+              <span class="badge">110+ Years</span>
+              <span class="badge">Seafood Icon</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     TEXT MASK REVEAL
+═══════════════════════════════════════════════════ -->
+
+<section class="mask-section">
+  <div class="mask-sticky">
+    <div class="mask-bg-video"></div>
+
+    <div class="mask-overlay">
+      <div class="mask-text">DECADES OF EXCELLENCE, TRADITION, AND INNOVATION</div>
+    </div>
+
+    <div class="mask-reveal">
+      <div class="mask-text-filled">DECADES OF EXCELLENCE, TRADITION, AND INNOVATION</div>
+    </div>
+
+    <div class="mask-subtext">
+      <p>These restaurants didn't just serve food. They changed how America eats, thinks about ingredients, and celebrates culinary artistry.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     PHILOSOPHY GRID
+═══════════════════════════════════════════════════ -->
+
+<section class="philosophy-section">
+  <div class="philosophy-container">
+    <div class="philosophy-intro">
+      <h2 class="serif">What Makes Them Legendary</h2>
+      <p>These restaurants share common principles that define culinary excellence across generations.</p>
+    </div>
+
+    <div class="philosophy-grid">
+      <div class="philosophy-card">
+        <div class="philosophy-icon">🌾</div>
+        <h3 class="serif">Ingredient Integrity</h3>
+        <p>From Chez Panisse's pioneering farm-to-table movement to Le Bernardin's reverence for seafood — ingredients come first.</p>
+      </div>
+
+      <div class="philosophy-card">
+        <div class="philosophy-icon">⭐</div>
+        <h3 class="serif">Michelin Excellence</h3>
+        <p>Multiple three-star establishments that have maintained their standards for decades. Consistency is the ultimate luxury.</p>
+      </div>
+
+      <div class="philosophy-card">
+        <div class="philosophy-icon">🌱</div>
+        <h3 class="serif">Sustainability</h3>
+        <p>Blue Hill's regenerative farming, The French Laundry's Green Star, and conscious sourcing define modern fine dining.</p>
+      </div>
+
+      <div class="philosophy-card">
+        <div class="philosophy-icon">🎨</div>
+        <h3 class="serif">Culinary Innovation</h3>
+        <p>From Momofuku's bold Asian-fusion to Eleven Madison Park's plant-forward menu — these chefs redefine what's possible.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SIGNATURE DISHES
+═══════════════════════════════════════════════════ -->
+
+<section class="dishes-section">
+  <div class="dishes-container">
+    <div class="dishes-header">
+      <h2 class="serif">Signature Dishes</h2>
+      <p>The plates that define these legendary restaurants — each one a masterclass in flavor, technique, and presentation.</p>
+    </div>
+
+    <div class="dishes-grid">
+      <div class="dish-item">
+        <div class="dish-item-image">
+          <div class="dish-item-image-bg" style="background: linear-gradient(135deg, #2d4a3e, #1a2e1f);"></div>
+        </div>
+        <div class="dish-item-content">
+          <div class="dish-item-restaurant">The French Laundry</div>
+          <h4 class="serif">Oysters and Pearls</h4>
+          <p>Sabayon of pearl tapioca with oysters and white sturgeon caviar. A Thomas Keller signature.</p>
+        </div>
+      </div>
+
+      <div class="dish-item">
+        <div class="dish-item-image">
+          <div class="dish-item-image-bg" style="background: linear-gradient(135deg, #2e1a1a, #1c0d0d);"></div>
+        </div>
+        <div class="dish-item-content">
+          <div class="dish-item-restaurant">Le Bernardin</div>
+          <h4 class="serif">Barely Touched Tuna</h4>
+          <p>Yellowfin tuna with foie gras — served almost raw with subtle accompaniments that enhance, never overpower.</p>
+        </div>
+      </div>
+
+      <div class="dish-item">
+        <div class="dish-item-image">
+          <div class="dish-item-image-bg" style="background: linear-gradient(135deg, #2a1a2e, #1a1020);"></div>
+        </div>
+        <div class="dish-item-content">
+          <div class="dish-item-restaurant">Eleven Madison Park</div>
+          <h4 class="serif">Carrot Tartare</h4>
+          <p>Plant-based decadence. Carrots prepared like tuna tartare with all the richness and none of the fish.</p>
+        </div>
+      </div>
+
+      <div class="dish-item">
+        <div class="dish-item-image">
+          <div class="dish-item-image-bg" style="background: linear-gradient(135deg, #3a4a3e, #1a2a1e);"></div>
+        </div>
+        <div class="dish-item-content">
+          <div class="dish-item-restaurant">Blue Hill at Stone Barns</div>
+          <h4 class="serif">Grazing, Rooting, Pecking</h4>
+          <p>A tasting menu organized by how animals eat. Farm vegetables prepared with technical precision and seasonal respect.</p>
+        </div>
+      </div>
+
+      <div class="dish-item">
+        <div class="dish-item-image">
+          <div class="dish-item-image-bg" style="background: linear-gradient(135deg, #2a1a2e, #1a1020);"></div>
+        </div>
+        <div class="dish-item-content">
+          <div class="dish-item-restaurant">Momofuku</div>
+          <h4 class="serif">Pork Belly Buns</h4>
+          <p>The dish that started an empire. Hoisin, cucumbers, scallions, and perfectly braised pork belly in a pillowy steamed bun.</p>
+        </div>
+      </div>
+
+      <div class="dish-item">
+        <div class="dish-item-image">
+          <div class="dish-item-image-bg" style="background: linear-gradient(135deg, #2d4a5a, #1a2e36);"></div>
+        </div>
+        <div class="dish-item-content">
+          <div class="dish-item-restaurant">Joe's Stone Crab</div>
+          <h4 class="serif">Stone Crab Claws</h4>
+          <p>Chilled jumbo stone crab claws with Joe's signature mustard sauce. Simple. Iconic. Unchanged for over a century.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     RESERVATIONS CTA
+═══════════════════════════════════════════════════ -->
+
+<section class="reservation-section">
+  <div class="reservation-content">
+    <h2 class="serif">Experience the Icons</h2>
+    <p>Each restaurant offers reservations through their own platforms. Demand is high, tables are limited, and these experiences book months in advance.</p>
+    <div class="cta-group">
+      <a href="https://exploretock.com/tfl" class="cta-primary">The French Laundry</a>
+      <a href="https://www.elevenmadisonpark.com" class="cta-secondary">Eleven Madison Park</a>
+      <a href="https://www.le-bernardin.com" class="cta-secondary">Le Bernardin</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════ -->
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-logo serif">Culinary Icons</div>
+    <p class="footer-tagline">A celebration of America's finest restaurants — where tradition, innovation, and excellence converge on every plate.</p>
+
+    <div class="footer-restaurants">
+      <a href="https://www.thomaskeller.com/tfl">The French Laundry</a>
+      <a href="https://www.thomaskeller.com/perse">Per Se</a>
+      <a href="https://www.elevenmadisonpark.com">Eleven Madison Park</a>
+      <a href="https://www.le-bernardin.com">Le Bernardin</a>
+      <a href="https://www.bluehillfarm.com">Blue Hill</a>
+      <a href="https://www.chezpanisse.com">Chez Panisse</a>
+      <a href="https://momofuku.com">Momofuku</a>
+      <a href="https://girlandthegoat.com">Girl & the Goat</a>
+      <a href="https://www.joesstonecrab.com">Joe's Stone Crab</a>
+    </div>
+
+    <div class="footer-legal">
+      © 2024 Culinary Icons Collection. A tribute to America's finest restaurants. | Educational & Informational Purpose
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════
+     GSAP ANIMATIONS
+═══════════════════════════════════════════════════ -->
+
+<script>
+(function() {
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ─── Curtain Reveal ───
+  const curtainSection = document.querySelector('.curtain-section');
+
+  gsap.to('#curtainLeft', {
+    xPercent: -100,
+    ease: 'power2.inOut',
+    scrollTrigger: {
+      trigger: curtainSection,
+      start: 'top top',
+      end: '50% top',
+      scrub: 0.8
+    }
+  });
+
+  gsap.to('#curtainRight', {
+    xPercent: 100,
+    ease: 'power2.inOut',
+    scrollTrigger: {
+      trigger: curtainSection,
+      start: 'top top',
+      end: '50% top',
+      scrub: 0.8
+    }
+  });
+
+  // ─── Horizontal Scroll (Restaurants) ───
+  const restaurantsTrack = document.getElementById('restaurantsTrack');
+  const restaurantsSection = document.getElementById('restaurantsSection');
+  const restaurantCards = restaurantsTrack.querySelectorAll('.restaurant-card');
+
+  function getRestaurantsScrollDistance() {
+    return restaurantsTrack.scrollWidth - window.innerWidth;
+  }
+
+  restaurantsSection.style.height = (restaurantCards.length * 100) + 'vh';
+
+  gsap.to(restaurantsTrack, {
+    x: function() { return -getRestaurantsScrollDistance(); },
+    ease: 'none',
+    scrollTrigger: {
+      trigger: restaurantsSection,
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 0.6,
+      invalidateOnRefresh: true
+    }
+  });
+
+  // ─── Text Mask Reveal ───
+  const maskSection = document.querySelector('.mask-section');
+
+  gsap.to('.mask-reveal', {
+    clipPath: 'inset(0% 0 0 0)',
+    ease: 'none',
+    scrollTrigger: {
+      trigger: maskSection,
+      start: 'top top',
+      end: '55% bottom',
+      scrub: 0.4,
+      pin: false
+    }
+  });
+
+  gsap.to('.mask-subtext', {
+    opacity: 1,
+    y: 0,
+    scrollTrigger: {
+      trigger: maskSection,
+      start: '50% top',
+      end: '65% top',
+      scrub: true
+    }
+  });
+
+  // ─── Smooth fade-ins for sections ───
+  gsap.utils.toArray('.philosophy-section, .dishes-section, .reservation-section').forEach(function(section) {
+    gsap.from(section, {
+      opacity: 0,
+      y: 40,
+      duration: 1,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 80%',
+        once: true
+      }
+    });
+  });
+
+})();
+</script>
+
+</body>
+</html>
