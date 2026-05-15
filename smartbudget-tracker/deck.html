@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartBudget Tracker - Business Proposal</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body, #root { width: 100%; height: 100%; }
+    body { 
+      font-family: 'Inter', -apple-system, sans-serif; 
+      background: #0f172a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .deck-container {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .slide {
+      width: 1280px;
+      height: 720px;
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+    }
+    .nav {
+      display: flex;
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .nav button {
+      padding: 12px 24px;
+      background: #334155;
+      color: #fff;
+      border: none;
+      borderRadius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .nav button:hover { background: #475569; }
+    .slide-num {
+      position: absolute;
+      bottom: 24px;
+      right: 32px;
+      font-size: 14px;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    const slides = [
+      {
+        render: (
+          <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', padding: '80px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <div style={{ marginBottom: '32px' }}>
+              <span style={{ background: '#22c55e', color: '#fff', padding: '8px 16px', borderRadius: '8px', fontSize: '14px', fontWeight: '600' }}>STARTUP PITCH DECK</span>
+            </div>
+            <h1 style={{ fontSize: '64px', fontWeight: '700', color: '#fff', fontFamily: '"Source Serif 4", serif', lineHeight: '1.1', marginBottom: '24px' }}>
+              SmartBudget<br/>Tracker
+            </h1>
+            <p style={{ fontSize: '24px', color: '#94a3b8', maxWidth: '600px' }}>
+              AI-powered personal finance app that helps users track expenses, manage budgets, and achieve financial freedom.
+            </p>
+            <div style={{ display: 'flex', gap: '24px', marginTop: '48px' }}>
+              <div style={{ padding: '16px 24px', background: 'rgba(34,197,94,0.2)', borderRadius: '12px', border: '1px solid #22c55e' }}>
+                <p style={{ fontSize: '32px', fontWeight: '700', color: '#22c55e' }}>$7/mo</p>
+                <p style={{ fontSize: '14px', color: '#86efac' }}>Pro Plan</p>
+              </div>
+              <div style={{ padding: '16px 24px', background: 'rgba(255,255,255,0.1)', borderRadius: '12px' }}>
+                <p style={{ fontSize: '32px', fontWeight: '700', color: '#fff' }}>$0</p>
+                <p style={{ fontSize: '14px', color: '#94a3b8' }}>Free Plan</p>
+              </div>
+            </div>
+          </div>
+        )
+      },
+      {
+        render: (
+          <div style={{ width: '100%', height: '100%', padding: '64px', display: 'flex', gap: '48px' }}>
+            <div style={{ flex: 1 }}>
+              <h2 style={{ fontSize: '48px', fontWeight: '700', color: '#1e293b', marginBottom: '32px', fontFamily: '"Source Serif 4", serif' }}>
+                The Problem
+              </h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                {[
+                  '65% of Americans cannot cover a $1,000 emergency',
+                  'Average person loses $1,500 yearly to untracked expenses',
+                  'Existing apps are too complex or too expensive',
+                  'No personalized AI guidance for savings'
+                ].map((p, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
+                    <span style={{ color: '#ef4444', fontSize: '24px' }}>✕</span>
+                    <p style={{ fontSize: '18px', color: '#475569', lineHeight: '1.5' }}>{p}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div style={{ flex: 1, background: '#fef2f2', borderRadius: '24px', padding: '48px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <h2 style={{ fontSize: '48px', fontWeight: '700', color: '#1e293b', marginBottom: '32px', fontFamily: '"Source Serif 4", serif' }}>
+                Our Solution
+              </h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                {[
+                  'Simple expense tracking in seconds',
+                  'Smart categorization with AI',
+                  'Budget goals with alerts',
+                  'Free tier with essential features'
+                ].map((p, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
+                    <span style={{ color: '#22c55e', fontSize: '24px' }}>✓</span>
+                    <p style={{ fontSize: '18px', color: '#166534', lineHeight: '1.5' }}>{p}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )
+      },
+      {
+        render: (
+          <div style={{ width: '100%', height: '100%', padding: '64px' }}>
+            <h2 style={{ fontSize: '48px', fontWeight: '700', color: '#1e293b', marginBottom: '48px', fontFamily: '"Source Serif 4", serif' }}>
+              Key Features
+            </h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px' }}>
+              {[
+                { icon: '📝', title: 'Expense Tracking', desc: 'Add income/expenses with title, amount, date, and category in seconds' },
+                { icon: '📊', title: 'Analytics', desc: 'Visual charts showing spending patterns and trends by category' },
+                { icon: '🎯', title: 'Budget Goals', desc: 'Set monthly limits per category with smart notifications' },
+                { icon: '🤖', title: 'AI Suggestions', desc: 'Personalized recommendations to help you save more' },
+                { icon: '📱', title: 'Multi-device Sync', desc: 'Access your data anywhere, anytime on any device' },
+                { icon: '🔒', title: 'Ad-free Experience', desc: 'Clean, distraction-free interface without advertisements' }
+              ].map((f, i) => (
+                <div key={i} style={{ background: '#f8fafc', borderRadius: '20px', padding: '28px' }}>
+                  <span style={{ fontSize: '40px', display: 'block', marginBottom: '16px' }}>{f.icon}</span>
+                  <h3 style={{ fontSize: '20px', fontWeight: '600', color: '#1e293b', marginBottom: '12px' }}>{f.title}</h3>
+                  <p style={{ fontSize: '14px', color: '#64748b', lineHeight: '1.5' }}>{f.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      },
+      {
+        render: (
+          <div style={{ width: '100%', height: '100%', padding: '64px' }}>
+            <h2 style={{ fontSize: '48px', fontWeight: '700', color: '#1e293b', marginBottom: '24px', fontFamily: '"Source Serif 4", serif' }}>
+              Premium Features
+            </h2>
+            <p style={{ fontSize: '18px', color: '#64748b', marginBottom: '48px' }}>Upgrade to Pro for advanced capabilities</p>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }}>
+              {[
+                { icon: '🎯', title: 'Budget Goals', feature: 'Set monthly budget per category', locked: false },
+                { icon: '🔔', title: 'Smart Alerts', feature: 'Notifications when approaching limits', locked: false },
+                { icon: '🤖', title: 'AI Suggestions', feature: 'Personalized savings recommendations', locked: true },
+                { icon: '📈', title: 'Investment Insights', feature: 'Basic investment & savings advice', locked: true },
+                { icon: '🔄', title: 'Multi-device Sync', feature: 'Sync data across all devices', locked: true },
+                { icon: '🚫', title: 'Ad-free', feature: 'Clean interface without ads', locked: true }
+              ].map((f, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '20px', padding: '24px', background: f.locked ? '#f8fafc' : '#f0fdf4', borderRadius: '16px' }}>
+                  <span style={{ fontSize: '32px' }}>{f.icon}</span>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                      <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#1e293b' }}>{f.title}</h3>
+                      {f.locked && <span style={{ background: '#fbbf24', color: '#fff', padding: '2px 8px', borderRadius: '4px', fontSize: '10px', fontWeight: '600' }}>PRO</span>}
+                    </div>
+                    <p style={{ fontSize: '14px', color: '#64748b', marginTop: '4px' }}>{f.feature}</p>
+                  </div>
+                  <span style={{ fontSize: '24px', color: f.locked ? '#94a3b8' : '#22c55e' }}>{f.locked ? '🔒' : '✓'}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      },
+      {
+        render: (
+          <div style={{ width: '100%', height: '100%', padding: '64px' }}>
+            <h2 style={{ fontSize: '48px', fontWeight: '700', color: '#1e293b', marginBottom: '48px', fontFamily: '"Source Serif 4", serif' }}>
+              Market Opportunity
+            </h2>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px' }}>
+              <div>
+                <h3 style={{ fontSize: '24px', fontWeight: '600', color: '#1e293b', marginBottom: '24px' }}>Target Market</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <div style={{ padding: '20px', background: '#f0fdf4', borderRadius: '12px' }}>
+                    <p style={{ fontSize: '32px', fontWeight: '700', color: '#22c55e' }}>$4.5B</p>
+                    <p style={{ fontSize: '14px', color: '#64748b' }}>Personal Finance App Market (2025)</p>
+                  </div>
+                  <div style={{ padding: '20px', background: '#f0f9ff', borderRadius: '12px' }}>
+                    <p style={{ fontSize: '32px', fontWeight: '700', color: '#0ea5e9' }}>38% CAGR</p>
+                    <p style={{ fontSize: '14px', color: '#64748b' }}>Projected Growth Rate</p>
+                  </div>
+                  <div style={{ padding: '20px', background: '#fef3c7', borderRadius: '12px' }}>
+                    <p style={{ fontSize: '32px', fontWeight: '700', color: '#f59e0b' }}>128M</p>
+                    <p style={{ fontSize: '14px', color: '#64748b' }}>US Adults Want Budget Help</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <h3 style={{ fontSize: '24px', fontWeight: '600', color: '#1e293b', marginBottom: '24px' }}>Revenue Model</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <div style={{ padding: '20px', border: '2px solid #22c55e', borderRadius: '12px' }}>
+                    <p style={{ fontSize: '16px', fontWeight: '600', color: '#1e293b', marginBottom: '8px' }}>Freemium Model</p>
+                    <p style={{ fontSize: '14px', color: '#64748b' }}>Free tier for user acquisition, Pro ($7/mo) for monetization</p>
+                  </div>
+                  <div style={{ padding: '20px', background: '#1e293b', borderRadius: '12px' }}>
+                    <p style={{ fontSize: '20px', fontWeight: '700', color: '#fff' }}>Conservative Estimate</p>
+                    <p style={{ fontSize: '36px', fontWeight: '700', color: '#22c55e', marginTop: '8px' }}>$2.4M ARR</p>
+                    <p style={{ fontSize: '14px', color: '#94a3b8', marginTop: '4px' }}>At 28K paid users</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      },
+      {
+        render: (
+          <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', padding: '64px' }}>
+            <h2 style={{ fontSize: '48px', fontWeight: '700', color: '#fff', marginBottom: '48px', fontFamily: '"Source Serif 4", serif' }}>
+              Product Screens
+            </h2>
+            
+            <div style={{ display: 'flex', gap: '24px', justifyContent: 'center' }}>
+              {[
+                { name: 'Dashboard', color: '#f0fdf4' },
+                { name: 'Add Expense', color: '#fef3c7' },
+                { name: 'Budget Goals', color: '#f0f9ff' },
+                { name: 'Profile', color: '#faf5ff' }
+              ].map((screen, i) => (
+                <div key={i} style={{ width: '220px' }}>
+                  <div style={{ width: '180px', height: '360px', background: screen.color, borderRadius: '24px', margin: '0 auto', border: '4px solid #334155', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span style={{ fontSize: '48px' }}>{['📊', '➕', '🎯', '👤'][i]}</span>
+                  </div>
+                  <p style={{ textAlign: 'center', marginTop: '12px', fontSize: '14px', color: '#fff', fontWeight: '500' }}>{screen.name}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      },
+      {
+        render: (
+          <div style={{ width: '100%', height: '100%', padding: '64px' }}>
+            <h2 style={{ fontSize: '48px', fontWeight: '700', color: '#1e293b', marginBottom: '32px', fontFamily: '"Source Serif 4", serif' }}>
+              User Journey
+            </h2>
+            
+            <div style={{ display: 'flex', alignItems: 'center', gap: '24px', marginBottom: '48px' }}>
+              {[
+                { step: '1', title: 'Sign Up', desc: 'Free account in 30 seconds' },
+                { step: '2', title: 'Track', desc: 'Add expenses in seconds' },
+                { step: '3', title: 'Analyze', desc: 'View spending insights' },
+                { step: '4', title: 'Plan', desc: 'Set budget goals' },
+                { step: '5', title: 'Save', desc: 'Achieve financial freedom' }
+              ].map((s, i) => (
+                <div key={i} style={{ flex: 1, textAlign: 'center' }}>
+                  <div style={{ width: '48px', height: '48px', background: '#22c55e', color: '#fff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', fontWeight: '700', margin: '0 auto 12px' }}>
+                    {s.step}
+                  </div>
+                  <p style={{ fontSize: '14px', fontWeight: '600', color: '#1e293b' }}>{s.title}</p>
+                  <p style={{ fontSize: '12px', color: '#64748b', marginTop: '4px' }}>{s.desc}</p>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ background: '#f0fdf4', borderRadius: '24px', padding: '48px', textAlign: 'center' }}>
+              <h3 style={{ fontSize: '32px', fontWeight: '700', color: '#1e293b', marginBottom: '16px', fontFamily: '"Source Serif 4", serif' }}>
+                Success Metrics
+              </h3>
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '64px' }}>
+                <div>
+                  <p style={{ fontSize: '48px', fontWeight: '700', color: '#22c55e' }}>85%</p>
+                  <p style={{ fontSize: '14px', color: '#64748b' }}>Retention Rate</p>
+                </div>
+                <div>
+                  <p style={{ fontSize: '48px', fontWeight: '700', color: '#22c55e' }}>4.8★</p>
+                  <p style={{ fontSize: '14px', color: '#64748b' }}>App Rating</p>
+                </div>
+                <div>
+                  <p style={{ fontSize: '48px', fontWeight: '700', color: '#22c55e' }}>$340</p>
+                  <p style={{ fontSize: '14px', color: '#64748b' }}>Avg. User Savings</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      },
+      {
+        render: (
+          <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', padding: '80px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+            <h2 style={{ fontSize: '56px', fontWeight: '700', color: '#fff', marginBottom: '24px', fontFamily: '"Source Serif 4", serif' }}>
+              Join Us in Revolutionizing<br/>Personal Finance
+            </h2>
+            <p style={{ fontSize: '20px', color: '#94a3b8', maxWidth: '600px', marginBottom: '48px' }}>
+              Download SmartBudget Tracker today and take control of your financial future.
+            </p>
+            
+            <div style={{ display: 'flex', gap: '24px' }}>
+              <button style={{ padding: '20px 40px', background: '#22c55e', color: '#fff', border: 'none', borderRadius: '12px', fontSize: '18px', fontWeight: '600', cursor: 'pointer' }}>
+                📱 App Store
+              </button>
+              <button style={{ padding: '20px 40px', background: 'transparent', color: '#fff', border: '2px solid #fff', borderRadius: '12px', fontSize: '18px', fontWeight: '600', cursor: 'pointer' }}>
+                🌐 Web App
+              </button>
+            </div>
+            
+            <div style={{ marginTop: '64px', padding: '24px', background: 'rgba(255,255,255,0.1)', borderRadius: '16px' }}>
+              <p style={{ fontSize: '16px', color: '#94a3b8' }}>Questions? Contact us</p>
+              <p style={{ fontSize: '18px', color: '#22c55e', fontWeight: '600' }}>hello@smartbudget.app</p>
+            </div>
+          </div>
+        )
+      }
+    ];
+
+    function Deck() {
+      const [current, setCurrent] = useState(0);
+
+      return (
+        <div className="deck-container">
+          <div className="slide">
+            {slides[current].render}
+            <span className="slide-num">{current + 1} / {slides.length}</span>
+          </div>
+          <div className="nav">
+            <button onClick={() => setCurrent(Math.max(0, current - 1))}>← Previous</button>
+            <button onClick={() => setCurrent(Math.min(slides.length - 1, current + 1))}>Next →</button>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<Deck />);
+  </script>
+</body>
+</html>

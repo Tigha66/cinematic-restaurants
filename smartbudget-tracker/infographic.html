@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartBudget Tracker - Expense Infographic</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: 'Inter', -apple-system, sans-serif; 
+      background: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 1200px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    const expenseData = {
+      Food: 266.70,
+      Transport: 174.50,
+      Entertainment: 207.98,
+      Utilities: 277.29,
+      Health: 153.49,
+      total: 1079.96,
+      income: 7000,
+      balance: 5920.04
+    };
+
+    const savingsTips = [
+      { icon: '🥗', title: 'Meal Prep', amount: '$180/mo', desc: 'Cook at home instead of eating out' },
+      { icon: '🚇', title: 'Public Transit', amount: '$95/mo', desc: 'Use transit instead of rideshare' },
+      { icon: '📱', title: 'Cancel Subs', amount: '$45/mo', desc: 'Review unused subscriptions' },
+      { icon: '💡', title: 'Energy Save', amount: '$35/mo', desc: 'Turn off unused electronics' }
+    ];
+
+    const monthlyBudget = 2000;
+
+    function Infographic() {
+      return (
+        <div className="container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '24px' }}>
+          
+          {/* Monthly Overview Card */}
+          <div style={{ background: '#fff', borderRadius: '24px', padding: '32px', boxShadow: '0 4px 20px rgba(0,0,0,0.06)' }}>
+            <h2 style={{ fontSize: '22px', fontWeight: '700', color: '#1e293b', marginBottom: '24px', fontFamily: '"Source Serif 4", serif' }}>
+              📊 Monthly Overview
+            </h2>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '24px' }}>
+              <div style={{ textAlign: 'center', padding: '20px', background: '#f0fdf4', borderRadius: '16px' }}>
+                <p style={{ fontSize: '12px', color: '#64748b', marginBottom: '8px' }}>Income</p>
+                <p style={{ fontSize: '28px', fontWeight: '700', color: '#22c55e' }}>$7,000</p>
+              </div>
+              <div style={{ textAlign: 'center', padding: '20px', background: '#fef2f2', borderRadius: '16px' }}>
+                <p style={{ fontSize: '12px', color: '#64748b', marginBottom: '8px' }}>Expenses</p>
+                <p style={{ fontSize: '28px', fontWeight: '700', color: '#ef4444' }}>$1,080</p>
+              </div>
+              <div style={{ textAlign: 'center', padding: '20px', background: '#f0f9ff', borderRadius: '16px' }}>
+                <p style={{ fontSize: '12px', color: '#64748b', marginBottom: '8px' }}>Savings</p>
+                <p style={{ fontSize: '28px', fontWeight: '700', color: '#0ea5e9' }}>$5,920</p>
+              </div>
+            </div>
+
+            <div style={{ background: '#f8fafc', borderRadius: '16px', padding: '20px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
+                <span style={{ fontSize: '14px', color: '#64748b' }}>Budget Used</span>
+                <span style={{ fontSize: '14px', fontWeight: '600', color: '#1e293b' }}>54%</span>
+              </div>
+              <div style={{ height: '12px', background: '#e2e8f0', borderRadius: '6px', overflow: 'hidden' }}>
+                <div style={{ width: '54%', height: '100%', background: 'linear-gradient(90deg, #22c55e, #16a34a)', borderRadius: '6px' }} />
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '8px' }}>
+                <span style={{ fontSize: '12px', color: '#22c55e' }}>$920 remaining</span>
+                <span style={{ fontSize: '12px', color: '#64748b' }}>of $2,000</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Category Breakdown Card */}
+          <div style={{ background: '#fff', borderRadius: '24px', padding: '32px', boxShadow: '0 4px 20px rgba(0,0,0,0.06)' }}>
+            <h2 style={{ fontSize: '22px', fontWeight: '700', color: '#1e293b', marginBottom: '24px', fontFamily: '"Source Serif 4", serif' }}>
+              🍕 Spending by Category
+            </h2>
+            
+            {Object.entries(expenseData).filter(([k]) => k !== 'total' && k !== 'income' && k !== 'balance').map(([cat, amount], i) => {
+              const percent = (amount / expenseData.total) * 100;
+              const colors = ['#f97316', '#3b82f6', '#8b5cf6', '#eab308', '#22c55e'];
+              return (
+                <div key={cat} style={{ marginBottom: '20px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <span style={{ fontSize: '20px' }}>{['🍎', '🚗', '🎬', '💊', '💡'][i]}</span>
+                      <span style={{ fontSize: '15px', fontWeight: '600', color: '#1e293b' }}>{cat}</span>
+                    </div>
+                    <div style={{ textAlign: 'right' }}>
+                      <span style={{ fontSize: '16px', fontWeight: '700', color: '#1e293b' }}>${amount.toFixed(2)}</span>
+                      <span style={{ fontSize: '12px', color: '#94a3b8', marginLeft: '8px' }}>{percent.toFixed(1)}%</span>
+                    </div>
+                  </div>
+                  <div style={{ height: '10px', background: '#f1f5f9', borderRadius: '5px', overflow: 'hidden' }}>
+                    <div style={{ width: `${percent}%`, height: '100%', background: colors[i], borderRadius: '5px', transition: 'width 0.5s' }} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Savings Potential Card */}
+          <div style={{ background: '#1e293b', borderRadius: '24px', padding: '32px', gridColumn: 'span 2' }}>
+            <h2 style={{ fontSize: '22px', fontWeight: '700', color: '#fff', marginBottom: '24px', fontFamily: '"Source Serif 4", serif' }}>
+              💰 Potential Monthly Savings
+            </h2>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+              {savingsTips.map((tip, i) => (
+                <div key={i} style={{ background: 'rgba(255,255,255,0.1)', borderRadius: '16px', padding: '20px', textAlign: 'center' }}>
+                  <span style={{ fontSize: '32px', display: 'block', marginBottom: '12px' }}>{tip.icon}</span>
+                  <p style={{ fontSize: '14px', fontWeight: '600', color: '#fff', marginBottom: '4px' }}>{tip.title}</p>
+                  <p style={{ fontSize: '20px', fontWeight: '700', color: '#22c55e', marginBottom: '8px' }}>{tip.amount}</p>
+                  <p style={{ fontSize: '12px', color: '#94a3b8' }}>{tip.desc}</p>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ marginTop: '24px', padding: '20px', background: 'rgba(34, 197, 94, 0.2)', borderRadius: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <p style={{ fontSize: '14px', color: '#fff' }}>Total Potential Savings</p>
+                <p style={{ fontSize: '12px', color: '#94a3b8' }}>If you implement all suggestions</p>
+              </div>
+              <p style={{ fontSize: '32px', fontWeight: '700', color: '#22c55e' }}>$355/mo</p>
+            </div>
+          </div>
+
+          {/* Yearly Projection Card */}
+          <div style={{ background: '#fff', borderRadius: '24px', padding: '32px', boxShadow: '0 4px 20px rgba(0,0,0,0.06)' }}>
+            <h2 style={{ fontSize: '22px', fontWeight: '700', color: '#1e293b', marginBottom: '24px', fontFamily: '"Source Serif 4", serif' }}>
+              📈 Yearly Projection
+            </h2>
+            
+            <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', height: '200px', padding: '0 20px' }}>
+              {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'].map((month, i) => {
+                const savings = [5200, 5100, 5400, 5300, 5920, 6000][i];
+                const height = (savings / 6000) * 160;
+                return (
+                  <div key={month} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                    <div style={{ width: '40px', height: `${height}px`, background: i === 5 ? 'linear-gradient(180deg, #22c55e, #16a34a)' : '#e2e8f0', borderRadius: '8px 8px 0 0' }} />
+                    <span style={{ fontSize: '12px', color: '#64748b' }}>{month}</span>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '24px', padding: '16px', background: '#f0fdf4', borderRadius: '12px' }}>
+              <div>
+                <p style={{ fontSize: '12px', color: '#64748b' }}>Projected Year-End Savings</p>
+                <p style={{ fontSize: '24px', fontWeight: '700', color: '#22c55e' }}>$72,000</p>
+              </div>
+              <div style={{ textAlign: 'right' }}>
+                <p style={{ fontSize: '12px', color: '#64748b' }}>Growth</p>
+                <p style={{ fontSize: '24px', fontWeight: '700', color: '#22c55e' }}>+15%</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Budget vs Actual Card */}
+          <div style={{ background: '#fff', borderRadius: '24px', padding: '32px', boxShadow: '0 4px 20px rgba(0,0,0,0.06)' }}>
+            <h2 style={{ fontSize: '22px', fontWeight: '700', color: '#1e293b', marginBottom: '24px', fontFamily: '"Source Serif 4", serif' }}>
+              📉 Budget vs Actual
+            </h2>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {[
+                { cat: 'Food', budget: 400, actual: 266.70, icon: '🍎' },
+                { cat: 'Transport', budget: 200, actual: 174.50, icon: '🚗' },
+                { cat: 'Entertainment', budget: 150, actual: 207.98, icon: '🎬', over: true },
+                { cat: 'Utilities', budget: 300, actual: 277.29, icon: '💡' },
+                { cat: 'Health', budget: 100, actual: 153.49, icon: '💊', over: true }
+              ].map(item => (
+                <div key={item.cat} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                  <span style={{ fontSize: '24px' }}>{item.icon}</span>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                      <span style={{ fontSize: '14px', fontWeight: '600', color: '#1e293b' }}>{item.cat}</span>
+                      <span style={{ fontSize: '13px', color: item.over ? '#ef4444' : '#22c55e' }}>
+                        ${item.actual.toFixed(2)} / ${item.budget}
+                      </span>
+                    </div>
+                    <div style={{ height: '6px', background: '#f1f5f9', borderRadius: '3px', overflow: 'hidden' }}>
+                      <div style={{ 
+                        width: `${Math.min((item.actual/item.budget)*100, 100)}%`, 
+                        height: '100%', 
+                        background: item.over ? '#ef4444' : '#22c55e',
+                        borderRadius: '3px' 
+                      }} />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ marginTop: '20px', padding: '16px', background: '#fef2f2', borderRadius: '12px', borderLeft: '4px solid #ef4444' }}>
+              <p style={{ fontSize: '14px', color: '#991b1b', fontWeight: '500' }}>
+                ⚠️ 2 categories are over budget. Consider reducing entertainment and health expenses.
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<Infographic />);
+  </script>
+</body>
+</html>

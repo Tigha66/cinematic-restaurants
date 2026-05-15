@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartBudget Tracker - Prototype</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: 'Inter', -apple-system, sans-serif; 
+      background: linear135(to right bottom, #f8fafc, #e2e8f0);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px;
+    }
+    .wrapper {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .screen-label {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 8px;
+      font-style: italic;
+    }
+    .ios-frame {
+      display: inline-block;
+      padding: 12px;
+      background: #000;
+      border-radius: 60px;
+      box-shadow: 0 0 0 2px #1f2937, 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .ios-screen {
+      position: relative;
+      border-radius: 48px;
+      overflow: hidden;
+      background: #fff;
+      width: 393px;
+      height: 852px;
+    }
+    .status-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: -apple-system, "SF Pro Text", sans-serif;
+      z-index: 20;
+      pointer-events: none;
+    }
+    .dynamic-island {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 124px;
+      height: 36px;
+      background: #000;
+      border-radius: 999px;
+      z-index: 30;
+    }
+    .content {
+      position: absolute;
+      top: 54px;
+      left: 0;
+      right: 0;
+      bottom: 34px;
+      overflow: auto;
+      background: #f8fafc;
+    }
+    .home-indicator {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 140px;
+      height: 5px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 999px;
+      z-index: 10;
+    }
+    .tab-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: #fff;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border-top: 1px solid #e2e8f0;
+      padding-bottom: 20px;
+    }
+    .tab-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      padding: 8px 16px;
+      border-radius: 12px;
+      transition: background 0.2s;
+    }
+    .tab-item:hover { background: #f1f5f9; }
+    .tab-item.active { background: #f0fdf4; }
+    .tab-icon { width: 24px; height: 24px; }
+    .tab-label { font-size: 10px; color: #64748b; font-weight: 500; }
+    .tab-item.active .tab-label { color: #22c55e; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const demoExpenses = [
+      { id: '1', title: 'Whole Foods Market', category: 'Food', amount: 156.80, date: '2026-05-14', type: 'expense' },
+      { id: '2', title: 'Monthly Salary', category: 'Income', amount: 5800, date: '2026-05-01', type: 'income' },
+      { id: '3', title: 'Uber Ride', category: 'Transport', amount: 24.50, date: '2026-05-13', type: 'expense' },
+      { id: '4', title: 'Netflix Subscription', category: 'Entertainment', amount: 15.99, date: '2026-05-10', type: 'expense' },
+      { id: '5', title: 'Electric Bill', category: 'Utilities', amount: 142.30, date: '2026-05-05', type: 'expense' },
+      { id: '6', title: 'Gym Membership', category: 'Health', amount: 49.99, date: '2026-05-03', type: 'expense' },
+      { id: '7', title: 'Starbucks', category: 'Food', amount: 8.50, date: '2026-05-12', type: 'expense' },
+      { id: '8', title: 'Gas Station', category: 'Transport', amount: 65.00, date: '2026-05-11', type: 'expense' },
+      { id: '9', title: 'Cinema', category: 'Entertainment', amount: 32.00, date: '2026-05-09', type: 'expense' },
+      { id: '10', title: 'Water Bill', category: 'Utilities', amount: 45.00, date: '2026-05-07', type: 'expense' },
+      { id: '11', title: 'Pharmacy', category: 'Health', amount: 28.50, date: '2026-05-06', type: 'expense' },
+      { id: '12', title: 'Restaurant Dinner', category: 'Food', amount: 89.00, date: '2026-05-08', type: 'expense' },
+      { id: '13', title: 'Freelance Project', category: 'Income', amount: 1200, date: '2026-05-10', type: 'income' },
+      { id: '14', title: 'Public Transit', category: 'Transport', amount: 35.00, date: '2026-05-04', type: 'expense' },
+      { id: '15', title: 'Spotify', category: 'Entertainment', amount: 9.99, date: '2026-05-02', type: 'expense' },
+      { id: '16', title: 'Internet Bill', category: 'Utilities', amount: 89.99, date: '2026-05-01', type: 'expense' },
+      { id: '17', title: 'Doctor Visit', category: 'Health', amount: 75.00, date: '2026-05-13', type: 'expense' },
+      { id: '18', title: 'Snacks', category: 'Food', amount: 12.40, date: '2026-05-14', type: 'expense' },
+      { id: '19', title: 'Subway Card', category: 'Transport', amount: 50.00, date: '2026-05-02', type: 'expense' },
+      { id: '20', title: 'Concert Tickets', category: 'Entertainment', amount: 150.00, date: '2026-05-11', type: 'expense' },
+    ];
+
+    const categories = ['All', 'Food', 'Transport', 'Entertainment', 'Utilities', 'Health', 'Income'];
+    const categoryIcons = {
+      Food: '🍎',
+      Transport: '🚗',
+      Entertainment: '🎬',
+      Utilities: '💡',
+      Health: '💊',
+      Income: '💰'
+    };
+    const categoryColors = {
+      Food: '#f97316',
+      Transport: '#3b82f6',
+      Entertainment: '#8b5cf6',
+      Utilities: '#eab308',
+      Health: '#22c55e',
+      Income: '#22c55e'
+    };
+
+    function AppPhone() {
+      const [screen, setScreen] = useState('dashboard');
+      const [expenses, setExpenses] = useState(demoExpenses);
+      const [filter, setFilter] = useState('All');
+      const [showAddForm, setShowAddForm] = useState(false);
+      const [user] = useState({ name: 'Alex Johnson', email: 'alex@example.com', subscriptionTier: 'free' });
+
+      const filteredExpenses = filter === 'All' ? expenses : expenses.filter(e => e.category === filter);
+      
+      const totalIncome = expenses.filter(e => e.type === 'income').reduce((sum, e) => sum + e.amount, 0);
+      const totalExpenses = expenses.filter(e => e.type === 'expense').reduce((sum, e) => sum + e.amount, 0);
+      const balance = totalIncome - totalExpenses;
+
+      const categoryTotals = {};
+      expenses.filter(e => e.type === 'expense').forEach(e => {
+        categoryTotals[e.category] = (categoryTotals[e.category] || 0) + e.amount;
+      });
+
+      const handleAddExpense = (expense) => {
+        setExpenses([expense, ...expenses]);
+        setShowAddForm(false);
+      };
+
+      const renderContent = () => {
+        switch(screen) {
+          case 'dashboard':
+            return <DashboardScreen 
+              expenses={filteredExpenses} 
+              totalIncome={totalIncome}
+              totalExpenses={totalExpenses}
+              balance={balance}
+              categoryTotals={categoryTotals}
+              filter={filter}
+              setFilter={setFilter}
+              onAddClick={() => setShowAddForm(true)}
+            />;
+          case 'add':
+            return <AddExpenseScreen onSave={handleAddExpense} onCancel={() => setScreen('dashboard')} />;
+          case 'budget':
+            return <BudgetScreen 
+              expenses={expenses} 
+              categoryTotals={categoryTotals} 
+              totalBudget={2500}
+              user={user}
+            />;
+          case 'profile':
+            return <ProfileScreen user={user} />;
+          default:
+            return null;
+        }
+      };
+
+      return (
+        <div className="ios-frame">
+          <div className="ios-screen">
+            <div className="status-bar">
+              <span>9:41</span>
+              <div style={{display:'flex',alignItems:'center',gap:'6px'}}>
+                <div style={{display:'flex',alignItems:'flex-end',gap:'2px',height:'12px'}}>
+                  <div style={{width:'3px',height:'4px',background:'currentColor',borderRadius:'1px'}} />
+                  <div style={{width:'3px',height:'6px',background:'currentColor',borderRadius:'1px'}} />
+                  <div style={{width:'3px',height:'9px',background:'currentColor',borderRadius:'1px'}} />
+                  <div style={{width:'3px',height:'11px',background:'currentColor',borderRadius:'1px'}} />
+                </div>
+                <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+                  <path d="M8 11.5a1 1 0 100-2 1 1 0 000 2z" fill="currentColor"/>
+                  <path d="M3 7.5a7 7 0 0110 0" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinecap="round"/>
+                </svg>
+                <div style={{width:'26px',height:'12px',border:'1.5px solid currentColor',borderRadius:'3px',padding:'1px',position:'relative'}}>
+                  <div style={{width:'70%',height:'100%',background:'currentColor',borderRadius:'1px'}} />
+                </div>
+              </div>
+            </div>
+            <div className="dynamic-island" />
+            <div className="content">
+              {renderContent()}
+            </div>
+            <div className="tab-bar">
+              <div className={`tab-item ${screen === 'dashboard' ? 'active' : ''}`} onClick={() => setScreen('dashboard')}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={screen === 'dashboard' ? '#22c55e' : '#64748b'} strokeWidth="2">
+                  <rect x="3" y="3" width="7" height="7" rx="1"/>
+                  <rect x="14" y="3" width="7" height="7" rx="1"/>
+                  <rect x="3" y="14" width="7" height="7" rx="1"/>
+                  <rect x="14" y="14" width="7" height="7" rx="1"/>
+                </svg>
+                <span className="tab-label">Dashboard</span>
+              </div>
+              <div className={`tab-item ${screen === 'add' ? 'active' : ''}`} onClick={() => setScreen('add')}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={screen === 'add' ? '#22c55e' : '#64748b'} strokeWidth="2">
+                  <circle cx="12" cy="12" r="9"/>
+                  <line x1="12" y1="8" x2="12" y2="16"/>
+                  <line x1="8" y1="12" x2="16" y2="12"/>
+                </svg>
+                <span className="tab-label">Add</span>
+              </div>
+              <div className={`tab-item ${screen === 'budget' ? 'active' : ''}`} onClick={() => setScreen('budget')}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={screen === 'budget' ? '#22c55e' : '#64748b'} strokeWidth="2">
+                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+                </svg>
+                <span className="tab-label">Budget</span>
+              </div>
+              <div className={`tab-item ${screen === 'profile' ? 'active' : ''}`} onClick={() => setScreen('profile')}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={screen === 'profile' ? '#22c55e' : '#64748b'} strokeWidth="2">
+                  <circle cx="12" cy="8" r="4"/>
+                  <path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+                </svg>
+                <span className="tab-label">Profile</span>
+              </div>
+            </div>
+            <div className="home-indicator" />
+          </div>
+        </div>
+      );
+    }
+
+    function DashboardScreen({ expenses, totalIncome, totalExpenses, balance, categoryTotals, filter, setFilter, onAddClick }) {
+      return (
+        <div style={{ padding: '20px', paddingBottom: '20px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <div>
+              <h1 style={{ fontSize: '28px', fontWeight: '700', color: '#1e293b', fontFamily: '"Source Serif 4", serif' }}>SmartBudget</h1>
+              <p style={{ fontSize: '14px', color: '#64748b' }}>May 2026</p>
+            </div>
+            <button onClick={onAddClick} style={{ background: '#22c55e', color: '#fff', border: 'none', padding: '12px 20px', borderRadius: '12px', fontSize: '14px', fontWeight: '600', cursor: 'pointer' }}>+ Add</button>
+          </div>
+
+          <div style={{ background: '#fff', borderRadius: '20px', padding: '24px', marginBottom: '20px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
+              <div>
+                <p style={{ fontSize: '12px', color: '#64748b', marginBottom: '4px' }}>Total Income</p>
+                <p style={{ fontSize: '22px', fontWeight: '700', color: '#22c55e' }}>${totalIncome.toLocaleString()}</p>
+              </div>
+              <div style={{ textAlign: 'right' }}>
+                <p style={{ fontSize: '12px', color: '#64748b', marginBottom: '4px' }}>Expenses</p>
+                <p style={{ fontSize: '22px', fontWeight: '700', color: '#ef4444' }}>${totalExpenses.toFixed(2)}</p>
+              </div>
+            </div>
+            <div style={{ height: '8px', background: '#e2e8f0', borderRadius: '4px', overflow: 'hidden' }}>
+              <div style={{ width: `${Math.min((totalExpenses/totalIncome)*100, 100)}%`, height: '100%', background: balance >= 0 ? '#22c55e' : '#ef4444', borderRadius: '4px', transition: 'width 0.3s' }} />
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '12px' }}>
+              <div>
+                <p style={{ fontSize: '12px', color: '#64748b' }}>Balance</p>
+                <p style={{ fontSize: '20px', fontWeight: '700', color: balance >= 0 ? '#22c55e' : '#ef4444' }}>${balance.toLocaleString()}</p>
+              </div>
+              <div style={{ textAlign: 'right' }}>
+                <p style={{ fontSize: '12px', color: '#64748b' }}>Saved</p>
+                <p style={{ fontSize: '20px', fontWeight: '700', color: '#22c55e' }}>{((balance/totalIncome)*100 || 0).toFixed(1)}%</p>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '16px', marginBottom: '16px' }}>
+            {categories.map(cat => (
+              <button 
+                key={cat}
+                onClick={() => setFilter(cat)}
+                style={{ 
+                  padding: '8px 16px', 
+                  borderRadius: '20px', 
+                  border: 'none',
+                  background: filter === cat ? '#1e293b' : '#fff',
+                  color: filter === cat ? '#fff' : '#64748b',
+                  fontSize: '13px',
+                  fontWeight: '500',
+                  whiteSpace: 'nowrap',
+                  cursor: 'pointer',
+                  boxShadow: filter === cat ? 'none' : '0 1px 3px rgba(0,0,0,0.1)'
+                }}
+              >
+                {cat === 'All' ? 'All' : `${categoryIcons[cat] || ''} ${cat}`}
+              </button>
+            ))}
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {expenses.slice(0, 8).map(expense => (
+              <div key={expense.id} style={{ display: 'flex', alignItems: 'center', background: '#fff', padding: '16px', borderRadius: '16px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
+                <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: categoryColors[expense.category] + '15', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', marginRight: '14px' }}>
+                  {categoryIcons[expense.category]}
+                </div>
+                <div style={{ flex: 1 }}>
+                  <p style={{ fontSize: '15px', fontWeight: '600', color: '#1e293b' }}>{expense.title}</p>
+                  <p style={{ fontSize: '12px', color: '#64748b' }}>{expense.date}</p>
+                </div>
+                <div style={{ textAlign: 'right' }}>
+                  <p style={{ fontSize: '16px', fontWeight: '700', color: expense.type === 'income' ? '#22c55e' : '#1e293b' }}>
+                    {expense.type === 'income' ? '+' : '-'}${expense.amount.toFixed(2)}
+                  </p>
+                  <p style={{ fontSize: '11px', color: '#94a3b8' }}>{expense.category}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {Object.keys(categoryTotals).length > 0 && (
+            <div style={{ marginTop: '24px', background: '#fff', borderRadius: '20px', padding: '20px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+              <h3 style={{ fontSize: '16px', fontWeight: '600', color: '#1e293b', marginBottom: '16px' }}>Spending by Category</h3>
+              {Object.entries(categoryTotals).map(([cat, amount]) => {
+                const percentage = (amount / totalExpenses) * 100;
+                return (
+                  <div key={cat} style={{ marginBottom: '12px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+                      <span style={{ fontSize: '13px', color: '#64748b' }}>{categoryIcons[cat]} {cat}</span>
+                      <span style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>${amount.toFixed(2)}</span>
+                    </div>
+                    <div style={{ height: '6px', background: '#f1f5f9', borderRadius: '3px', overflow: 'hidden' }}>
+                      <div style={{ width: `${percentage}%`, height: '100%', background: categoryColors[cat], borderRadius: '3px' }} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    function AddExpenseScreen({ onSave, onCancel }) {
+      const [title, setTitle] = useState('');
+      const [amount, setAmount] = useState('');
+      const [category, setCategory] = useState('Food');
+      const [type, setType] = useState('expense');
+
+      const handleSubmit = () => {
+        if (!title || !amount) return;
+        onSave({
+          id: Date.now().toString(),
+          title,
+          amount: parseFloat(amount),
+          category,
+          type,
+          date: new Date().toISOString().split('T')[0]
+        });
+      };
+
+      return (
+        <div style={{ padding: '20px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
+            <button onClick={onCancel} style={{ background: 'none', border: 'none', padding: '8px', cursor: 'pointer' }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2">
+                <path d="M15 18l-6-6 6-6"/>
+              </svg>
+            </button>
+            <h2 style={{ fontSize: '20px', fontWeight: '600', color: '#1e293b' }}>Add Transaction</h2>
+          </div>
+
+          <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
+            <button 
+              onClick={() => setType('expense')}
+              style={{ 
+                flex: 1, 
+                padding: '14px', 
+                borderRadius: '12px', 
+                border: '2px solid',
+                borderColor: type === 'expense' ? '#ef4444' : '#e2e8f0',
+                background: type === 'expense' ? '#fef2f2' : '#fff',
+                color: type === 'expense' ? '#ef4444' : '#64748b',
+                fontWeight: '600',
+                cursor: 'pointer'
+              }}
+            >
+              Expense
+            </button>
+            <button 
+              onClick={() => setType('income')}
+              style={{ 
+                flex: 1, 
+                padding: '14px', 
+                borderRadius: '12px', 
+                border: '2px solid',
+                borderColor: type === 'income' ? '#22c55e' : '#e2e8f0',
+                background: type === 'income' ? '#f0fdf4' : '#fff',
+                color: type === 'income' ? '#22c55e' : '#64748b',
+                fontWeight: '600',
+                cursor: 'pointer'
+              }}
+            >
+              Income
+            </button>
+          </div>
+
+          <div style={{ background: '#fff', borderRadius: '16px', padding: '20px', marginBottom: '20px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+            <label style={{ fontSize: '13px', color: '#64748b', display: 'block', marginBottom: '8px' }}>Title</label>
+            <input 
+              type="text" 
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="e.g., Groceries, Rent"
+              style={{ width: '100%', padding: '14px', borderRadius: '12px', border: '1px solid #e2e8f0', fontSize: '15px', outline: 'none' }}
+            />
+          </div>
+
+          <div style={{ background: '#fff', borderRadius: '16px', padding: '20px', marginBottom: '20px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+            <label style={{ fontSize: '13px', color: '#64748b', display: 'block', marginBottom: '8px' }}>Amount ($)</label>
+            <input 
+              type="number" 
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              placeholder="0.00"
+              style={{ width: '100%', padding: '14px', borderRadius: '12px', border: '1px solid #e2e8f0', fontSize: '24px', fontWeight: '600', outline: 'none' }}
+            />
+          </div>
+
+          <div style={{ background: '#fff', borderRadius: '16px', padding: '20px', marginBottom: '24px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+            <label style={{ fontSize: '13px', color: '#64748b', display: 'block', marginBottom: '12px' }}>Category</label>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+              {categories.filter(c => c !== 'All').map(cat => (
+                <button 
+                  key={cat}
+                  onClick={() => setCategory(cat)}
+                  style={{ 
+                    padding: '10px 16px', 
+                    borderRadius: '10px', 
+                    border: 'none',
+                    background: category === cat ? categoryColors[cat] : '#f1f5f9',
+                    color: category === cat ? '#fff' : '#64748b',
+                    fontSize: '13px',
+                    fontWeight: '500',
+                    cursor: 'pointer'
+                  }}
+                >
+                  {categoryIcons[cat]} {cat}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <button 
+            onClick={handleSubmit}
+            style={{ 
+              width: '100%', 
+              padding: '16px', 
+              background: '#22c55e', 
+              color: '#fff', 
+              border: 'none', 
+              borderRadius: '14px', 
+              fontSize: '16px', 
+              fontWeight: '600',
+              cursor: 'pointer'
+            }}
+          >
+            Save Transaction
+          </button>
+        </div>
+      );
+    }
+
+    function BudgetScreen({ expenses, categoryTotals, totalBudget, user }) {
+      const isPro = user?.subscriptionTier === 'pro';
+      const budgetLimits = { Food: 600, Transport: 200, Entertainment: 150, Utilities: 300, Health: 150 };
+      
+      return (
+        <div style={{ padding: '20px' }}>
+          <h2 style={{ fontSize: '24px', fontWeight: '700', color: '#1e293b', marginBottom: '20px', fontFamily: '"Source Serif 4", serif' }}>Budget Goals</h2>
+
+          <div style={{ background: '#fff', borderRadius: '20px', padding: '20px', marginBottom: '20px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+              <div>
+                <p style={{ fontSize: '14px', color: '#64748b' }}>Monthly Budget</p>
+                <p style={{ fontSize: '28px', fontWeight: '700', color: '#1e293b' }}>${totalBudget.toLocaleString()}</p>
+              </div>
+              <div style={{ textAlign: 'right' }}>
+                <p style={{ fontSize: '14px', color: '#64748b' }}>Spent</p>
+                <p style={{ fontSize: '28px', fontWeight: '700', color: '#ef4444' }}>${Object.values(categoryTotals).reduce((a,b)=>a+b,0).toFixed(2)}</p>
+              </div>
+            </div>
+            <div style={{ height: '12px', background: '#e2e8f0', borderRadius: '6px', overflow: 'hidden' }}>
+              <div style={{ width: `${Math.min((Object.values(categoryTotals).reduce((a,b)=>a+b,0)/totalBudget)*100, 100)}%`, height: '100%', background: '#f97316', borderRadius: '6px' }} />
+            </div>
+          </div>
+
+          {isPro ? (
+            <div>
+              {Object.entries(budgetLimits).map(([cat, limit]) => {
+                const spent = categoryTotals[cat] || 0;
+                const percent = (spent / limit) * 100;
+                const isOver = percent > 100;
+                return (
+                  <div key={cat} style={{ background: '#fff', borderRadius: '16px', padding: '16px', marginBottom: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                      <span style={{ fontSize: '14px', fontWeight: '600', color: '#1e293b' }}>{categoryIcons[cat]} {cat}</span>
+                      <span style={{ fontSize: '14px', color: isOver ? '#ef4444' : '#64748b' }}>${spent.toFixed(2)} / ${limit}</span>
+                    </div>
+                    <div style={{ height: '6px', background: '#f1f5f9', borderRadius: '3px', overflow: 'hidden' }}>
+                      <div style={{ width: `${Math.min(percent, 100)}%`, height: '100%', background: isOver ? '#ef4444' : categoryColors[cat], borderRadius: '3px' }} />
+                    </div>
+                    {isOver && (
+                      <p style={{ fontSize: '12px', color: '#ef4444', marginTop: '8px' }}>⚠️ Over budget by ${(spent - limit).toFixed(2)}</p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div style={{ background: '#fff', borderRadius: '20px', padding: '32px', textAlign: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+              <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔒</div>
+              <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#1e293b', marginBottom: '8px' }}>Upgrade to Pro</h3>
+              <p style={{ fontSize: '14px', color: '#64748b', marginBottom: '20px' }}>Unlock budget goals and category limits</p>
+              <button style={{ background: '#22c55e', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: '12px', fontSize: '14px', fontWeight: '600', cursor: 'pointer' }}>
+                Upgrade Now - $7/mo
+              </button>
+            </div>
+          )}
+
+          <div style={{ background: '#fff', borderRadius: '20px', padding: '20px', marginTop: '20px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+            <h3 style={{ fontSize: '16px', fontWeight: '600', color: '#1e293b', marginBottom: '16px' }}>💡 AI Suggestions</h3>
+            {isPro ? (
+              <div>
+                <div style={{ padding: '12px', background: '#f0fdf4', borderRadius: '12px', marginBottom: '12px' }}>
+                  <p style={{ fontSize: '14px', color: '#166534' }}>🎯 Your entertainment spending is 23% above average. Consider setting a weekly limit.</p>
+                </div>
+                <div style={{ padding: '12px', background: '#f0fdf4', borderRadius: '12px', marginBottom: '12px' }}>
+                  <p style={{ fontSize: '14px', color: '#166534' }}>💰 You could save $45/month by meal prepping instead of eating out.</p>
+                </div>
+              </div>
+            ) : (
+              <p style={{ fontSize: '14px', color: '#64748b' }}>Upgrade to Pro for AI-powered savings suggestions</p>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    function ProfileScreen({ user }) {
+      return (
+        <div style={{ padding: '20px' }}>
+          <h2 style={{ fontSize: '24px', fontWeight: '700', color: '#1e293b', marginBottom: '24px', fontFamily: '"Source Serif 4", serif' }}>Profile</h2>
+
+          <div style={{ background: '#fff', borderRadius: '20px', padding: '24px', textAlign: 'center', marginBottom: '20px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+            <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'linear-gradient(135deg, #22c55e, #16a34a)', margin: '0 auto 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '32px', color: '#fff' }}>
+              {user.name.charAt(0)}
+            </div>
+            <h3 style={{ fontSize: '20px', fontWeight: '600', color: '#1e293b' }}>{user.name}</h3>
+            <p style={{ fontSize: '14px', color: '#64748b' }}>{user.email}</p>
+            <div style={{ display: 'inline-block', marginTop: '12px', padding: '6px 16px', background: '#f1f5f9', borderRadius: '20px', fontSize: '12px', fontWeight: '600', color: '#64748b' }}>
+              Free Plan
+            </div>
+          </div>
+
+          <div style={{ background: '#fff', borderRadius: '16px', padding: '16px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0', borderBottom: '1px solid #f1f5f9' }}>
+              <span style={{ fontSize: '15px', color: '#1e293b' }}>Notifications</span>
+              <div style={{ width: '44px', height: '24px', background: '#22c55e', borderRadius: '12px', position: 'relative' }}>
+                <div style={{ width: '20px', height: '20px', background: '#fff', borderRadius: '50%', position: 'absolute', right: '2px', top: '2px' }} />
+              </div>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0', borderBottom: '1px solid #f1f5f9' }}>
+              <span style={{ fontSize: '15px', color: '#1e293b' }}>Dark Mode</span>
+              <div style={{ width: '44px', height: '24px', background: '#e2e8f0', borderRadius: '12px', position: 'relative' }}>
+                <div style={{ width: '20px', height: '20px', background: '#fff', borderRadius: '50%', position: 'absolute', left: '2px', top: '2px' }} />
+              </div>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0' }}>
+              <span style={{ fontSize: '15px', color: '#1e293b' }}>Sync Data</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </div>
+          </div>
+
+          <button style={{ width: '100%', marginTop: '20px', padding: '14px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', fontWeight: '500', color: '#64748b', cursor: 'pointer' }}>
+            Sign Out
+          </button>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<AppPhone />);
+  </script>
+</body>
+</html>

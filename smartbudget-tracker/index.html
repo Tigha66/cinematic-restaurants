@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartBudget Tracker - Design Package</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: 'Inter', -apple-system, sans-serif; 
+      background: #f8fafc;
+      color: #1e293b;
+    }
+    .hero {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      padding: 80px 40px;
+      text-align: center;
+      color: #fff;
+    }
+    .hero h1 {
+      font-family: "Source Serif 4", serif;
+      font-size: 56px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .hero p {
+      font-size: 20px;
+      color: #94a3b8;
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+    .tag {
+      display: inline-block;
+      background: #22c55e;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 40px;
+    }
+    .section-title {
+      font-family: "Source Serif 4", serif;
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .section-desc {
+      font-size: 16px;
+      color: #64748b;
+      margin-bottom: 40px;
+    }
+    .deliverables {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+    }
+    .card-preview {
+      height: 200px;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+    }
+    .card-body {
+      padding: 24px;
+    }
+    .card h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .card p {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 16px;
+    }
+    .card-link {
+      display: inline-block;
+      color: #22c55e;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .card-link:hover {
+      text-decoration: underline;
+    }
+    .features {
+      background: #fff;
+      border-radius: 24px;
+      padding: 40px;
+      margin-bottom: 60px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+    .features h2 {
+      font-family: "Source Serif 4", serif;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+    }
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      background: #f0fdf4;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    .feature-text h4 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .feature-text p {
+      font-size: 14px;
+      color: #64748b;
+    }
+    .tech {
+      background: #fff;
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+    .tech h2 {
+      font-family: "Source Serif 4", serif;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .tech-item {
+      padding: 10px 20px;
+      background: #f1f5f9;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #475569;
+    }
+    .cta {
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+      border-radius: 24px;
+      padding: 48px;
+      text-align: center;
+      color: #fff;
+      margin-top: 60px;
+    }
+    .cta h2 {
+      font-family: "Source Serif 4", serif;
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .cta p {
+      font-size: 18px;
+      opacity: 0.9;
+      margin-bottom: 24px;
+    }
+    .cta-btn {
+      display: inline-block;
+      background: #fff;
+      color: #22c55e;
+      padding: 16px 32px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    footer {
+      text-align: center;
+      padding: 40px;
+      color: #94a3b8;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <span class="tag">📦 Design Package</span>
+    <h1>SmartBudget Tracker</h1>
+    <p>A fully functional, mobile-first expense tracking app with premium features, analytics, and monetization-ready infrastructure.</p>
+  </div>
+
+  <div class="container">
+    <h2 class="section-title">Deliverables</h2>
+    <p class="section-desc">Complete design package ready for showcase, investor pitch, or further development.</p>
+    
+    <div class="deliverables">
+      <div class="card">
+        <div class="card-preview">📱</div>
+        <div class="card-body">
+          <h3>Clickable HTML Prototype</h3>
+          <p>Interactive iOS-style app with 4 screens, tab navigation, expense tracking, and premium feature gating.</p>
+          <a href="prototype.html" class="card-link">View Prototype →</a>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-preview">📊</div>
+        <div class="card-body">
+          <h3>Expense Infographic</h3>
+          <p>Visual breakdown of spending by category, budget vs actual, savings potential, and yearly projections.</p>
+          <a href="infographic.html" class="card-link">View Infographic →</a>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-preview">📑</div>
+        <div class="card-body">
+          <h3>Business Proposal Deck</h3>
+          <p>8-slide investor pitch deck covering problem/solution, features, market opportunity, and CTA.</p>
+          <a href="deck.html" class="card-link">View Deck →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="features">
+      <h2>Features Included</h2>
+      <div class="features-grid">
+        <div class="feature-item">
+          <div class="feature-icon">📝</div>
+          <div class="feature-text">
+            <h4>Expense Tracking</h4>
+            <p>Add income/expenses with categories, dates, amounts</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">📊</div>
+          <div class="feature-text">
+            <h4>Analytics Dashboard</h4>
+            <p>Monthly summary with visual charts and insights</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🎯</div>
+          <div class="feature-text">
+            <h4>Budget Goals (Pro)</h4>
+            <p>Set monthly limits per category with alerts</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🤖</div>
+          <div class="feature-text">
+            <h4>AI Suggestions (Pro)</h4>
+            <p>Personalized savings recommendations</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🔄</div>
+          <div class="feature-text">
+            <h4>Multi-device Sync (Pro)</h4>
+            <p>Access data across all devices</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">👤</div>
+          <div class="feature-text">
+            <h4>User Profile</h4>
+            <p>Name, email, subscription management</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tech">
+      <h2>Tech Stack & Design</h2>
+      <div class="tech-stack">
+        <span class="tech-item">React 18</span>
+        <span class="tech-item">Inline JSX</span>
+        <span class="tech-item">Firebase Ready</span>
+        <span class="tech-item">Stripe Integration</span>
+        <span class="tech-item">Source Serif 4</span>
+        <span class="tech-item">Inter Font</span>
+        <span class="tech-item">Mobile-first</span>
+        <span class="tech-item">20+ Demo Transactions</span>
+      </div>
+    </div>
+
+    <div class="cta">
+      <h2>Ready to Launch?</h2>
+      <p>Open the prototype to experience the app, or use the pitch deck for investor presentations.</p>
+      <a href="prototype.html" class="cta-btn">Try the App →</a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Built with Huashu Design • SmartBudget Tracker Design Package</p>
+  </footer>
+</body>
+</html>
