@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartBudget Tracker - Business Proposal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .slide { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 4rem; }
+    @media print {
+      .slide { page-break-after: always; min-height: auto; padding: 2rem; }
+      .no-print { display: none; }
+    }
+  </style>
+</head>
+<body class="bg-gray-900">
+
+  <!-- Navigation -->
+  <nav class="no-print fixed top-0 left-0 right-0 bg-gray-800/90 backdrop-blur-sm z-50 p-4">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <span class="text-white font-bold">SmartBudget Pitch Deck</span>
+      <div class="flex gap-2">
+        <button onclick="window.print()" class="px-4 py-2 bg-emerald-500 text-white rounded-lg text-sm">Export PDF</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Slide 1: Title -->
+  <section class="slide bg-gradient-to-br from-emerald-600 to-teal-700 text-white">
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="inline-flex items-center gap-3 px-6 py-3 bg-white/10 rounded-full mb-8">
+        <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-emerald-600 font-bold text-2xl">$</div>
+        <span class="text-2xl font-bold">SmartBudget Tracker</span>
+      </div>
+      <h1 class="text-6xl font-extrabold mb-6">Personal Finance Made Simple</h1>
+      <p class="text-2xl text-emerald-100 mb-12">AI-Powered Budget Tracking for Everyone</p>
+      <div class="flex items-center justify-center gap-8 text-emerald-200">
+        <div class="text-center">
+          <p class="text-4xl font-bold text-white">$7</p>
+          <p class="text-sm">Per Month</p>
+        </div>
+        <div class="w-px h-12 bg-emerald-400/30"></div>
+        <div class="text-center">
+          <p class="text-4xl font-bold text-white">72%</p>
+          <p class="text-sm">Avg Savings Increase</p>
+        </div>
+        <div class="w-px h-12 bg-emerald-400/30"></div>
+        <div class="text-center">
+          <p class="text-4xl font-bold text-white">$2.6k</p>
+          <p class="text-sm">Annual User Savings</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 2: Problem -->
+  <section class="slide bg-gray-900 text-white">
+    <div class="max-w-5xl mx-auto">
+      <p class="text-emerald-400 font-semibold mb-4">THE PROBLEM</p>
+      <h2 class="text-5xl font-bold mb-12">78% of Americans Live Paycheck to Paycheck</h2>
+      <div class="grid grid-cols-3 gap-8">
+        <div class="bg-gray-800 rounded-2xl p-8">
+          <div class="text-5xl mb-4">😰</div>
+          <h3 class="text-xl font-bold mb-3">No Visibility</h3>
+          <p class="text-gray-400">Most people don't know where their money goes each month</p>
+        </div>
+        <div class="bg-gray-800 rounded-2xl p-8">
+          <div class="text-5xl mb-4">📊</div>
+          <h3 class="text-xl font-bold mb-3">Complex Tools</h3>
+          <p class="text-gray-400">Existing budget apps are overwhelming and hard to use</p>
+        </div>
+        <div class="bg-gray-800 rounded-2xl p-8">
+          <div class="text-5xl mb-4">🎯</div>
+          <h3 class="text-xl font-bold mb-3">No Guidance</h3>
+          <p class="text-gray-400">Users track expenses but don't know how to improve</p>
+        </div>
+      </div>
+      <div class="mt-12 p-6 bg-red-500/10 border border-red-500/30 rounded-xl">
+        <p class="text-red-400 text-xl text-center">
+          <strong>$1.7 Trillion</strong> in consumer debt in the US alone
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 3: Solution -->
+  <section class="slide bg-white">
+    <div class="max-w-5xl mx-auto">
+      <p class="text-emerald-600 font-semibold mb-4">THE SOLUTION</p>
+      <h2 class="text-5xl font-bold text-gray-900 mb-12">SmartBudget Makes Finance Easy</h2>
+      <div class="grid grid-cols-2 gap-12 items-center">
+        <div class="space-y-6">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">📱</div>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">Mobile-First Design</h3>
+              <p class="text-gray-600">Track expenses on-the-go with our beautiful, intuitive app</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">🤖</div>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">AI-Powered Insights</h3>
+              <p class="text-gray-600">Get personalized recommendations to save more money</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">🎯</div>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">Budget Goals</h3>
+              <p class="text-gray-600">Set category limits and get alerts before overspending</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">📊</div>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">Visual Analytics</h3>
+              <p class="text-gray-600">Understand spending patterns with beautiful charts</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-gray-100 rounded-3xl p-4">
+          <div class="bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl p-6 text-white">
+            <p class="text-emerald-100 text-sm mb-1">Available Balance</p>
+            <p class="text-4xl font-bold mb-4">$3,875</p>
+            <div class="grid grid-cols-2 gap-3">
+              <div class="bg-white/10 rounded-xl p-3">
+                <p class="text-emerald-100 text-xs">Income</p>
+                <p class="text-xl font-bold">$5,375</p>
+              </div>
+              <div class="bg-white/10 rounded-xl p-3">
+                <p class="text-emerald-100 text-xs">Expenses</p>
+                <p class="text-xl font-bold">$1,500</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 4: Features -->
+  <section class="slide bg-gray-50">
+    <div class="max-w-5xl mx-auto">
+      <p class="text-emerald-600 font-semibold mb-4">KEY FEATURES</p>
+      <h2 class="text-5xl font-bold text-gray-900 mb-12">Free vs Pro Comparison</h2>
+      <div class="grid grid-cols-2 gap-8">
+        <div class="bg-white rounded-2xl p-8 shadow-lg">
+          <div class="text-center mb-6">
+            <p class="text-gray-500 font-medium">FREE</p>
+            <p class="text-4xl font-bold text-gray-900">$0</p>
+          </div>
+          <ul class="space-y-4">
+            <li class="flex items-center gap-3"><span class="text-emerald-500">✓</span> Expense tracking</li>
+            <li class="flex items-center gap-3"><span class="text-emerald-500">✓</span> 6 spending categories</li>
+            <li class="flex items-center gap-3"><span class="text-emerald-500">✓</span> Monthly summaries</li>
+            <li class="flex items-center gap-3"><span class="text-emerald-500">✓</span> Basic charts</li>
+            <li class="flex items-center gap-3 text-gray-400"><span>✗</span> Budget goals</li>
+            <li class="flex items-center gap-3 text-gray-400"><span>✗</span> AI suggestions</li>
+            <li class="flex items-center gap-3 text-gray-400"><span>✗</span> Multi-device sync</li>
+          </ul>
+        </div>
+        <div class="bg-gradient-to-br from-purple-600 to-indigo-600 rounded-2xl p-8 text-white shadow-xl">
+          <div class="text-center mb-6">
+            <p class="text-purple-200 font-medium">PRO</p>
+            <p class="text-4xl font-bold">$7<span class="text-lg font-normal">/mo</span></p>
+          </div>
+          <ul class="space-y-4">
+            <li class="flex items-center gap-3"><span>✓</span> Everything in Free</li>
+            <li class="flex items-center gap-3"><span>⭐</span> Custom budget goals</li>
+            <li class="flex items-center gap-3"><span>⭐</span> AI expense suggestions</li>
+            <li class="flex items-center gap-3"><span>⭐</span> Multi-device sync</li>
+            <li class="flex items-center gap-3"><span>⭐</span> Smart alerts</li>
+            <li class="flex items-center gap-3"><span>⭐</span> Advanced analytics</li>
+            <li class="flex items-center gap-3"><span>⭐</span> Ad-free experience</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 5: Market Opportunity -->
+  <section class="slide bg-gray-900 text-white">
+    <div class="max-w-5xl mx-auto">
+      <p class="text-emerald-400 font-semibold mb-4">MARKET OPPORTUNITY</p>
+      <h2 class="text-5xl font-bold mb-12">$15B Personal Finance Market</h2>
+      <div class="grid grid-cols-3 gap-8 mb-12">
+        <div class="text-center">
+          <p class="text-6xl font-bold text-emerald-400">200M+</p>
+          <p class="text-gray-400 mt-2">Potential Users in US</p>
+        </div>
+        <div class="text-center">
+          <p class="text-6xl font-bold text-emerald-400">23%</p>
+          <p class="text-gray-400 mt-2">Annual Market Growth</p>
+        </div>
+        <div class="text-center">
+          <p class="text-6xl font-bold text-emerald-400">$84</p>
+          <p class="text-gray-400 mt-2">Avg Annual Revenue/User</p>
+        </div>
+      </div>
+      <div class="bg-gray-800 rounded-2xl p-8">
+        <h3 class="text-xl font-bold mb-6">Target Market</h3>
+        <div class="grid grid-cols-3 gap-6">
+          <div class="p-4 bg-gray-700 rounded-xl">
+            <p class="text-2xl mb-2">👩‍💼</p>
+            <p class="font-semibold">Young Professionals</p>
+            <p class="text-sm text-gray-400">Ages 22-35, first jobs</p>
+          </div>
+          <div class="p-4 bg-gray-700 rounded-xl">
+            <p class="text-2xl mb-2">👨‍👩‍👧</p>
+            <p class="font-semibold">Young Families</p>
+            <p class="text-sm text-gray-400">Managing household budgets</p>
+          </div>
+          <div class="p-4 bg-gray-700 rounded-xl">
+            <p class="text-2xl mb-2">🎓</p>
+            <p class="font-semibold">Students</p>
+            <p class="text-sm text-gray-400">Learning money management</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 6: Revenue Model -->
+  <section class="slide bg-white">
+    <div class="max-w-5xl mx-auto">
+      <p class="text-emerald-600 font-semibold mb-4">BUSINESS MODEL</p>
+      <h2 class="text-5xl font-bold text-gray-900 mb-12">Subscription Revenue</h2>
+      <div class="grid grid-cols-2 gap-12">
+        <div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-6">Revenue Projections</h3>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+              <span class="font-medium">Year 1</span>
+              <span class="text-2xl font-bold text-emerald-600">$500K</span>
+            </div>
+            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+              <span class="font-medium">Year 2</span>
+              <span class="text-2xl font-bold text-emerald-600">$2.1M</span>
+            </div>
+            <div class="flex items-center justify-between p-4 bg-emerald-50 rounded-xl border-2 border-emerald-500">
+              <span class="font-medium">Year 3</span>
+              <span class="text-2xl font-bold text-emerald-600">$5.8M</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-6">Key Metrics</h3>
+          <div class="space-y-4">
+            <div class="p-4 bg-purple-50 rounded-xl">
+              <div class="flex justify-between items-center">
+                <span class="text-gray-600">Conversion Rate</span>
+                <span class="text-xl font-bold text-purple-600">8%</span>
+              </div>
+              <p class="text-sm text-gray-500 mt-1">Free to paid conversion</p>
+            </div>
+            <div class="p-4 bg-blue-50 rounded-xl">
+              <div class="flex justify-between items-center">
+                <span class="text-gray-600">Churn Rate</span>
+                <span class="text-xl font-bold text-blue-600">3%</span>
+              </div>
+              <p class="text-sm text-gray-500 mt-1">Monthly subscription churn</p>
+            </div>
+            <div class="p-4 bg-amber-50 rounded-xl">
+              <div class="flex justify-between items-center">
+                <span class="text-gray-600">LTV</span>
+                <span class="text-xl font-bold text-amber-600">$168</span>
+              </div>
+              <p class="text-sm text-gray-500 mt-1">Customer lifetime value</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 7: Call to Action -->
+  <section class="slide bg-gradient-to-br from-emerald-600 to-teal-700 text-white">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-5xl font-bold mb-6">Ready to Transform Personal Finance?</h2>
+      <p class="text-2xl text-emerald-100 mb-12">Join us in helping millions manage their money better</p>
+      <div class="grid grid-cols-3 gap-8 mb-12">
+        <div class="bg-white/10 rounded-2xl p-6">
+          <p class="text-4xl font-bold">$1.5M</p>
+          <p class="text-emerald-200 mt-2">Seed Round</p>
+        </div>
+        <div class="bg-white/10 rounded-2xl p-6">
+          <p class="text-4xl font-bold">18 mo</p>
+          <p class="text-emerald-200 mt-2">Runway</p>
+        </div>
+        <div class="bg-white/10 rounded-2xl p-6">
+          <p class="text-4xl font-bold">100K</p>
+          <p class="text-emerald-200 mt-2">Users Target</p>
+        </div>
+      </div>
+      <div class="inline-flex items-center gap-4">
+        <div class="w-16 h-16 bg-white rounded-xl flex items-center justify-center text-emerald-600 font-bold text-3xl">$</div>
+        <div class="text-left">
+          <p class="text-2xl font-bold">SmartBudget Tracker</p>
+          <p class="text-emerald-200">contact@smartbudget.app</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SmartBudget Tracker - Interactive Prototype</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #F9FAFB; }
+
+    /* iPhone Frame */
+    .iphone-frame {
+      width: 375px;
+      height: 812px;
+      background: #000;
+      border-radius: 50px;
+      padding: 12px;
+      box-shadow: 0 50px 100px -20px rgba(0,0,0,0.25), 0 30px 60px -30px rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    .iphone-screen {
+      width: 100%;
+      height: 100%;
+      background: #F9FAFB;
+      border-radius: 40px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .dynamic-island {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 126px;
+      height: 36px;
+      background: #000;
+      border-radius: 20px;
+      z-index: 100;
+    }
+
+    .home-indicator {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 134px;
+      height: 5px;
+      background: #000;
+      border-radius: 3px;
+    }
+
+    /* Animations */
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(100%); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+    .animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }
+    .animate-slideUp { animation: slideUp 0.4s ease-out forwards; }
+
+    /* Screen transitions */
+    .screen { display: none; }
+    .screen.active { display: block; animation: fadeIn 0.3s ease-out; }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 2px; }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-8 bg-gradient-to-br from-gray-100 to-gray-200">
+
+  <!-- Title -->
+  <div class="fixed top-8 left-8 z-50">
+    <h1 class="text-2xl font-bold text-gray-900">SmartBudget Tracker</h1>
+    <p class="text-gray-500">Interactive Prototype</p>
+  </div>
+
+  <!-- Navigation -->
+  <div class="fixed top-8 right-8 z-50 flex gap-2">
+    <button onclick="showScreen('dashboard')" class="px-4 py-2 bg-white rounded-lg shadow-sm hover:shadow-md transition-all text-sm font-medium">Dashboard</button>
+    <button onclick="showScreen('transactions')" class="px-4 py-2 bg-white rounded-lg shadow-sm hover:shadow-md transition-all text-sm font-medium">Transactions</button>
+    <button onclick="showScreen('insights')" class="px-4 py-2 bg-white rounded-lg shadow-sm hover:shadow-md transition-all text-sm font-medium">Insights</button>
+    <button onclick="showScreen('addExpense')" class="px-4 py-2 bg-emerald-500 text-white rounded-lg shadow-sm hover:shadow-md transition-all text-sm font-medium">+ Add</button>
+  </div>
+
+  <!-- iPhone Frame -->
+  <div class="iphone-frame">
+    <div class="iphone-screen overflow-y-auto">
+      <div class="dynamic-island"></div>
+
+      <!-- Dashboard Screen -->
+      <div id="dashboard" class="screen active pt-16 pb-24 px-4">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h1 class="text-xl font-bold text-gray-900">SmartBudget</h1>
+            <p class="text-sm text-gray-500">May 2026</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="showScreen('addExpense')" class="w-10 h-10 bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-lg">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+            </button>
+            <button onclick="showScreen('profile')" class="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 text-white rounded-full flex items-center justify-center text-sm font-bold">J</button>
+          </div>
+        </div>
+
+        <!-- Balance Card -->
+        <div class="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl p-6 text-white shadow-lg mb-6 animate-fadeIn">
+          <div class="text-center mb-6">
+            <p class="text-emerald-100 text-sm font-medium mb-1">Available Balance</p>
+            <h2 class="text-4xl font-bold tracking-tight">$3,875</h2>
+            <p class="text-emerald-200 text-sm mt-2">You're doing great! 🎉</p>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+              <div class="flex items-center gap-2 mb-2">
+                <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">↑</div>
+                <span class="text-sm text-emerald-100">Income</span>
+              </div>
+              <p class="text-2xl font-bold">$5,375</p>
+            </div>
+            <div class="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+              <div class="flex items-center gap-2 mb-2">
+                <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">↓</div>
+                <span class="text-sm text-emerald-100">Expenses</span>
+              </div>
+              <p class="text-2xl font-bold">$1,500</p>
+            </div>
+          </div>
+          <div class="mt-6">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-sm text-emerald-100">Savings Rate</span>
+              <span class="text-sm font-medium">72%</span>
+            </div>
+            <div class="w-full bg-white/20 rounded-full h-2">
+              <div class="bg-white rounded-full h-2 transition-all duration-500" style="width: 72%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">Spending by Category</h3>
+          <div class="space-y-3">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center text-lg">🍔</div>
+              <div class="flex-1">
+                <div class="flex justify-between mb-1">
+                  <span class="text-sm font-medium text-gray-900">Food</span>
+                  <span class="text-sm text-gray-500">$500</span>
+                </div>
+                <div class="w-full bg-gray-100 rounded-full h-2">
+                  <div class="bg-amber-500 rounded-full h-2" style="width: 33%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center text-lg">🚗</div>
+              <div class="flex-1">
+                <div class="flex justify-between mb-1">
+                  <span class="text-sm font-medium text-gray-900">Transport</span>
+                  <span class="text-sm text-gray-500">$174</span>
+                </div>
+                <div class="w-full bg-gray-100 rounded-full h-2">
+                  <div class="bg-blue-500 rounded-full h-2" style="width: 12%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center text-lg">🎬</div>
+              <div class="flex-1">
+                <div class="flex justify-between mb-1">
+                  <span class="text-sm font-medium text-gray-900">Entertainment</span>
+                  <span class="text-sm text-gray-500">$144</span>
+                </div>
+                <div class="w-full bg-gray-100 rounded-full h-2">
+                  <div class="bg-purple-500 rounded-full h-2" style="width: 10%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Transactions -->
+        <div class="mb-6">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold text-gray-900">Recent Transactions</h3>
+            <button onclick="showScreen('transactions')" class="text-sm text-emerald-600 font-medium">See All</button>
+          </div>
+          <div class="space-y-3">
+            <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center text-xl">🍔</div>
+                  <div>
+                    <h4 class="font-medium text-gray-900">Grocery Shopping</h4>
+                    <p class="text-sm text-gray-500">Food • May 1</p>
+                  </div>
+                </div>
+                <span class="text-lg font-semibold text-red-500">-$156.42</span>
+              </div>
+            </div>
+            <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-xl">💰</div>
+                  <div>
+                    <h4 class="font-medium text-gray-900">Monthly Salary</h4>
+                    <p class="text-sm text-gray-500">Income • May 1</p>
+                  </div>
+                </div>
+                <span class="text-lg font-semibold text-emerald-600">+$4,500</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transactions Screen -->
+      <div id="transactions" class="screen pt-16 pb-24 px-4">
+        <div class="flex items-center justify-between mb-6">
+          <h1 class="text-xl font-bold text-gray-900">Transactions</h1>
+          <button onclick="showScreen('addExpense')" class="w-10 h-10 bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-lg">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+          </button>
+        </div>
+
+        <!-- Filters -->
+        <div class="flex gap-2 mb-4 overflow-x-auto pb-2">
+          <button class="px-3 py-1.5 bg-emerald-500 text-white rounded-lg text-sm font-medium whitespace-nowrap">All</button>
+          <button class="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium whitespace-nowrap">Expense</button>
+          <button class="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium whitespace-nowrap">Income</button>
+        </div>
+
+        <!-- Transaction List -->
+        <div class="space-y-3">
+          <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 animate-fadeIn">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center text-xl">🍔</div>
+                <div>
+                  <h4 class="font-medium text-gray-900">Grocery Shopping</h4>
+                  <p class="text-sm text-gray-500">Food • May 1</p>
+                </div>
+              </div>
+              <span class="text-lg font-semibold text-red-500">-$156.42</span>
+            </div>
+          </div>
+          <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-xl">🚗</div>
+                <div>
+                  <h4 class="font-medium text-gray-900">Gas Station</h4>
+                  <p class="text-sm text-gray-500">Transport • May 1</p>
+                </div>
+              </div>
+              <span class="text-lg font-semibold text-red-500">-$45.00</span>
+            </div>
+          </div>
+          <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-xl">🎬</div>
+                <div>
+                  <h4 class="font-medium text-gray-900">Netflix</h4>
+                  <p class="text-sm text-gray-500">Entertainment • May 1</p>
+                </div>
+              </div>
+              <span class="text-lg font-semibold text-red-500">-$15.99</span>
+            </div>
+          </div>
+          <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-xl">💰</div>
+                <div>
+                  <h4 class="font-medium text-gray-900">Monthly Salary</h4>
+                  <p class="text-sm text-gray-500">Income • May 1</p>
+                </div>
+              </div>
+              <span class="text-lg font-semibold text-emerald-600">+$4,500</span>
+            </div>
+          </div>
+          <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-xl">💡</div>
+                <div>
+                  <h4 class="font-medium text-gray-900">Electricity Bill</h4>
+                  <p class="text-sm text-gray-500">Utilities • May 5</p>
+                </div>
+              </div>
+              <span class="text-lg font-semibold text-red-500">-$89.50</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Insights Screen -->
+      <div id="insights" class="screen pt-16 pb-24 px-4">
+        <div class="flex items-center justify-between mb-6">
+          <h1 class="text-xl font-bold text-gray-900">Insights</h1>
+          <span class="inline-flex items-center gap-1 px-2 py-1 bg-purple-100 text-purple-700 text-xs font-medium rounded-full">
+            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            PRO
+          </span>
+        </div>
+
+        <!-- Budget Goals -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 mb-6 animate-fadeIn">
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">Budget Goals</h3>
+          <div class="space-y-4">
+            <div class="p-3 rounded-xl border border-gray-100">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <div class="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center">🍔</div>
+                  <span class="font-medium text-gray-900">Food</span>
+                </div>
+                <span class="px-2 py-0.5 text-xs font-medium bg-emerald-100 text-emerald-700 rounded-full">On Track</span>
+              </div>
+              <div class="flex justify-between text-sm text-gray-500 mb-1">
+                <span>$500 of $400</span>
+                <span>125%</span>
+              </div>
+              <div class="w-full bg-gray-100 rounded-full h-2">
+                <div class="bg-red-500 rounded-full h-2" style="width: 100%"></div>
+              </div>
+            </div>
+            <div class="p-3 rounded-xl border border-gray-100">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">🚗</div>
+                  <span class="font-medium text-gray-900">Transport</span>
+                </div>
+                <span class="px-2 py-0.5 text-xs font-medium bg-emerald-100 text-emerald-700 rounded-full">On Track</span>
+              </div>
+              <div class="flex justify-between text-sm text-gray-500 mb-1">
+                <span>$174 of $200</span>
+                <span>87%</span>
+              </div>
+              <div class="w-full bg-gray-100 rounded-full h-2">
+                <div class="bg-yellow-500 rounded-full h-2" style="width: 87%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Suggestions -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 animate-fadeIn">
+          <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+            <span class="text-2xl">🤖</span> AI Suggestions
+          </h3>
+          <div class="space-y-3">
+            <div class="p-4 rounded-xl border-l-4 border-l-yellow-500 bg-yellow-50">
+              <div class="flex items-start gap-3">
+                <span class="text-2xl">🎬</span>
+                <div>
+                  <h4 class="font-medium text-gray-900">Entertainment Alert</h4>
+                  <p class="text-sm text-gray-600 mt-1">You're spending 15% on entertainment. Consider setting a limit.</p>
+                  <p class="text-sm font-medium text-emerald-600 mt-2">Potential savings: $43/month</p>
+                </div>
+              </div>
+            </div>
+            <div class="p-4 rounded-xl border-l-4 border-l-blue-500 bg-blue-50">
+              <div class="flex items-start gap-3">
+                <span class="text-2xl">🍔</span>
+                <div>
+                  <h4 class="font-medium text-gray-900">Food Optimization</h4>
+                  <p class="text-sm text-gray-600 mt-1">Try meal prepping to reduce dining costs by 30%.</p>
+                  <p class="text-sm font-medium text-emerald-600 mt-2">Potential savings: $125/month</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Total Savings -->
+          <div class="mt-4 p-4 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-white">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-2xl">💰</div>
+              <div>
+                <h4 class="font-semibold">Total Potential Savings</h4>
+                <p class="text-2xl font-bold">$218/month</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Expense Screen -->
+      <div id="addExpense" class="screen pt-16 pb-8 px-4">
+        <div class="flex items-center justify-between mb-6">
+          <h1 class="text-xl font-bold text-gray-900">Add Transaction</h1>
+          <button onclick="showScreen('dashboard')" class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <!-- Type Toggle -->
+        <div class="flex gap-2 p-1 bg-gray-100 rounded-lg mb-6">
+          <button id="expenseBtn" onclick="toggleType('expense')" class="flex-1 py-2.5 px-4 rounded-md text-sm font-medium bg-red-500 text-white">💸 Expense</button>
+          <button id="incomeBtn" onclick="toggleType('income')" class="flex-1 py-2.5 px-4 rounded-md text-sm font-medium text-gray-600">💰 Income</button>
+        </div>
+
+        <!-- Form -->
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Title</label>
+            <input type="text" placeholder="e.g., Grocery shopping" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Amount</label>
+            <div class="relative">
+              <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+              <input type="number" placeholder="0.00" class="w-full pl-8 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            </div>
+          </div>
+          <div id="categorySection">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+            <div class="grid grid-cols-3 gap-2">
+              <button class="flex flex-col items-center justify-center p-3 rounded-xl border-2 border-emerald-500 bg-emerald-50">
+                <span class="text-xl mb-1">🍔</span>
+                <span class="text-xs font-medium text-gray-700">Food</span>
+              </button>
+              <button class="flex flex-col items-center justify-center p-3 rounded-xl border-2 border-gray-100">
+                <span class="text-xl mb-1">🚗</span>
+                <span class="text-xs font-medium text-gray-700">Transport</span>
+              </button>
+              <button class="flex flex-col items-center justify-center p-3 rounded-xl border-2 border-gray-100">
+                <span class="text-xl mb-1">🎬</span>
+                <span class="text-xs font-medium text-gray-700">Entertainment</span>
+              </button>
+              <button class="flex flex-col items-center justify-center p-3 rounded-xl border-2 border-gray-100">
+                <span class="text-xl mb-1">💡</span>
+                <span class="text-xs font-medium text-gray-700">Utilities</span>
+              </button>
+              <button class="flex flex-col items-center justify-center p-3 rounded-xl border-2 border-gray-100">
+                <span class="text-xl mb-1">💊</span>
+                <span class="text-xs font-medium text-gray-700">Health</span>
+              </button>
+              <button class="flex flex-col items-center justify-center p-3 rounded-xl border-2 border-gray-100">
+                <span class="text-xl mb-1">📦</span>
+                <span class="text-xs font-medium text-gray-700">Others</span>
+              </button>
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+            <input type="date" value="2026-05-16" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          </div>
+          <button onclick="addExpenseDemo()" class="w-full py-3.5 px-4 rounded-xl font-semibold text-white bg-red-500 hover:bg-red-600 transition-colors">Add Expense</button>
+        </div>
+      </div>
+
+      <!-- Profile Screen -->
+      <div id="profile" class="screen pt-16 pb-24 px-4">
+        <div class="flex items-center justify-between mb-6">
+          <h1 class="text-xl font-bold text-gray-900">Profile</h1>
+          <button onclick="showScreen('dashboard')" class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <!-- User Info -->
+        <div class="flex items-center gap-4 mb-6">
+          <div class="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white text-3xl font-bold shadow-lg">J</div>
+          <div>
+            <h3 class="text-lg font-semibold text-gray-900">John Doe</h3>
+            <p class="text-gray-500">john@example.com</p>
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-full mt-1">Free Plan</span>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-3 gap-3 mb-6">
+          <div class="text-center p-3 bg-gray-50 rounded-xl">
+            <p class="text-2xl font-bold text-gray-900">28</p>
+            <p class="text-xs text-gray-500">Transactions</p>
+          </div>
+          <div class="text-center p-3 bg-gray-50 rounded-xl">
+            <p class="text-2xl font-bold text-emerald-600">$5.4k</p>
+            <p class="text-xs text-gray-500">Income</p>
+          </div>
+          <div class="text-center p-3 bg-gray-50 rounded-xl">
+            <p class="text-2xl font-bold text-red-500">$1.5k</p>
+            <p class="text-xs text-gray-500">Expenses</p>
+          </div>
+        </div>
+
+        <!-- Upgrade Card -->
+        <div class="p-4 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-xl text-white mb-6">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-lg">⭐</div>
+            <div class="flex-1">
+              <h4 class="font-semibold">Upgrade to Pro</h4>
+              <p class="text-sm text-purple-100">Unlock AI insights & budget goals</p>
+            </div>
+            <button class="px-4 py-2 bg-white text-purple-600 font-medium rounded-lg hover:bg-purple-50 transition-colors">$7/mo</button>
+          </div>
+        </div>
+
+        <!-- Menu -->
+        <div class="space-y-2">
+          <button class="w-full flex items-center gap-3 p-3 text-left hover:bg-gray-50 rounded-xl transition-colors">
+            <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">⚙️</div>
+            <div class="flex-1">
+              <p class="font-medium text-gray-900">Settings</p>
+              <p class="text-sm text-gray-500">App preferences</p>
+            </div>
+            <span class="text-gray-400">→</span>
+          </button>
+          <button class="w-full flex items-center gap-3 p-3 text-left hover:bg-gray-50 rounded-xl transition-colors">
+            <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">❓</div>
+            <div class="flex-1">
+              <p class="font-medium text-gray-900">Help & Support</p>
+              <p class="text-sm text-gray-500">FAQs and contact</p>
+            </div>
+            <span class="text-gray-400">→</span>
+          </button>
+          <button class="w-full flex items-center gap-3 p-3 text-left hover:bg-red-50 rounded-xl transition-colors">
+            <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">🚪</div>
+            <div class="flex-1">
+              <p class="font-medium text-red-600">Log Out</p>
+              <p class="text-sm text-gray-500">Sign out of your account</p>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Bottom Navigation -->
+      <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100" style="max-width: 351px; margin: 0 auto; border-radius: 0 0 40px 40px;">
+        <div class="flex items-center justify-around py-3 px-4">
+          <button onclick="showScreen('dashboard')" class="flex flex-col items-center gap-1 px-4 py-1 text-emerald-600">
+            <span class="text-xl">🏠</span>
+            <span class="text-xs font-medium">Home</span>
+          </button>
+          <button onclick="showScreen('transactions')" class="flex flex-col items-center gap-1 px-4 py-1 text-gray-400">
+            <span class="text-xl">💳</span>
+            <span class="text-xs font-medium">Transactions</span>
+          </button>
+          <button onclick="showScreen('insights')" class="flex flex-col items-center gap-1 px-4 py-1 text-gray-400">
+            <span class="text-xl">💡</span>
+            <span class="text-xs font-medium">Insights</span>
+          </button>
+        </div>
+        <div class="home-indicator"></div>
+      </nav>
+    </div>
+  </div>
+
+  <script>
+    function showScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
+    }
+
+    function toggleType(type) {
+      const expenseBtn = document.getElementById('expenseBtn');
+      const incomeBtn = document.getElementById('incomeBtn');
+      const categorySection = document.getElementById('categorySection');
+
+      if (type === 'expense') {
+        expenseBtn.className = 'flex-1 py-2.5 px-4 rounded-md text-sm font-medium bg-red-500 text-white';
+        incomeBtn.className = 'flex-1 py-2.5 px-4 rounded-md text-sm font-medium text-gray-600';
+        categorySection.style.display = 'block';
+      } else {
+        incomeBtn.className = 'flex-1 py-2.5 px-4 rounded-md text-sm font-medium bg-emerald-500 text-white';
+        expenseBtn.className = 'flex-1 py-2.5 px-4 rounded-md text-sm font-medium text-gray-600';
+        categorySection.style.display = 'none';
+      }
+    }
+
+    function addExpenseDemo() {
+      alert('Transaction added successfully! (Demo)');
+      showScreen('dashboard');
+    }
+  </script>
+</body>
+</html>
